@@ -14,8 +14,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class Link extends AbstractPersistable<Long> {
 
-    @Id
-    private Long id;
     private String title;
     private String url;
     private ArrayList<String> tags;
@@ -24,7 +22,7 @@ public class Link extends AbstractPersistable<Long> {
     public Link() {
     }
 
-    public Link(long id, String title, String url, ArrayList<String> tags, ArrayList<String> courses) {
+    public Link(String title, String url, ArrayList<String> tags, ArrayList<String> courses) {
         this.title = title;
         this.url = url;
         this.tags = tags;

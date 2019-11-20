@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  */
 @Entity
 public class Book extends AbstractPersistable<Long> {
+    
     private String author;
     private String title;
     private String ISBN;
@@ -26,7 +27,7 @@ public class Book extends AbstractPersistable<Long> {
     public Book() {
     }
 
-    public Book(Long id, String author, String title, String ISBN, ArrayList<String> tags, ArrayList<String> courses) {
+    public Book(String author, String title, String ISBN, ArrayList<String> tags, ArrayList<String> courses) {
         this.author = author;
         this.title = title;
         this.ISBN = ISBN;
@@ -48,6 +49,10 @@ public class Book extends AbstractPersistable<Long> {
 
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
     public void setCourses(ArrayList<String> courses) {

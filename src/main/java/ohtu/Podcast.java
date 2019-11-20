@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  */
 @Entity
 public class Podcast extends AbstractPersistable<Long> {
+
     private String author;
     private String title;
     private String description;
@@ -26,7 +27,7 @@ public class Podcast extends AbstractPersistable<Long> {
     public Podcast() {
     }
 
-    public Podcast(Long id, String author, String title, String description, ArrayList<String> tags, ArrayList<String> courses) {
+    public Podcast(String author, String title, String description, ArrayList<String> tags, ArrayList<String> courses) {
         this.author = author;
         this.title = title;
         this.description = description;
@@ -62,6 +63,10 @@ public class Podcast extends AbstractPersistable<Long> {
         this.description = description;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
@@ -69,4 +74,5 @@ public class Podcast extends AbstractPersistable<Long> {
     public ArrayList<String> getTags() {
         return tags;
     }
+
 }
