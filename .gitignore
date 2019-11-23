@@ -4,5 +4,7 @@
 .project
 .settings/
 .vscode/
+.idea/
 bin/
 build/
+database.mv.db

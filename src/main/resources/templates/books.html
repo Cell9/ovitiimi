@@ -1,23 +1,48 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Books</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1> BOOKS </h1>
+        <h1>Kirjat</h1>
         <ul>
             <li th:each="book : ${books}">
                 <p th:text="${book.title}"/>
-                <p th:text="'by: ' + ${book.author}"/>
+                <p th:text="'Tekijä: ' + ${book.author}"/>
                 <p th:text="'ISBN: ' + ${book.ISBN}"/>
+                <p th:text="'Liittyy kursseihin: ' + ${book.courses}"/>
+                <!-- <ul>
+                    <li th:each="course : ${book.courses}">
+                        <p th:text="${course.code}"/>
+                        <p th:text="${course.name}"/>
+                    </li>
+                </ul> -->
             </li>
         </ul>
+        <div>
+            Anna uuden kirjavinkin tiedot ja paina Submit:<br/>
+            <form th:action="@{/books}" method="POST">
+                <span>Kirjoittaja:</span>
+                <input type="text" name="author"/>
+                <br>
+                <span>Otsikko:</span>
+                <input type="text" name="title"/>
+                <br>
+                <span>ISBN:</span>
+                <input type="text" name="ISBN"/>
+                <br>
+                <span>Liittyy kursseihin:</span>
+                <select name="selectedCourseId">
+                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                </select>
+                <br>
+                <input type="submit" value="Lisää uusi kirja!"/>
+            </form>
+        </div>
+        <br>
+        <p><a th:href="@{/index}">Lukuvinkit</a></p>
+        <p><a th:href="@{/courses}">Kurssit</a></p>
     </body>
 </html>

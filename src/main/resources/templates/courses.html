@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Courses</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Kurssit</h1>
+        <ul>
+            <li th:each="course : ${courses}">
+                <p th:text="${course.code}"/>
+                <p th:text="${course.name}"/>
+            </li>
+        </ul>
+        <div>
+            Anna uuden kurssin tiedot ja paina Submit:<br/>
+            <form th:action="@{/courses}" method="POST">
+                <span>Kurssikoodi:</span>
+                <input type="text" name="code"/>
+                <br>
+                <span>Kurssin nimi:</span>
+                <input type="text" name="name"/>
+                <br>
+                <input type="submit" value="Lisää uusi kurssi!"/>
+            </form>
+        </div>
+        <p><a th:href="@{/index}">Lukuvinkit</a></p>
+        <p><a th:href="@{/books}">Kirjat</a></p>
+    </body>
+</html>

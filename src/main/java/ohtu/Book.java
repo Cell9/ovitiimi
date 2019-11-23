@@ -8,7 +8,6 @@ package ohtu;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 /**
@@ -25,6 +24,8 @@ public class Book extends AbstractPersistable<Long> {
     private ArrayList<String> courses;
 
     public Book() {
+        tags = new ArrayList<>();
+        courses = new ArrayList<>();
     }
 
     public Book(String author, String title, String ISBN, ArrayList<String> tags, ArrayList<String> courses) {
@@ -73,5 +74,9 @@ public class Book extends AbstractPersistable<Long> {
 
     public String getTitle() {
         return title;
-    }   
+    }
+
+    public void addCourse(String course) {
+        this.courses.add(course);
+    }
 }
