@@ -6,10 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-/**
- *
- * @author Roni
- */
+// Roni
 //Toteuttaa videot ja blogit
 @Entity
 public class Link extends AbstractPersistable<Long> {
@@ -20,6 +17,8 @@ public class Link extends AbstractPersistable<Long> {
     private ArrayList<String> courses;
 
     public Link() {
+        tags = new ArrayList<>();
+        courses =  new ArrayList<>();
     }
 
     public Link(String title, String url, ArrayList<String> tags, ArrayList<String> courses) {
@@ -59,5 +58,13 @@ public class Link extends AbstractPersistable<Long> {
 
     public ArrayList<String> getCourses() {
         return courses;
+    }
+
+    void addCourse(String course) {
+        this.courses.add(course);
+    }
+
+    void addTag(String tag) {
+        this.tags.add(tag);
     }
 }

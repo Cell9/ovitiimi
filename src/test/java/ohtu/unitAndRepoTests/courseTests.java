@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package ohtu;
+package ohtu.unitAndRepoTests;
 
 import javax.transaction.Transactional;
+import ohtu.Course;
+import ohtu.CourseRepository;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,10 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/**
- *
- * @author Roni
- */
+//Roni
 @RunWith(SpringRunner.class)
 @SpringBootTest()
 @TestPropertySource(

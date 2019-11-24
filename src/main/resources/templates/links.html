@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Links</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Nettilähteet</h1>
+        <ul>
+            <li th:each="link : ${links}">
+                <p th:text="${link.title}"/>
+                <a th:href = ${link.url}> <p th:text="${link.url}"/> </a>
+                <p th:text="'Liittyy kursseihin: ' + ${link.courses}"/>
+                <!-- <ul>
+                    <li th:each="course : ${link.courses}">
+                        <p th:text="${course.code}"/>
+                        <p th:text="${course.name}"/>
+                    </li>
+                </ul> -->
+            </li>
+        </ul>
+        <div>
+            Anna uuden nettilähteen tiedot ja paina Submit:<br/>
+            <form th:action="@{/links}" method="POST">
+                <span>Otsikko:</span>
+                <input type="text" name="title"/>
+                <br>
+                <span>Url:</span>
+                <input type="text" name="url"/>
+                <br>
+                <span>Liittyy kursseihin:</span>
+                <select name="selectedCourseId">
+                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                </select>
+                <br>
+                <input name="submit" type="submit" value="Lisää uusi nettilähde!"/>
+            </form>
+        </div>
+        <br>
+        <p><a th:href="@{/index}">Lukuvinkit</a></p>
+        <p><a th:href="@{/courses}">Kurssit</a></p>
+    </body>
+</html>

@@ -57,6 +57,7 @@ dependencies {
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: seleniumVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: seleniumVersion
+    compile group: 'org.seleniumhq.selenium', name: 'htmlunit-driver', version: '2.33.0'
     testCompile("io.github.bonigarcia:webdrivermanager:3.7.1") {
         exclude group: 'org.seleniumhq.selenium'
     }

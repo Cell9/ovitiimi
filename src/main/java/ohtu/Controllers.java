@@ -20,11 +20,10 @@ public class Controllers {
     PodcastRepository podRepo;
     
     @GetMapping("/")
-    @ResponseBody
     public String home() {
-        return "<a href='/other'>linkki</a>";
+        return "index";
     }
-
+    
     @GetMapping("/index")
     public String handleDefault() {
         return "index";
