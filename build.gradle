@@ -1,27 +1,24 @@
 buildscript {
     repositories {
-	mavenCentral()
+		mavenCentral()
     }
+    
     dependencies {
     	classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE")
     }
 }
 
-apply plugin: 'java'
+apply plugin: "java"
+apply plugin: "application"
+apply plugin: "jacoco"
+
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-apply plugin: 'org.springframework.boot'
-apply plugin: 'application'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: "jacoco" 
 
 logging.captureStandardOutput LogLevel.QUIET
-
-project.ext {
-    cucumberVersion = "1.2.6"
-    junitVersion = "4.12"
-    seleniumVersion = "3.141.59"
-}
 
 run {
     standardInput = System.in
@@ -29,55 +26,69 @@ run {
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/snapshot' }
+    
+    maven {
+    	url "https://repo.spring.io/snapshot"
+    }
 }
     
-mainClassName='ohtu.Main'
+mainClassName = "ohtu.Main"
+
+project.ext {
+    cucumberVersion = "4.8.0"
+    junitVersion = "4.12"
+    seleniumVersion = "3.141.59"
+}
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
-    compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-devtools")
     
-    compile("com.h2database:h2")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.heroku.sdk:heroku-jdbc:0.1.1")
-    compile("org.postgresql:postgresql:9.4.1212.jre7")
+    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
     
-    compile("org.springframework.boot:spring-boot-devtools")
-	
-        compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
-
-    compile "org.projectlombok:lombok:1.18.10"
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    implementation("com.h2database:h2")
+    implementation("com.heroku.sdk:heroku-jdbc:0.1.1")
+    implementation("org.postgresql:postgresql:9.4.1212.jre7")
     
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-firefox-driver', version: seleniumVersion
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: seleniumVersion
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: seleniumVersion
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: seleniumVersion
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: seleniumVersion
-    compile group: 'org.seleniumhq.selenium', name: 'htmlunit-driver', version: '2.33.0'
+	implementation("org.jsoup:jsoup:1.10.2")
+    
+    implementation group: "org.seleniumhq.selenium", name: "selenium-firefox-driver", version: seleniumVersion
+    implementation group: "org.seleniumhq.selenium", name: "selenium-api", version: seleniumVersion
+    implementation group: "org.seleniumhq.selenium", name: "selenium-java", version: seleniumVersion
+    implementation group: "org.seleniumhq.selenium", name: "selenium-server", version: seleniumVersion
+    implementation group: "org.seleniumhq.selenium", name: "selenium-remote-driver", version: seleniumVersion
+    implementation group: "org.seleniumhq.selenium", name: "htmlunit-driver", version: "2.33.0"
+    
+    compileOnly("org.projectlombok:lombok:1.18.10")
+    
+    annotationProcessor("org.projectlombok:lombok:1.18.10")
+    
     testCompile("io.github.bonigarcia:webdrivermanager:3.7.1") {
-        exclude group: 'org.seleniumhq.selenium'
+        exclude group: "org.seleniumhq.selenium"
     }
+    
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("org.springframework:spring-test")
-    testCompile "info.cukes:cucumber-core:" + cucumberVersion
-    testCompile "info.cukes:cucumber-java:" + cucumberVersion
-    testCompile "info.cukes:cucumber-junit:" + cucumberVersion
-    testCompile "info.cukes:cucumber-spring:" + cucumberVersion
-    testCompile "junit:junit:" + junitVersion 
+    
+    testCompile group: "io.cucumber", name: "cucumber-core", version: cucumberVersion
+    testCompile group: "io.cucumber", name: "cucumber-java", version: cucumberVersion
+    testCompile group: "io.cucumber", name: "cucumber-junit", version: cucumberVersion
+    testCompile group: "io.cucumber", name: "cucumber-spring", version: cucumberVersion
+    
+    testCompile group: "junit", name: "junit", version: junitVersion
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'ohtu.ohtuvarasto.Main'
+        attributes "Main-Class": "ohtu.Main"
     }
 }
 
 test {
     testLogging.showStandardStreams = true
+    
     systemProperties System.getProperties()
-    systemProperties['user.dir'] = workingDir
+    systemProperties["user.dir"] = workingDir
 }
