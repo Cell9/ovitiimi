@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ohtu;
+package ohtu.database.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import ohtu.database.entities.data.Podcast;
 
 /**
  *

@@ -1,18 +1,20 @@
-package ohtu;
+package ohtu.database.entities.data;
 
 import javax.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course extends AbstractPersistable<Long> {
-    private String code;
-    private String name;
+    @Getter @Setter private String code;
+    @Getter @Setter private String name;
 
     @Override
     public String toString() {

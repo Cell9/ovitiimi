@@ -1,4 +1,4 @@
-package ohtu;
+package ohtu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,6 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import ohtu.database.entities.data.Course;
+import ohtu.database.entities.data.Link;
+import ohtu.database.repositories.CourseRepository;
+import ohtu.database.repositories.LinkRepository;
 
 import java.util.List;
 
@@ -40,7 +45,7 @@ public class LinkController {
             Link link = new Link();
             link.setTitle("Tärkeä lähde yksi");
             link.setUrl("https://google.com");
-            link.addCourse(courseRepository.getOne(1L).toString());
+            link.addCourse(courseRepository.getOne(1L));
             link.addTag("Hyvä lähde");
 
             // Tallenna nettilähde tietokantaan.
@@ -50,7 +55,7 @@ public class LinkController {
             Link link2 = new Link();
             link2.setTitle("Tärkeä lähde kaksi");
             link2.setUrl("https://instagram.com");
-            link2.addCourse(courseRepository.getOne(2L).toString());
+            link2.addCourse(courseRepository.getOne(2L));
             link.addTag("Tärkeä");
 
             // Tallenna nettilähde tietokantaan.
@@ -75,7 +80,7 @@ public class LinkController {
         }
         link.setUrl(url);
         Course course = courseRepository.getOne(selectedCourseId);
-        link.addCourse(course.toString());
+        link.addCourse(course);
         linkRepository.save(link);
         return "redirect:/links";
     }

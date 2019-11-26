@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ohtu;
-
-import org.springframework.data.jpa.repository.JpaRepository;
+package ohtu.database.repositories;
 
 /**
  *
  * @author Roni
  */
-public interface LinkRepository extends JpaRepository<Link, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import ohtu.database.entities.data.Book;
+
+public interface BookRepository extends JpaRepository<Book, Long> {
 }

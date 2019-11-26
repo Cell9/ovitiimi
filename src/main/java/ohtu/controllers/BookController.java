@@ -1,4 +1,4 @@
-package ohtu;
+package ohtu.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import ohtu.database.entities.data.Book;
+import ohtu.database.entities.data.Course;
+import ohtu.database.repositories.BookRepository;
+import ohtu.database.repositories.CourseRepository;
 
 import java.util.List;
 
@@ -40,8 +45,8 @@ public class BookController {
             Book book = new Book();
             book.setAuthor("Make");
             book.setTitle("How to use JPArepository");
-            book.setISBN("ABCKISSAKAVELEE");
-            book.addCourse(courseRepository.getOne(1L).toString());
+            book.setIsbn("ABCKISSAKAVELEE");
+            book.addCourse(courseRepository.getOne(1L));
             // Huomaa, etten täyttänyt kaikkia kohtia, koska olen laiska.
 
             // Tallenna kirja tietokantaan.
@@ -51,8 +56,8 @@ public class BookController {
             Book book2 = new Book();
             book2.setAuthor("Maija");
             book2.setTitle("And other stuff");
-            book2.setISBN("TIKAPUITAPITKINABC");
-            book2.addCourse(courseRepository.getOne(2L).toString());
+            book2.setIsbn("TIKAPUITAPITKINABC");
+            book2.addCourse(courseRepository.getOne(2L));
             // Huomaa, etten täyttänyt kaikkia kohtia, koska olen laiska.
 
             // Tallenna kirja tietokantaan.
@@ -75,14 +80,14 @@ public class BookController {
     @PostMapping("/books")
     public String create(@RequestParam String author,
                          @RequestParam String title,
-                         @RequestParam String ISBN,
+                         @RequestParam String isbn,
                          @RequestParam Long selectedCourseId) {
         Book book = new Book();
         book.setAuthor(author);
         book.setTitle(title);
-        book.setISBN(ISBN);
+        book.setIsbn(isbn);
         Course course = courseRepository.getOne(selectedCourseId);
-        book.addCourse(course.toString());
+        book.addCourse(course);
 
         bookRepository.save(book);
         return "redirect:/books";
