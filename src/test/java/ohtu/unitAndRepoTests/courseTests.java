@@ -1,8 +1,10 @@
 package ohtu.unitAndRepoTests;
 
 import javax.transaction.Transactional;
-import ohtu.Course;
-import ohtu.CourseRepository;
+
+import ohtu.database.entities.data.Course;
+import ohtu.database.repositories.CourseRepository;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

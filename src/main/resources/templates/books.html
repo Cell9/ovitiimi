@@ -11,7 +11,7 @@
             <li th:each="book : ${books}">
                 <p th:text="${book.title}"/>
                 <p th:text="'Tekijä: ' + ${book.author}"/>
-                <p th:text="'ISBN: ' + ${book.ISBN}"/>
+                <p th:text="'ISBN: ' + ${book.isbn}"/>
                 <p th:text="'Liittyy kursseihin: ' + ${book.courses}"/>
                 <!-- <ul>
                     <li th:each="course : ${book.courses}">
@@ -31,7 +31,7 @@
                 <input type="text" name="title"/>
                 <br>
                 <span>ISBN:</span>
-                <input type="text" name="ISBN"/>
+                <input type="text" name="isbn"/>
                 <br>
                 <span>Liittyy kursseihin:</span>
                 <select name="selectedCourseId">

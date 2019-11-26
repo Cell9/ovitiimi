@@ -1,4 +1,4 @@
-package ohtu;
+package ohtu.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,6 +6,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import ohtu.database.entities.data.Course;
+import ohtu.database.entities.data.Podcast;
+import ohtu.database.repositories.CourseRepository;
+import ohtu.database.repositories.PodcastRepository;
 
 import java.util.List;
 
@@ -39,7 +44,7 @@ public class PodcastController {
         podcast.setAuthor(author);
         podcast.setDescription(description);
         Course course = courseRepository.getOne(selectedCourseId);
-        podcast.addCourse(course.toString());
+        podcast.addCourse(course);
 
         podcastRepository.save(podcast);
         return "redirect:/podcasts";
