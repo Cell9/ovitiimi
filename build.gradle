@@ -94,3 +94,9 @@ test {
     systemProperties System.getProperties()
     systemProperties["user.dir"] = workingDir
 }
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
