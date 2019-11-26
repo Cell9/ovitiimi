@@ -12,7 +12,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.ISBN;
@@ -39,7 +39,7 @@ public class Book extends AbstractPersistable<Long> {
 	@ISBN
 	@Getter @Setter private String isbn;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Course> courses;
 	
 	@ElementCollection
