@@ -4,45 +4,74 @@
         <title>Books</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     </head>
     <body>
-        <h1>Kirjat</h1>
-        <ul>
-            <li th:each="book : ${books}">
-                <p th:text="${book.title}"/>
-                <p th:text="'Tekijä: ' + ${book.author}"/>
-                <p th:text="'ISBN: ' + ${book.isbn}"/>
-                <p th:text="'Liittyy kursseihin: ' + ${book.courses}"/>
-                <!-- <ul>
-                    <li th:each="course : ${book.courses}">
-                        <p th:text="${course.code}"/>
-                        <p th:text="${course.name}"/>
-                    </li>
-                </ul> -->
-            </li>
-        </ul>
-        <div>
-            Anna uuden kirjavinkin tiedot ja paina Submit:<br/>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/books}">Kirjat</a></li>
+                    <li><a th:href="@{/links}">Nettilähteet</a></li>
+                    <li><a th:href="@{/podcasts}">Podcastit</a></li>
+                    <li><a th:href="@{/courses}">Kurssit</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container">
+            <h2>Kirjat</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nimi</th>
+                    <th scope="col">Kirjailija</th>
+                    <th scope="col">ISBN-koodi</th>
+                    <th scope="col">Aiheeseen liittyvät kurssit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:each="book : ${books}">
+                    <tr>
+                        <td><p th:text="${book.title}"/></td>
+                        <td><p th:text="${book.author}"/></td>
+                        <td><p th:text="${book.isbn}"/></td>
+                        <td><p th:text="${book.courses}"/></td>
+                    </tr>
+                </div>
+                <tr>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+            <h3>Lisää uusi kirja</h3>
             <form th:action="@{/books}" method="POST">
-                <span>Kirjoittaja:</span>
-                <input type="text" name="author"/>
-                <br>
-                <span>Otsikko:</span>
-                <input type="text" name="title"/>
-                <br>
-                <span>ISBN:</span>
-                <input type="text" name="isbn"/>
-                <br>
-                <span>Liittyy kursseihin:</span>
-                <select name="selectedCourseId">
-                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                </select>
-                <br>
-                <input type="submit" value="Lisää uusi kirja!"/>
+                <div class="form-group">
+                    <label for="bookTitle">Kirjan nimi</label>
+                    <input type="text" name="title" id="bookTitle" placeholder="Syötä kirjan nimi">
+                </div>
+                <div class="form-group">
+                    <label for="bookAuthor">Kirjailija</label>
+                    <input type="text" name="author" id="bookAuthor" placeholder="Kirjailijan nimi">
+                </div>
+                <div class="form-group">
+                    <label for="bookIsbn">ISBN-koodi</label>
+                    <input type="text" name="isbn" id="bookIsbn" placeholder="ISBN-koodi">
+                </div>
+                <div class="form-group">
+                    <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
+                    <select class="form-control" id="courseSelect" name="selectedCourseId">
+                        <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark">Lisää uusi kirja!</button>
             </form>
         </div>
-        <br>
-        <p><a th:href="@{/index}">Lukuvinkit</a></p>
-        <p><a th:href="@{/courses}">Kurssit</a></p>
+
     </body>
 </html>

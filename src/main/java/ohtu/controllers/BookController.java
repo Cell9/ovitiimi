@@ -1,17 +1,16 @@
 package ohtu.controllers;
 
 
+import ohtu.database.entities.data.Book;
+import ohtu.database.entities.data.Course;
+import ohtu.database.repositories.BookRepository;
+import ohtu.database.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import ohtu.database.entities.data.Book;
-import ohtu.database.entities.data.Course;
-import ohtu.database.repositories.BookRepository;
-import ohtu.database.repositories.CourseRepository;
 
 import java.util.List;
 
