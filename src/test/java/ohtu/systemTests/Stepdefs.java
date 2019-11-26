@@ -86,8 +86,51 @@ public class Stepdefs {
                 .getText().contains("https://notarealaddress.com"));
         Thread.sleep(500);
     }
-    
-    
+
+    @Given("user is at the kirjat page")
+    public void user_is_at_the_kirjat_page() throws Throwable {
+        driver.get("http://localhost:8080/books");
+        Thread.sleep(500);
+    }
+
+    @When("a new kirja is created")
+    public void a_new_kirja_is_created() throws Throwable {
+        WebElement element = driver.findElement(By.name("title"));
+        element.sendKeys("Test Book");
+        element = driver.findElement(By.name("author"));
+        element.sendKeys("Nimekas Kirjailija");
+//        WebElement someElement = driver.findElement(By.cssSelector("button"));
+//        String typeOfElement = someElement.getAttribute("type");
+//        element = driver.findElement(By.type("submit"));
+        element = driver.findElements(By.cssSelector("button[type='submit']")).get(0);
+        element.submit();
+        Thread.sleep(500);
+    } //<button type="submit" class="btn btn-dark">Lisää uusi kirja!</button>
+
+    @When("Kirjat is clicked")
+    public void kirjat_clicked() throws Throwable {
+        Thread.sleep(500);
+        clickLinkWithText("Kirjat");
+        Thread.sleep(500);
+    }
+
+    @Then("Kirjat is shown")
+    public void kirjat_shown() throws Throwable {
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Kirjat"));
+        Thread.sleep(500);
+    }
+
+    @Then("the new kirja is shown")
+    public void the_new_kirja_is_shown() throws Throwable {
+        Thread.sleep(500);
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Test Book"));
+        Thread.sleep(500);
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Nimekas Kirjailija"));
+        Thread.sleep(500);
+    }
     
     /*
     @Then("^\"([^\"]*)\" is shown$")
