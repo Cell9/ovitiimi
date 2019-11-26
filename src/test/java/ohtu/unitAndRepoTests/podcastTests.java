@@ -34,12 +34,12 @@ public class podcastTests {
     public void setUp() {
     }
 
-    /*@Test
+    @Test
     public void podcastsCanBeCreatedEmptyConstructor() {
         Podcast podcast = new Podcast();
         assertNotNull(podcast);
     }
-
+/*
     @Test
     public void podcastsCanBeCreatedNonEmptyConstructor() {
         Podcast podcast = new Podcast("author", "title", "description", new ArrayList<>(), new ArrayList<>());

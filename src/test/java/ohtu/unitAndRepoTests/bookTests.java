@@ -35,12 +35,12 @@ public class bookTests {
     public void setUp() {
     }
 
-    /*@Test
+   @Test
     public void booksCanBeCreatedEmptyConstructor() {
         Book book = new Book();
         assertNotNull(book);
     }
-
+/*
     @Test
     public void booksCanBeCreatedNonEmptyConstructor() {
         Book book = new Book("author", "title", "isbn", new ArrayList<>(), new ArrayList<>());

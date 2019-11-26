@@ -34,12 +34,12 @@ public class linkTests {
     public void setUp() {
     }
 
-    /*@Test
+    @Test
     public void linksCanBeCreatedEmptyConstructor() {
         Link link = new Link();
         assertNotNull(link);
     }
-
+/*
     @Test
     public void linksCanBeCreatedNonEmptyConstructor() {
         Link link = new Link("title", "url", new ArrayList<>(), new ArrayList<>());
