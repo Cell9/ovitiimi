@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Podcastit</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Podcastit</h1>
+        <ul>
+            <li th:each="podcast : ${podcasts}">
+                <p th:text="${podcast.title}"/>
+                <p th:text="'Tekijä: ' + ${podcast.author}"/>
+                <p th:text="'Kuvaus: ' + ${podcast.description}"/>
+                <p th:text="'Liittyy kursseihin: ' + ${podcast.courses}"/>
+            </li>
+        </ul>
+        <div>
+            Anna uuden podcastin tiedot ja paina Lisää:<br/>
+            <form th:action="@{/podcasts}" method="POST">
+                <span>Otsikko:</span>
+                <input type="text" name="title"/>
+                <br>
+                <span>Tekijä:</span>
+                <input type="text" name="author"/>
+                <br>
+                <span>Kuvaus:</span>
+                <input type="text" name="description"/>
+                <br>
+                <span>Liittyy kursseihin:</span>
+                <select name="selectedCourseId">
+                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                </select>
+                <br>
+                <input type="submit" value="Lisää"/>
+            </form>
+        </div>
+
+
+    </body>
+</html>

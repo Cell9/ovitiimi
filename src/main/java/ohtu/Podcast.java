@@ -25,6 +25,8 @@ public class Podcast extends AbstractPersistable<Long> {
     private ArrayList<String> courses;
 
     public Podcast() {
+        tags = new ArrayList<>();
+        courses = new ArrayList<>();
     }
 
     public Podcast(String author, String title, String description, ArrayList<String> tags, ArrayList<String> courses) {
@@ -73,6 +75,10 @@ public class Podcast extends AbstractPersistable<Long> {
 
     public ArrayList<String> getTags() {
         return tags;
+    }
+
+    public void addCourse(String course) {
+        this.courses.add(course);
     }
 
 }
