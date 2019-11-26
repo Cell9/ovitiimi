@@ -15,13 +15,17 @@
         </ul>
         <div>
             Anna uuden kurssin tiedot ja paina Submit:<br/>
-            <form th:action="@{/courses}" method="POST">
+            <form th:object="${course}" th:action="@{/courses}" method="POST">
                 <span>Kurssikoodi:</span>
-                <input type="text" name="code"/>
+                <input type="text" name="code" th:value="*{code}"/>
+				<p th:if="${#fields.hasErrors('code')}" th:errors="*{code}"/>
                 <br>
+				
                 <span>Kurssin nimi:</span>
-                <input type="text" name="name"/>
+                <input type="text" name="name" th:value="*{name}"/>
+				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
                 <br>
+				
                 <input type="submit" value="Lisää uusi kurssi!"/>
             </form>
         </div>
