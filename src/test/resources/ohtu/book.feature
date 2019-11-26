@@ -4,7 +4,7 @@ Feature: books can be browsed and posted
     Given user is at the main page
     When Kirjat is clicked
     Then Kirjat is shown
-  Scenario: user can create new links
+  Scenario: user can create new books
     Given user is at the kirjat page
     When a new kirja is created
     Then the new kirja is shown

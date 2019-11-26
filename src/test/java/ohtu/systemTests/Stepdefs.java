@@ -99,13 +99,10 @@ public class Stepdefs {
         element.sendKeys("Test Book");
         element = driver.findElement(By.name("author"));
         element.sendKeys("Nimekas Kirjailija");
-//        WebElement someElement = driver.findElement(By.cssSelector("button"));
-//        String typeOfElement = someElement.getAttribute("type");
-//        element = driver.findElement(By.type("submit"));
         element = driver.findElements(By.cssSelector("button[type='submit']")).get(0);
         element.submit();
         Thread.sleep(500);
-    } //<button type="submit" class="btn btn-dark">Lisää uusi kirja!</button>
+    }
 
     @When("Kirjat is clicked")
     public void kirjat_clicked() throws Throwable {
