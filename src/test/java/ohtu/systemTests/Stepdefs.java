@@ -51,6 +51,17 @@ public class Stepdefs {
         Thread.sleep(500);
     }
 
+    @When("a new nettilähde without html-scheme is created")
+    public void a_new_nettilähde_without_html_scheme_is_created() throws Throwable {
+        WebElement element = driver.findElement(By.name("title"));
+        element.sendKeys("Test Title");
+        element = driver.findElement(By.name("url"));
+        element.sendKeys("notarealaddress.com");
+        element = driver.findElement(By.name("submit"));
+        element.submit();
+        Thread.sleep(500);
+    }
+
     @When("Nettilähteet is clicked")
     public void nettilahteet_clicked() throws Throwable {
         Thread.sleep(500);
