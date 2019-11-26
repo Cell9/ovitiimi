@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -21,7 +21,7 @@ public class Link extends AbstractPersistable<Long> {
     @Getter @Setter private String title;
     @Getter @Setter private String url;
 
-	@OneToMany
+    @ManyToMany
 	private List<Course> courses;
 	
 	@ElementCollection
