@@ -1,16 +1,18 @@
 package ohtu.controllers;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import ohtu.database.entities.data.Course;
 import ohtu.database.repositories.CourseRepository;
-
-import java.util.List;
 
 @Controller
 public class CourseController {
@@ -19,29 +21,24 @@ public class CourseController {
 
     @GetMapping("/courses")
     public String list(Model model) {
-        if (courseRepository.findAll().size() < 1) {
-            Course course1 = new Course();
-            course1.setCode("TKT20006");
-            course1.setName("Ohjelmistotuotanto");
-            courseRepository.save(course1);
-
-            Course course2 = new Course();
-            course2.setCode("TKT20001");
-            course2.setName("Tietorakenteet ja algoritmit");
-            courseRepository.save(course2);
-        }
         List<Course> courses = courseRepository.findAll();
+        
         model.addAttribute("courses", courses);
+        model.addAttribute("course", new Course());
+        
         return "courses";
     }
 
     @PostMapping("/courses")
-    public String create(@RequestParam String code, @RequestParam String name) {
-        Course course = new Course();
-        course.setCode(code);
-        course.setName(name);
+    public String create(Model model, @Valid Course course, BindingResult result) {
+    	if (result.hasErrors()) {
+    		model.addAttribute("course", course);
+    		
+    		return "courses";
+    	}
 
-        courseRepository.save(course);
+        this.courseRepository.save(course);
+        
         return "redirect:/courses";
     }
 }

@@ -1,6 +1,8 @@
 package ohtu.database.entities.data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -13,7 +15,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course extends AbstractPersistable<Long> {
+	
+	@Column(name = "code", unique = true)
+	@NotEmpty
     @Getter @Setter private String code;
+	
+	@NotEmpty
     @Getter @Setter private String name;
 
     @Override
