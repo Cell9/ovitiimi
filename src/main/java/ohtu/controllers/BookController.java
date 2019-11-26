@@ -1,18 +1,22 @@
 package ohtu.controllers;
 
 
-import ohtu.database.entities.data.Book;
-import ohtu.database.entities.data.Course;
-import ohtu.database.repositories.BookRepository;
-import ohtu.database.repositories.CourseRepository;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import ohtu.database.entities.data.Book;
+import ohtu.database.entities.data.Course;
+import ohtu.database.repositories.BookRepository;
+import ohtu.database.repositories.CourseRepository;
 
 @Controller
 public class BookController {
@@ -71,24 +75,29 @@ public class BookController {
 
         List<Course> courses = courseRepository.findAll();
         model.addAttribute("courses", courses);
+        
+		model.addAttribute("book", new Book());
 
         // Palauta käytetyn html filen nimi (katso html filestä miten käyttää books listaa ja sen book olioita HTML-filessä). HTML-filet löytyvät main => resources => templates kansiosta.
         return "books";
     }
 
     @PostMapping("/books")
-    public String create(@RequestParam String author,
-                         @RequestParam String title,
-                         @RequestParam String isbn,
-                         @RequestParam Long selectedCourseId) {
-        Book book = new Book();
-        book.setAuthor(author);
-        book.setTitle(title);
-        book.setIsbn(isbn);
+    public String create(Model model, @Valid Book book, BindingResult result, @RequestParam Long selectedCourseId) {
+    	if (result.hasErrors()) {
+    		model.addAttribute("book", book);
+    		
+            List<Course> courses = courseRepository.findAll();
+            model.addAttribute("courses", courses);
+    		
+    		return "books";
+    	}
+    	
         Course course = courseRepository.getOne(selectedCourseId);
         book.addCourse(course);
+        
+        this.bookRepository.save(book);
 
-        bookRepository.save(book);
         return "redirect:/books";
     }
 }

@@ -21,7 +21,7 @@
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container" th:if="${books}">
             <h2>Kirjat</h2>
             <table class="table">
                 <thead class="thead-dark">
@@ -50,18 +50,21 @@
 
         <div class="container">
             <h3>Lisää uusi kirja</h3>
-            <form th:action="@{/books}" method="POST">
+            <form th:object="${book}" th:action="@{/books}" method="POST">
                 <div class="form-group">
                     <label for="bookTitle">Kirjan nimi</label>
-                    <input type="text" name="title" id="bookTitle" placeholder="Syötä kirjan nimi">
+                    <input type="text" name="title" placeholder="Syötä kirjan nimi" th:value="*{title}">
+					<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
                 </div>
                 <div class="form-group">
                     <label for="bookAuthor">Kirjailija</label>
-                    <input type="text" name="author" id="bookAuthor" placeholder="Kirjailijan nimi">
+                    <input type="text" name="author" placeholder="Kirjailijan nimi" th:value="*{author}">
+					<p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"/>
                 </div>
                 <div class="form-group">
                     <label for="bookIsbn">ISBN-koodi</label>
-                    <input type="text" name="isbn" id="bookIsbn" placeholder="ISBN-koodi">
+                    <input type="text" name="isbn" placeholder="ISBN-koodi" th:value="*{isbn}">
+					<p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"/>
                 </div>
                 <div class="form-group">
                     <label for="courseSelect">Aiheeseen liittyvät kurssit</label>

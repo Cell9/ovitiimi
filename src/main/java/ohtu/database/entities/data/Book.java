@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.ISBN;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import lombok.Getter;
@@ -25,8 +28,15 @@ import lombok.Setter;
 @Entity
 public class Book extends AbstractPersistable<Long> {
 
+	@NotEmpty
 	@Getter @Setter private String title;
+	@NotEmpty
+	
 	@Getter @Setter private String author;
+
+	@Column(name = "isbn", unique = true)
+	@NotEmpty
+	@ISBN
 	@Getter @Setter private String isbn;
 	
 	@OneToMany
