@@ -62,14 +62,18 @@ public class Stepdefs {
     public void nettilahteet_shown() throws Throwable {
         assertTrue(driver.findElement(By.tagName("body"))
                 .getText().contains("Nettilähteet"));
+        Thread.sleep(500);
     }
     
     @Then("the new nettilähde is shown")
     public void the_new_nettilahde_is_shown() throws Throwable {
+        Thread.sleep(500);
         assertTrue(driver.findElement(By.tagName("body"))
                 .getText().contains("Test Title"));
+        Thread.sleep(500);
         assertTrue(driver.findElement(By.tagName("body"))
                 .getText().contains("https://notarealaddress.com"));
+        Thread.sleep(500);
     }
     
     
