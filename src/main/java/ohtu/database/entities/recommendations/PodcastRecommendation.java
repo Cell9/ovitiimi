@@ -29,4 +29,14 @@ public class PodcastRecommendation extends Recommendation  {
 	public String getTitle() {
 		return this.podcast.getTitle();
 	}
+
+	@Override
+	public RecommendationType getType() {
+		return RecommendationType.PODCAST;
+	}
+	
+    @Override
+    public String toString() {
+    	return String.format("%s, %s, %s", this.podcast.getTitle(), this.podcast.getAuthor(), this.podcast.getDescription());
+    }
 }

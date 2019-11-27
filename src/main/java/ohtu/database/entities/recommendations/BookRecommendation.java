@@ -30,4 +30,14 @@ public class BookRecommendation extends Recommendation {
 	public String getTitle() {
 		return this.book.getTitle();
 	}
+
+	@Override
+	public RecommendationType getType() {
+		return RecommendationType.BOOK;
+	}
+	
+    @Override
+    public String toString() {
+    	return String.format("%s, kirjoittanut %s", this.book.getTitle(), this.book.getAuthor());
+    }
 }

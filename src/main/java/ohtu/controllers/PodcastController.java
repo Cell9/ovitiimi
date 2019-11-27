@@ -13,6 +13,8 @@ import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.PodcastRepository;
 
 import java.util.List;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class PodcastController {
@@ -35,7 +37,7 @@ public class PodcastController {
     }
 
     @PostMapping("/podcasts")
-    public String create(@RequestParam String title,
+    public String create(RedirectAttributes redirectAttributes, @RequestParam String title,
             @RequestParam String author,
             @RequestParam String description,
             @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
@@ -50,6 +52,9 @@ public class PodcastController {
         }
 
         podcastRepository.save(podcast);
+        
+        redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
+                
         return "redirect:/podcasts";
     }
 }

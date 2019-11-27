@@ -21,16 +21,6 @@ public class Controllers {
     @Autowired
     PodcastRepository podRepo;
     
-    @GetMapping("/")
-    public String home() {
-        return "index";
-    }
-    
-    @GetMapping("/index")
-    public String handleDefault() {
-        return "index";
-    }
-    
     @GetMapping("/other")
     @ResponseBody
     public String other() {
