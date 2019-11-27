@@ -21,6 +21,7 @@ import ohtu.database.repositories.RecommendationRepository;
 
 @Controller
 public class RecommendationController {
+	
 	@Autowired
 	private LinkRepository linkRepository;
 	
