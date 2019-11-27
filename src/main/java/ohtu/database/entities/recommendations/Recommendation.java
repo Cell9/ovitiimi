@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public abstract class Recommendation extends AbstractPersistable<Long> {
 	
     public abstract String getTitle();
+    public abstract RecommendationType getType();
     
     @Override
     public String toString() {

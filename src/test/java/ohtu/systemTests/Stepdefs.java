@@ -106,6 +106,19 @@ public class Stepdefs {
         Thread.sleep(500);
     }
 
+    @When("a faulty kirja is created")
+    public void a_faulty_kirja_is_created() throws Throwable {
+        WebElement element = driver.findElement(By.name("title"));
+        element.sendKeys("");
+        element = driver.findElement(By.name("author"));
+        element.sendKeys("");
+        element = driver.findElement(By.name("selectedCourseId"));
+        element.sendKeys("1L");
+        element = driver.findElement(By.name("submit"));
+        element.submit();
+        Thread.sleep(500);
+    }
+
     @When("Kirjat is clicked")
     public void kirjat_clicked() throws Throwable {
         Thread.sleep(500);
@@ -125,12 +138,32 @@ public class Stepdefs {
         Thread.sleep(500);
         assertTrue(driver.findElement(By.tagName("body"))
                 .getText().contains("Test Book"));
-        Thread.sleep(500);
         assertTrue(driver.findElement(By.tagName("body"))
                 .getText().contains("Nimekas Kirjailija"));
         Thread.sleep(500);
     }
+
+    @Then("a success notification is shown")
+    public void a_success_notification_is_shown() throws Throwable {
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Lisäys onnistui!"));
+        Thread.sleep(500);
+    }
     
+    @Then("an error notification for missing title is shown")
+    public void an_error_notification_for_missing_title_is_shown() throws Throwable {
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Kirjalle tulee syöttää nimi"));
+        Thread.sleep(500);
+    }
+
+    @Then("an error notification for missing author is shown")
+    public void an_error_notification_for_missing_author_is_shown() throws Throwable {
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Kirjalle tulee syöttää kirjailija"));
+        Thread.sleep(500);
+    }
+
     /*
     @Then("^\"([^\"]*)\" is shown$")
     public void is_shown(String arg1) throws Throwable {

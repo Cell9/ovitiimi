@@ -30,4 +30,14 @@ public class VideoRecommendation extends Recommendation  {
 	public String getTitle() {
 		return this.link.getTitle();
 	}
+
+	@Override
+	public RecommendationType getType() {
+		return RecommendationType.VIDEO;
+	}
+	
+    @Override
+    public String toString() {
+    	return String.format("%s: %s", this.link.getTitle(), this.link.getUrl());
+    }
 }
