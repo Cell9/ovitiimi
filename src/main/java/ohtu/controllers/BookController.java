@@ -1,23 +1,25 @@
 package ohtu.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
 import ohtu.database.repositories.BookRepository;
 import ohtu.database.repositories.CourseRepository;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class BookController {
@@ -27,6 +29,11 @@ public class BookController {
 
     @Autowired
     private CourseRepository courseRepository;
+    
+	@InitBinder
+	public void allowEmptyDateBinding(WebDataBinder binder) {
+	    binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
 
     @GetMapping("/books")
     public String list(Model model) {
@@ -51,7 +58,6 @@ public class BookController {
             model.addAttribute("books", books);
             model.addAttribute("courses", courses);
             model.addAttribute("book", book);
-            //redirectAttributes.addAttribute("message", "Lisäys epäonnistui, tarkista tiedot");
 
             return "books";
         }
@@ -62,6 +68,7 @@ public class BookController {
         }
 
         this.bookRepository.save(book);
+
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
 
         return "redirect:/books";
