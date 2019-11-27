@@ -93,6 +93,7 @@ test {
     
     systemProperties System.getProperties()
     systemProperties["user.dir"] = workingDir
+    jacoco { excludes = ["com/gargoylesoftware/**"] }
 }
 jacocoTestReport {
     reports {

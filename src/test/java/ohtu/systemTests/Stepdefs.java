@@ -99,7 +99,7 @@ public class Stepdefs {
         element.sendKeys("Test Book");
         element = driver.findElement(By.name("author"));
         element.sendKeys("Nimekas Kirjailija");
-        element = driver.findElements(By.cssSelector("button[type='submit']")).get(0);
+        element = driver.findElement(By.name("submit"));
         element.submit();
         Thread.sleep(500);
     }

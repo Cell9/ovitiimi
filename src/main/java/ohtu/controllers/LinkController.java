@@ -66,16 +66,16 @@ public class LinkController {
         model.addAttribute("links", links);
         List<Course> courses = courseRepository.findAll();
         model.addAttribute("courses", courses);
-         return "links";
+        return "links";
     }
 
     @PostMapping("/links")
     public String create(@RequestParam String title,
-                         @RequestParam String url,
-                         @RequestParam Long selectedCourseId) {
+            @RequestParam String url,
+            @RequestParam Long selectedCourseId) {
         Link link = new Link();
         link.setTitle(title);
-        if (!url.contains("http://") && !url.contains("https://") && !url.contains("//")) {
+        if (!url.substring(0, 10).contains("//")) {
             url = "https://" + url;
         }
         link.setUrl(url);
