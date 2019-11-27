@@ -17,6 +17,7 @@ import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
 import ohtu.database.repositories.BookRepository;
 import ohtu.database.repositories.CourseRepository;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class BookController {
@@ -40,7 +41,9 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public String create(Model model, @Valid Book book, BindingResult result, @RequestParam Long selectedCourseId) {
+    public String create(Model model, @Valid Book book, BindingResult result,
+                         RedirectAttributes redirectAttributes, @RequestParam Long selectedCourseId) {
+
         if (result.hasErrors()) {
             List<Book> books = bookRepository.findAll();
             List<Course> courses = courseRepository.findAll();
@@ -48,6 +51,7 @@ public class BookController {
             model.addAttribute("books", books);
             model.addAttribute("courses", courses);
     		model.addAttribute("book", book);
+    		//redirectAttributes.addAttribute("message", "Lisäys epäonnistui, tarkista tiedot");
     		
     		return "books";
     	}
@@ -55,6 +59,8 @@ public class BookController {
         Course course = courseRepository.getOne(selectedCourseId);
         book.addCourse(course);
         this.bookRepository.save(book);
+        redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
+
         return "redirect:/books";
     }
 }

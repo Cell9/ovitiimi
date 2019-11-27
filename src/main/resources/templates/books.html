@@ -22,6 +22,9 @@
         </nav>
 
         <div class="container" th:if="${books}">
+            <div th:if="${message}">
+                <div class="alert alert-success" role="alert" th:text="${message}"></div>
+            </div>
             <h2>Kirjat</h2>
             <table class="table">
                 <thead class="thead-dark">
