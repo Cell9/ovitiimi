@@ -100,6 +100,8 @@ public class Stepdefs {
         element = driver.findElement(By.name("author"));
         element.sendKeys("Nimekas Kirjailija");
         element = driver.findElement(By.name("submit"));
+        element = driver.findElement(By.name("selectedCourseId"));
+        element.sendKeys("1");
         element.submit();
         Thread.sleep(500);
     }
