@@ -99,9 +99,9 @@ public class Stepdefs {
         element.sendKeys("Test Book");
         element = driver.findElement(By.name("author"));
         element.sendKeys("Nimekas Kirjailija");
-        element = driver.findElement(By.name("submit"));
         element = driver.findElement(By.name("selectedCourseId"));
-        element.sendKeys("1");
+        element.sendKeys("1L");
+        element = driver.findElement(By.name("submit"));
         element.submit();
         Thread.sleep(500);
     }

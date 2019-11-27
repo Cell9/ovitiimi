@@ -36,15 +36,18 @@ public class PodcastController {
 
     @PostMapping("/podcasts")
     public String create(@RequestParam String title,
-                         @RequestParam String author,
-                         @RequestParam String description,
-                         @RequestParam Long selectedCourseId) {
+            @RequestParam String author,
+            @RequestParam String description,
+            @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
         Podcast podcast = new Podcast();
         podcast.setTitle(title);
         podcast.setAuthor(author);
         podcast.setDescription(description);
-        Course course = courseRepository.getOne(selectedCourseId);
-        podcast.addCourse(course);
+
+        if (courseRepository.existsById(selectedCourseId)) {
+            Course course = courseRepository.getOne(selectedCourseId);
+            podcast.addCourse(course);
+        }
 
         podcastRepository.save(podcast);
         return "redirect:/podcasts";

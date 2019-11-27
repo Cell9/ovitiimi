@@ -1,7 +1,7 @@
 package ohtu.controllers;
 
-
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -35,14 +35,14 @@ public class BookController {
 
         model.addAttribute("books", books);
         model.addAttribute("courses", courses);
-		model.addAttribute("book", new Book());
+        model.addAttribute("book", new Book());
 
         return "books";
     }
 
     @PostMapping("/books")
     public String create(Model model, @Valid Book book, BindingResult result,
-                         RedirectAttributes redirectAttributes, @RequestParam Long selectedCourseId) {
+            RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
 
         if (result.hasErrors()) {
             List<Book> books = bookRepository.findAll();
@@ -50,14 +50,17 @@ public class BookController {
 
             model.addAttribute("books", books);
             model.addAttribute("courses", courses);
-    		model.addAttribute("book", book);
-    		//redirectAttributes.addAttribute("message", "Lisäys epäonnistui, tarkista tiedot");
-    		
-    		return "books";
-    	}
-    	
-        Course course = courseRepository.getOne(selectedCourseId);
-        book.addCourse(course);
+            model.addAttribute("book", book);
+            //redirectAttributes.addAttribute("message", "Lisäys epäonnistui, tarkista tiedot");
+
+            return "books";
+        }
+
+        if (courseRepository.existsById(selectedCourseId)) {
+            Course course = courseRepository.getOne(selectedCourseId);
+            book.addCourse(course);
+        }
+
         this.bookRepository.save(book);
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
 
