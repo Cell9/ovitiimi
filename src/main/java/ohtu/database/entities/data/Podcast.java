@@ -32,7 +32,6 @@ public class Podcast extends AbstractPersistable<Long> {
     @NotEmpty
     @Getter @Setter private String title;
     
-    @NotEmpty
     @Getter @Setter private String description;
 
     @ManyToMany

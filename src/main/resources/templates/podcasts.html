@@ -73,11 +73,6 @@
                 <div class="form-group">
                     <label for="podcastDescription">Kuvaus</label>
                     <input type="text" name="description" id="podcastDescription" th:value="*{description}">
-                    <div th:if="${#fields.hasErrors('description')}">
-                        <div class="alert alert-danger" role="alert">
-                            Podcastille tulee syöttää kuvaus
-                        </div>
-                    </div>                        
                 </div>
                 <div class="form-group">
                     <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
