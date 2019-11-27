@@ -25,15 +25,15 @@ public class PodcastRecommendation extends Recommendation  {
     	this.podcast = podcast;
     }
 
-	@Override
-	public String getTitle() {
-		return this.podcast.getTitle();
-	}
+    @Override
+    public String getTitle() {
+            return this.podcast.getTitle();
+    }
 
-	@Override
-	public RecommendationType getType() {
-		return RecommendationType.PODCAST;
-	}
+    @Override
+    public RecommendationType getType() {
+            return RecommendationType.PODCAST;
+    }
 	
     @Override
     public String toString() {

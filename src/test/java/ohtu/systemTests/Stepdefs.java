@@ -163,6 +163,9 @@ public class Stepdefs {
                 .getText().contains("Kirjalle tulee syöttää kirjailija"));
         Thread.sleep(500);
     }
+    
+    @Given("")
+    
 
     /*
     @Then("^\"([^\"]*)\" is shown$")

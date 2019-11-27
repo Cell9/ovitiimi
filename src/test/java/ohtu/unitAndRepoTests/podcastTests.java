@@ -1,10 +1,14 @@
 package ohtu.unitAndRepoTests;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.transaction.Transactional;
+import ohtu.database.entities.data.Course;
 
 import ohtu.database.entities.data.Podcast;
 import ohtu.database.repositories.PodcastRepository;
+import ohtu.database.entities.recommendations.PodcastRecommendation;
+import ohtu.database.entities.recommendations.RecommendationType;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -30,8 +34,11 @@ public class podcastTests {
     @Autowired
     private PodcastRepository podcastrepo;
     
+    private Podcast podcast;
+    
     @Before
     public void setUp() {
+        this.podcast = new Podcast("Sarasvuo", "Yle Puhe", "coaching");
     }
 
     @Test
@@ -39,6 +46,42 @@ public class podcastTests {
         Podcast podcast = new Podcast();
         assertNotNull(podcast);
     }
+        
+    @Test
+    public void podcastAttributesCanBeSetAndGot() {
+        Podcast podcast = new Podcast();
+        podcast.setTitle("Sarasvuo");
+        podcast.setAuthor("Yle Puhe");
+        podcast.setDescription("coaching");
+        podcast.addTag("puhe");
+        assertEquals(podcast.getTitle(), "Sarasvuo");
+        assertEquals(podcast.getAuthor(), "Yle Puhe");
+        assertEquals(podcast.getDescription(), "coaching");        
+        
+        List<String> tags = podcast.getTags();
+        assertEquals(tags.get(0), "puhe");
+    }
+    
+    @Test
+    public void podcastCourseCanBeSetAndGet() {
+        Podcast podcast = new Podcast();
+        Course course = new Course("code", "name");
+        podcast.addCourse(course);
+        List<Course> courses = podcast.getCourses();
+        assertEquals(courses.get(0).getCode(), "code");        
+    }
+    
+    @Test
+    public void podcastRecommendationAttributesCanBeGet() {
+        Podcast podcast = new Podcast("Sarasvuo", "Yle Puhe", "coaching");
+        PodcastRecommendation podcastRecommendation = new PodcastRecommendation(podcast);
+        
+        assertEquals(podcastRecommendation.getTitle(), "Sarasvuo");
+        assertEquals(podcastRecommendation.getType(), RecommendationType.PODCAST);
+        assertEquals(podcastRecommendation.getPodcast().getTitle(), "Sarasvuo");
+        assertEquals(podcastRecommendation.toString(), "Sarasvuo, Yle Puhe, coaching");
+    }
+
 /*
     @Test
     public void podcastsCanBeCreatedNonEmptyConstructor() {

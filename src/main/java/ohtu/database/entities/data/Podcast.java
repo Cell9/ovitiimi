@@ -65,4 +65,8 @@ public class Podcast extends AbstractPersistable<Long> {
     public List<Course> getCourses() {
     	return this.courses;
     }
+    
+    public List<String> getTags() {
+        return this.tags;
+    }
 }
