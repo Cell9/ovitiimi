@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Books</title>
+        <title>Kirjat</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -53,18 +53,26 @@
             <form th:object="${book}" th:action="@{/books}" method="POST">
                 <div class="form-group">
                     <label for="bookTitle">Kirjan nimi</label>
-                    <input type="text" name="title" placeholder="Syötä kirjan nimi" th:value="*{title}">
-					<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"/>
+                    <input type="text" name="title" id="bookTitle" th:value="*{title}">
+                    <div th:if="${#fields.hasErrors('title')}">
+                        <div class="alert alert-danger" role="alert">
+                            Kirjalle tulee syöttää nimi
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="bookAuthor">Kirjailija</label>
-                    <input type="text" name="author" placeholder="Kirjailijan nimi" th:value="*{author}">
-					<p th:if="${#fields.hasErrors('author')}" th:errors="*{author}"/>
+                    <input type="text" name="author" id="bookAuthor" th:value="*{author}">
+                    <div th:if="${#fields.hasErrors('author')}">
+                        <div class="alert alert-danger" role="alert">
+                            Kirjalle tulee syöttää kirjailija
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="bookIsbn">ISBN-koodi</label>
-                    <input type="text" name="isbn" placeholder="ISBN-koodi" th:value="*{isbn}">
-					<p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"/>
+                    <input type="text" name="isbn" id="bookIsbn" th:value="*{isbn}">
+					<!--<p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"/>-->
                 </div>
                 <div class="form-group">
                     <label for="courseSelect">Aiheeseen liittyvät kurssit</label>

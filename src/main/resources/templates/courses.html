@@ -1,35 +1,67 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Courses</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>Kurssit</h1>
-        <ul>
-            <li th:each="course : ${courses}">
-                <p th:text="${course.code}"/>
-                <p th:text="${course.name}"/>
-            </li>
-        </ul>
-        <div>
-            Anna uuden kurssin tiedot ja paina Submit:<br/>
-            <form th:object="${course}" th:action="@{/courses}" method="POST">
-                <span>Kurssikoodi:</span>
-                <input type="text" name="code" th:value="*{code}"/>
-				<p th:if="${#fields.hasErrors('code')}" th:errors="*{code}"/>
-                <br>
-				
-                <span>Kurssin nimi:</span>
-                <input type="text" name="name" th:value="*{name}"/>
-				<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
-                <br>
-				
-                <input type="submit" value="Lisää uusi kurssi!"/>
-            </form>
+<head>
+    <title>Kurssit</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
         </div>
-        <p><a th:href="@{/index}">Lukuvinkit</a></p>
-        <p><a th:href="@{/books}">Kirjat</a></p>
-    </body>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/books}">Kirjat</a></li>
+            <li><a th:href="@{/links}">Nettilähteet</a></li>
+            <li><a th:href="@{/podcasts}">Podcastit</a></li>
+            <li><a th:href="@{/courses}">Kurssit</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h2>Kurssit</h2>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Koodi</th>
+                <th scope="col">Nimi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <div th:each="course : ${courses}">
+                <tr>
+                    <td><p th:text="${course.code}"/></td>
+                    <td><p th:text="${course.name}"/></td>
+                </tr>
+            </div>
+            <tr></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h3>Lisää uusi kurssi</h3>
+    <form th:object="${course}" th:action="@{/courses}" method="POST">
+        <div class="form-group">
+            <label for="courseCode">Kurssikoodi</label>
+            <input type="text" name="code" id="courseCode">
+            <div th:if="${#fields.hasErrors('code')}">
+                <div class="alert alert-danger" role="alert" th:errors="*{code}"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="courseName">Kurssin nimi</label>
+            <input type="text" name="name" id="courseName">
+            <div th:if="${#fields.hasErrors('name')}">
+                <div class="alert alert-danger" role="alert" th:errors="*{name}"></div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark">Lisää uusi kurssi!</button>
+    </form>
+</div>
+
+</body>
 </html>

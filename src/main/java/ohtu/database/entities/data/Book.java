@@ -30,13 +30,11 @@ public class Book extends AbstractPersistable<Long> {
 
 	@NotEmpty
 	@Getter @Setter private String title;
+
 	@NotEmpty
-	
 	@Getter @Setter private String author;
 
-	@Column(name = "isbn", unique = true)
-	@NotEmpty
-	@ISBN
+	// vaatimusmäärittelyssä isbn ei pakollinen, vain nimi ja kirjoittaja
 	@Getter @Setter private String isbn;
 	
 	@ManyToMany

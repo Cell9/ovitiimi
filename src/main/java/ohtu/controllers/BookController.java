@@ -41,9 +41,11 @@ public class BookController {
 
     @PostMapping("/books")
     public String create(Model model, @Valid Book book, BindingResult result, @RequestParam Long selectedCourseId) {
-    	if (result.hasErrors()) {
+        if (result.hasErrors()) {
+            List<Book> books = bookRepository.findAll();
             List<Course> courses = courseRepository.findAll();
-            
+
+            model.addAttribute("books", books);
             model.addAttribute("courses", courses);
     		model.addAttribute("book", book);
     		
@@ -52,9 +54,7 @@ public class BookController {
     	
         Course course = courseRepository.getOne(selectedCourseId);
         book.addCourse(course);
-        
         this.bookRepository.save(book);
-
         return "redirect:/books";
     }
 }
