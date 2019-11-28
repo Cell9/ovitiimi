@@ -1,5 +1,4 @@
 # ovitiimi
-- testaan toimiiko herokun db
 
 [![CircleCI](https://circleci.com/gh/Cell9/ovitiimi.svg?style=svg)](https://circleci.com/gh/Cell9/ovitiimi)
 
