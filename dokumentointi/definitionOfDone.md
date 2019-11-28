@@ -1,6 +1,6 @@
 # User storyn Definition of done
 
-- User storylla on hyväksymiskriteerit [Sprint backlogilla](https://docs.google.com/spreadsheets/d/1iyOaUwoDaijE3uMPPIeSPnU4EpCxYCItDZS4TlaIsyY/edit#gid=355581877)
+- User storylla on hyväksymiskriteerit Sprint backlogilla
 - hyväksymiskriteerit on kirjattu Cucumberin featureiksi
 - README:stä linkki hyväksymäkriteerit määritteleviin tiedostoihin
 - koodin JUnit testien kattavuus tulee olla vähintään 75% (rivikattavuus)
