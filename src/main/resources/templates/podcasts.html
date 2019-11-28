@@ -1,79 +1,88 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Podcastit</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-</head>
-<body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
+    <head>
+        <title>Podcastit</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/books}">Kirjat</a></li>
+                    <li><a th:href="@{/links}">Nettilähteet</a></li>
+                    <li><a th:href="@{/podcasts}">Podcastit</a></li>
+                    <li><a th:href="@{/courses}">Kurssit</a></li>
+                </ul>
             </div>
-            <ul class="nav navbar-nav">
-                <li><a th:href="@{/books}">Kirjat</a></li>
-                <li><a th:href="@{/links}">Nettilähteet</a></li>
-                <li><a th:href="@{/podcasts}">Podcastit</a></li>
-                <li><a th:href="@{/courses}">Kurssit</a></li>
-            </ul>
+        </nav>
+
+        <div class="container" th:if="${podcasts}">
+            <div th:if="${message}">
+                <div class="alert alert-success" role="alert" th:text="${message}"></div>
+            </div>
+            <h2>Podcastit</h2>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Otsikko</th>
+                        <th scope="col">Tekijä</th>
+                        <th scope="col">Kuvaus</th>
+                        <th scope="col">Aiheeseen liittyvät kurssit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <div th:each="podcast : ${podcasts}">
+                    <tr>
+                        <td><p th:text="${podcast.title}"/></td>
+                        <td><p th:text="${podcast.author}"/></td>
+                        <td><p th:text="${podcast.description}"/></td>
+                        <td><p th:text="${podcast.courses}"/></td>
+                    </tr>
+                </div>
+                <tr></tr>
+                </tbody>
+            </table>
         </div>
-    </nav>
 
-    <div class="container">
-        <div th:if="${message}">
-            <div class="alert alert-success" role="alert" th:text="${message}"></div>
+        <div class="container">
+            <h3>Lisää uusi podcast</h3>
+            <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
+                <div class="form-group">
+                    <label for="podcastTitle">Otsikko</label>
+                    <input type="text" name="title" id="podcastTitle" th:value="*{title}"> 
+                    <div th:if="${#fields.hasErrors('title')}">
+                        <div class="alert alert-danger" role="alert">
+                            Podcastille tulee syöttää nimi
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="podcastAuthor">Tekijä</label>
+                    <input type="text" name="author" id="podcastAuthor" th:value="*{author}">
+                    <div th:if="${#fields.hasErrors('author')}">
+                        <div class="alert alert-danger" role="alert">
+                            Podcastille tulee syöttää tekijä
+                        </div>
+                    </div>                        
+                </div>
+                <div class="form-group">
+                    <label for="podcastDescription">Kuvaus</label>
+                    <input type="text" name="description" id="podcastDescription" th:value="*{description}">
+                </div>
+                <div class="form-group">
+                    <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
+                    <select class="form-control" id="courseSelect" name="selectedCourseId">
+                        <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                    </select>
+                </div>
+                <button type="submit" name="submit" class="btn btn-dark">Lisää uusi podcast!</button>
+            </form>
         </div>
 
-        <h2>Podcastit</h2>
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Otsikko</th>
-                    <th scope="col">Tekijä</th>
-                    <th scope="col">Kuvaus</th>
-                    <th scope="col">Aiheeseen liittyvät kurssit</th>
-                </tr>
-            </thead>
-            <tbody>
-            <div th:each="podcast : ${podcasts}">
-                <tr>
-                    <td><p th:text="${podcast.title}"/></td>
-                    <td><p th:text="${podcast.author}"/></td>
-                    <td><p th:text="${podcast.description}"/></td>
-                    <td><p th:text="${podcast.courses}"/></td>
-                </tr>
-            </div>
-            <tr></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="container">
-        <h3>Lisää uusi podcast</h3>
-        <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
-            <div class="form-group">
-                <label for="podcastTitle">Otsikko</label>
-                <input type="text" name="title" id="podcastTitle">
-            </div>
-            <div class="form-group">
-                <label for="podcastAuthor">Tekijä</label>
-                <input type="text" name="author" id="podcastAuthor">
-            </div>
-            <div class="form-group">
-                <label for="podcastDescription">Kuvaus</label>
-                <input type="text" name="description" id="podcastDescription">
-            </div>
-            <div class="form-group">
-                <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
-                <select class="form-control" id="courseSelect" name="selectedCourseId">
-                    <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-dark">Lisää uusi podcast!</button>
-        </form>
-    </div>
-
-</body>
+    </body>
 </html>
