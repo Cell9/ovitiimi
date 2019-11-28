@@ -1,5 +1,7 @@
 package ohtu.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.data.Link;
+import ohtu.database.entities.recommendations.VideoRecommendation;
 import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.LinkRepository;
-
-import java.util.List;
+import ohtu.database.repositories.RecommendationRepository;
 
 //Roni
 @Controller
@@ -23,6 +25,9 @@ public class LinkController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private RecommendationRepository recommendationRepository;
 
     @GetMapping("/links")
     public String list(Model model) {
@@ -51,7 +56,10 @@ public class LinkController {
             link.addCourse(course);
         }
 
-        linkRepository.save(link);
+        Link savedLink = linkRepository.save(link);
+        
+        this.recommendationRepository.save(new VideoRecommendation(savedLink));
+        
         return "redirect:/links";
     }
 }

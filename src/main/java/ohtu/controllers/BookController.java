@@ -18,8 +18,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
+import ohtu.database.entities.recommendations.BookRecommendation;
 import ohtu.database.repositories.BookRepository;
 import ohtu.database.repositories.CourseRepository;
+import ohtu.database.repositories.RecommendationRepository;
 
 @Controller
 public class BookController {
@@ -29,6 +31,9 @@ public class BookController {
 
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private RecommendationRepository recommendationRepository;
     
 	@InitBinder
 	public void allowEmptyDateBinding(WebDataBinder binder) {
@@ -67,7 +72,9 @@ public class BookController {
             book.addCourse(course);
         }
 
-        this.bookRepository.save(book);
+        Book savedBook = this.bookRepository.save(book);
+        
+        this.recommendationRepository.save(new BookRecommendation(savedBook));
 
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
 
