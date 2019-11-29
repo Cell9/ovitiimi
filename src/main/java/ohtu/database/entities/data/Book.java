@@ -12,8 +12,10 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
 import org.hibernate.validator.constraints.ISBN;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -26,47 +28,57 @@ import lombok.Setter;
  * @author Roni
  */
 @Entity
+@Data
 public class Book extends AbstractPersistable<Long> {
 
-	@NotEmpty
-	@Getter @Setter private String title;
+    @Id
+    private Long id;
 
-	@NotEmpty
-	@Getter @Setter private String author;
+    @NotEmpty
+    @Getter
+    @Setter
+    private String title;
 
-	@Column(name = "isbn", unique = true) //NULL's aren't indexed
-	@ISBN
-	@Getter @Setter private String isbn;
-	
-	@ManyToMany
-	private List<Course> courses;
-	
-	@ElementCollection
-	@CollectionTable(name = "book_tags")
-	private List<String> tags;
+    @NotEmpty
+    @Getter
+    @Setter
+    private String author;
+
+    @Column(name = "isbn", unique = true) //NULL's aren't indexed
+    @ISBN
+    @Getter
+    @Setter
+    private String isbn;
+
+    @ManyToMany
+    private List<Course> courses;
+
+    @ElementCollection
+    @CollectionTable(name = "book_tags")
+    private List<String> tags;
 
     public Book() {
-    	this.courses = new ArrayList<>();
-    	this.tags = new ArrayList<>();
+        this.courses = new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
     public Book(String title, String author, String isbn) {
-    	this();
-    	
+        this();
+
         this.title = title;
         this.author = author;
         this.isbn = isbn;
     }
-    
+
     public void addCourse(Course course) {
-    	this.courses.add(course);
+        this.courses.add(course);
     }
-    
+
     public void addTag(String tag) {
-    	this.tags.add(tag);
+        this.tags.add(tag);
     }
-    
+
     public List<Course> getCourses() {
-    	return this.courses;
+        return this.courses;
     }
 }

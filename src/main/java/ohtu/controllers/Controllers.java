@@ -21,9 +21,4 @@ public class Controllers {
     @Autowired
     PodcastRepository podRepo;
     
-    @GetMapping("/other")
-    @ResponseBody
-    public String other() {
-        return "Hei Maailma!";
-    }
 }

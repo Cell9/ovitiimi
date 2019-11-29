@@ -53,7 +53,7 @@ public class BookController {
     }
 
     @PostMapping("/books")
-    public String create(Model model, @Valid Book book, BindingResult result,
+    public String create(Model model, @Valid BookRecommendation book, BindingResult result,
             RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
 
         if (result.hasErrors()) {
@@ -71,10 +71,8 @@ public class BookController {
             Course course = courseRepository.getOne(selectedCourseId);
             book.addCourse(course);
         }
-
-        Book savedBook = this.bookRepository.save(book);
         
-        this.recommendationRepository.save(new BookRecommendation(savedBook));
+        recommendationRepository.save(book);
 
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
 

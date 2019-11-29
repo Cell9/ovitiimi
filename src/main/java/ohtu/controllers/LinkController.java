@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.data.Link;
-import ohtu.database.entities.recommendations.VideoRecommendation;
+import ohtu.database.entities.recommendations.LinkRecommendation;
 import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.LinkRepository;
 import ohtu.database.repositories.RecommendationRepository;
@@ -42,7 +42,7 @@ public class LinkController {
     public String create(@RequestParam String title,
             @RequestParam String url,
             @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
-        Link link = new Link();
+        LinkRecommendation link = new LinkRecommendation();
         link.setTitle(title);
 
         if (!url.contains("//")) {
@@ -55,11 +55,8 @@ public class LinkController {
             Course course = courseRepository.getOne(selectedCourseId);
             link.addCourse(course);
         }
-
-        Link savedLink = linkRepository.save(link);
+        recommendationRepository.save(link);
         
-        this.recommendationRepository.save(new VideoRecommendation(savedLink));
-        
-        return "redirect:/links";
+        return "redirect:/";
     }
 }

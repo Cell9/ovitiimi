@@ -54,7 +54,7 @@ public class PodcastController {
     }
 
     @PostMapping("/podcasts")
-    public String create(Model model, @Valid Podcast podcast, BindingResult result, RedirectAttributes redirectAttributes,
+    public String create(Model model, @Valid PodcastRecommendation podcast, BindingResult result, RedirectAttributes redirectAttributes,
             @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
         
         if (result.hasErrors()) {
@@ -72,10 +72,8 @@ public class PodcastController {
             Course course = courseRepository.getOne(selectedCourseId);
             podcast.addCourse(course);
         }
-
-        Podcast savedPodcast = podcastRepository.save(podcast);
         
-        this.recommendationRepository.save(new PodcastRecommendation(savedPodcast));
+        recommendationRepository.save(podcast);
         
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
                 

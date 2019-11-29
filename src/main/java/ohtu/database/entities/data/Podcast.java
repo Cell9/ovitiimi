@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 
@@ -25,7 +26,8 @@ import lombok.Setter;
  */
 @Entity
 public class Podcast extends AbstractPersistable<Long> {
-
+    @Id
+    private Long id;
     @NotEmpty
     @Getter @Setter private String author;
     

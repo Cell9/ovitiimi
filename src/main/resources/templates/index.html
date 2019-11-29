@@ -3,91 +3,171 @@
     <head>
         <title>Lukuvinkit</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    </head>
-    <body>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <li><a th:href="@{/books}">Kirjat</a></li>
-                    <li><a th:href="@{/links}">Nettilähteet</a></li>
-                    <li><a th:href="@{/podcasts}">Podcastit</a></li>
-                    <li><a th:href="@{/courses}">Kurssit</a></li>
-                </ul>
-            </div>
-        </nav>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+                    </head>
+                    <body>
+                        <nav class="navbar navbar-inverse">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
+                                </div>
+                                <ul class="nav navbar-nav">
+                                    <li><a th:href="@{/books}">Kirjat</a></li>
+                                    <li><a th:href="@{/links}">Nettilähteet</a></li>
+                                    <li><a th:href="@{/podcasts}">Podcastit</a></li>
+                                    <li><a th:href="@{/courses}">Kurssit</a></li>
+                                </ul>
+                            </div>
+                        </nav>
 
-		<div class="container" th:if="${message}">
-			<div class="alert alert-success" role="alert" th:text="${message}"></div>
-		</div>
-		
-        <div class="container" th:if="${recommendations}">
-            <h2>Lukuvinkit</h2>
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Tyyppi</th>
-                    <th scope="col">Kuvaus</th>
-                </tr>
-                </thead>
-                <tbody>
-                <div th:each="recommendation : ${recommendations}">
-                    <tr>
-                        <td><p th:text="${recommendation.type}"/></td>
-                        <td><p th:text="${recommendation}"/></td>
-                    </tr>
-                </div>
-                <tr>
-
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="container">
-            <h3>Lisää uusi lukuvinkki</h3>
-            <form th:object="${recommendation}" th:action="@{/index}" method="POST">
-                <div class="form-group">
-                    <label for="typeSelect">Tyyppi</label>
-                    <select th:value="*{typeId}" class="form-control" id="typeSelect" name="typeId" required>
-						<option value="" selected="true" disabled="disabled">Valitse tyyppi</option>
-                        <option th:each="type : ${types}" th:value="${type.typeName}" th:text="${type.name}"></option>
-                    </select>
-					
-                    <div th:if="${#fields.hasErrors('typeId')}">
-                        <div class="alert alert-danger" role="alert">
-                            Valitse tyyppi
+                        <div class="container" th:if="${message}">
+                            <div class="alert alert-success" role="alert" th:text="${message}"></div>
                         </div>
-                    </div>
-                </div>
-				
-                <div class="form-group">
-                    <label for="entitySelect">Kuvaus</label>
-                    <select th:value="*{entityId}" class="form-control" id="entitySelect" name="entityId" required>
-						<option value="" selected="true" disabled="disabled">Valitse kuvaus</option>
-						
-						<option disabled="disabled">- KIRJAT -</option>
-                        <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.title}"></option>
-						
-						<option disabled="disabled">- LINKIT -</option>
-                        <option th:each="link : ${links}" th:value="${link.id}" th:text="${link.title}"></option>
-						
-						<option disabled="disabled">- PODCASTIT -</option>
-                        <option th:each="podcast : ${podcasts}" th:value="${podcast.id}" th:text="${podcast.title}"></option>
-                    </select>
-					
-                    <div th:if="${#fields.hasErrors('entityId')}">
-                        <div class="alert alert-danger" role="alert">
-                            Valitse kuvaus
+                        <div class="container">
+                            <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Etsi listasta" title="Etsi listasta">
                         </div>
-                    </div>
-                </div>
-                <button type="submit" name="submit" class="btn btn-dark">Lisää uusi lukuvinkki!</button>
-            </form>
-        </div>
-    </body>
-</html>
+                        <div class="container" id="vinkkilista"th:if="${recommendations}">
+                            <h2>Lukuvinkit</h2>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">Kuvaus</th>
+                                        <th scope="col">Kurssit</th>
+                                        <th scope="col">Tagit</th>
+                                        <th scope="col">Tyyppi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div th:each="recommendation : ${recommendations}">
+                                        <tr>
+                                            <td><p th:text="${recommendation}"/></td>
+                                            <td><p th:if="${recommendation.courses != null and !recommendation.courses.isEmpty()}" th:text="${recommendation.courses}"/></td>
+                                            <td><p th:if="${recommendation.tags != null and !recommendation.tags.isEmpty()}" th:text="${recommendation.tags}"/></td>
+                                            <td><p th:text="${recommendation.type}"/></td>
+                                        </tr>
+                                    </div>
+                                    <tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="buttons" class="container">
+                            <button onClick="changeView('postBook')"> Lisää kirja </button>
+                            <button onClick="changeView('postLink')"> Lisää linkki </button>
+                            <button onClick="changeView('postPod')"> Lisää podi </button>
+                        </div>
+                        <div id="postForms">
+                            <div id="postBook"  style="display: none;">
+                                <div class="container">
+                                    <h3> Lisää uusi kirja! </h3>
+                                </div>
+                            </div>
+                            <div id="postLink" class="container" style="display: none;">
+                                <div class="container">
+                                    <h3>Lisää uusi nettilähde</h3>
+                                    <form th:object="${link}" th:action="@{/links}" method="POST">
+                                        <div class="form-group">
+                                            <label for="linkTitle">Otsikko</label>
+                                            <input type="text" name="title" id="linkTitle">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="linkUrl">Url</label>
+                                            <input type="text" name="url" id="linkUrl">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
+                                            <select class="form-control" id="courseSelect" name="selectedCourseId">
+                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi nettilähde!</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="postPod"  style="display: none;">
+                                <div class="container">
+                                    <h3> Lisää uusi kirja! </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  
+                           <div class="container">
+                               <h3>Lisää uusi lukuvinkki</h3>
+                               <form th:object="${recommendation}" th:action="@{/index}" method="POST">
+                                   <div class="form-group">
+                                       <label for="typeSelect">Tyyppi</label>
+                                       <select th:value="*{typeId}" class="form-control" id="typeSelect" name="typeId" required>
+                                           <option value="" selected="true" disabled="disabled">Valitse tyyppi</option>
+                                           <option th:each="type : ${types}" th:value="${type.typeName}" th:text="${type.name}"></option>
+                                       </select>
+   
+                                       <div th:if="${#fields.hasErrors('typeId')}">
+                                           <div class="alert alert-danger" role="alert">
+                                               Valitse tyyppi
+                                           </div>
+                                       </div>
+                                   </div>
+   
+                                   <div class="form-group">
+                                       <label for="entitySelect">Kuvaus</label>
+                                       <select th:value="*{entityId}" class="form-control" id="entitySelect" name="entityId" required>
+                                           <option value="" selected="true" disabled="disabled">Valitse kuvaus</option>
+   
+                                           <option disabled="disabled">- KIRJAT -</option>
+                                           <option th:each="book : ${books}" th:value="${book.id}" th:text="${book.title}"></option>
+   
+                                           <option disabled="disabled">- LINKIT -</option>
+                                           <option th:each="link : ${links}" th:value="${link.id}" th:text="${link.title}"></option>
+   
+                                           <option disabled="disabled">- PODCASTIT -</option>
+                                           <option th:each="podcast : ${podcasts}" th:value="${podcast.id}" th:text="${podcast.title}"></option>
+                                       </select>
+   
+                                       <div th:if="${#fields.hasErrors('entityId')}">
+                                           <div class="alert alert-danger" role="alert">
+                                               Valitse kuvaus
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <button type="submit" name="submit" class="btn btn-dark">Lisää uusi lukuvinkki!</button>
+                               </form>
+                           </div>
+                        -->
+                    </body>
+                    <script>
+                        function changeView(id) {
+                            document.getElementById("postBook").style.display = "none";
+                            document.getElementById("postLink").style.display = "none";
+                            document.getElementById("postPod").style.display = "none";
+                            var x = document.getElementById(id);
+                            x.style.display = "block";
+                        }
+
+                        function filterTable() {
+                            // Declare variables
+                            var input, filter, table, tr, td, i, txtValue;
+                            input = document.getElementById("filterInput");
+                            filter = input.value.toUpperCase();
+                            table = document.getElementById("vinkkilista");
+                            tr = table.getElementsByTagName("tr");
+                            // Loop through all table rows except the first, and hide those who don't match the search query
+                            for (i = 1; i < tr.length; i++) {
+                                var tds = tr[i].getElementsByTagName("td");
+                                var display = "none";
+                                for (j = 0; j < tds.length; j++) {
+                                    td = tds[j];
+                                    if (td) {
+                                        txtValue = td.textContent || td.innerText;
+                                        txtValue = txtValue.toUpperCase();
+                                        if (txtValue.includes(filter)) {
+                                            display = "";
+                                            break;
+                                        }
+                                    }
+                                }
+                                tr[i].style.display = display;
+                            }
+                        }
+                    </script>
+                    </html>

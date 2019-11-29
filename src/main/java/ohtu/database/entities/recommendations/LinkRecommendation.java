@@ -1,6 +1,6 @@
 package ohtu.database.entities.recommendations;
 
-import javax.persistence.Column;
+import java.util.ArrayList;
 import javax.persistence.ConstraintMode;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -8,36 +8,22 @@ import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import lombok.Getter;
-import lombok.Setter;
-import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
-import org.hibernate.validator.constraints.ISBN;
+import ohtu.database.entities.data.Link;
 
 @Entity
+@DiscriminatorValue("video")
 @Data
-@DiscriminatorValue("book")
-public class BookRecommendation extends Recommendation {
+public class LinkRecommendation extends Recommendation {
 
     @Id
     private Long id;
-    
-    @NotEmpty
-    @Getter
-    @Setter
-    private String author;
+    private String url;
 
-    // @Column(name = "isbn", unique = true) //NULL's aren't indexed
-    //@ISBN
-    @NotEmpty
-    @Getter
-    @Setter
-    private String isbn;
-
-    public BookRecommendation() {
+    public LinkRecommendation() {
     }
 
     @Override
@@ -47,12 +33,12 @@ public class BookRecommendation extends Recommendation {
 
     @Override
     public RecommendationType getType() {
-        return RecommendationType.BOOK;
+        return RecommendationType.VIDEO;
     }
 
     @Override
     public String toString() {
-        return String.format("%s, kirjoittanut %s", '\"' + this.getTitle() + '\"', this.getAuthor());
+        return String.format("%s: %s", this.getTitle(), this.getUrl());
     }
 
     @Override
@@ -60,6 +46,9 @@ public class BookRecommendation extends Recommendation {
         this.title = title;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
     @Override
     public void addCourse(Course course) {
         this.courses.add(course);
