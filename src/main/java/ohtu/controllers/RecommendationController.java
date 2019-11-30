@@ -43,20 +43,34 @@ public class RecommendationController {
 
     @Autowired
     private RecommendationRepository recommendationRepository;
-    
+
     @Autowired
     private CourseRepository courseRepository;
 
     @GetMapping(value = {"/", "index"})
     public String list(Model model) {
         List<Recommendation> recommendations = recommendationRepository.findAll();
-        recommendations.stream().forEach(rec -> System.out.println(rec));
         List<Course> courses = courseRepository.findAll();
         model.addAttribute("recommendations", recommendations);
-        model.addAttribute("recommendation", new StubRecommendation());
-        model.addAttribute("types", RecommendationType.valuesAsList());
         model.addAttribute("courses", courses);
-
+        if (!model.containsAttribute("podcast")) {
+            model.addAttribute("showPodcast", false);
+            model.addAttribute("podcast", new PodcastRecommendation());
+        } else {
+            model.addAttribute("showPodcast", true);
+        }
+        if (!model.containsAttribute("link")) {
+            model.addAttribute("showLink", false);
+            model.addAttribute("link", new LinkRecommendation());
+        } else {
+            model.addAttribute("showLink", true);
+        }
+        if (!model.containsAttribute("book")) {
+            model.addAttribute("showBook", false);
+            model.addAttribute("book", new BookRecommendation());
+        } else {
+            model.addAttribute("showBook", true);
+        }
         return "index";
     }
 
@@ -75,7 +89,7 @@ public class RecommendationController {
             }
 
             recommendation = new BookRecommendation();
-        } else if (stub.getType() == RecommendationType.VIDEO) {
+        } else if (stub.getType() == RecommendationType.LINKKI) {
             Link link = this.linkRepository.findById(stub.getEntityId()).orElse(null);
             if (link == null) {
                 return createErrorNotFound(model, stub);

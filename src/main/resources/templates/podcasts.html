@@ -51,7 +51,7 @@
 
         <div class="container">
             <h3>Lisää uusi podcast</h3>
-            <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
+            <form th:object="${podcastRecommendation}" th:action="@{/podcasts}" method="POST">
                 <div class="form-group">
                     <label for="podcastTitle">Otsikko</label>
                     <input type="text" name="title" id="podcastTitle" th:value="*{title}"> 

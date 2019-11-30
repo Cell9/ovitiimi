@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import ohtu.database.entities.data.Course;
 
@@ -27,6 +28,7 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
     protected List<Course> courses = new ArrayList<Course>();
     @ElementCollection
     protected List<String> tags = new ArrayList<String>();
+    @NotEmpty
     protected String title;
 
     public abstract String getTitle();

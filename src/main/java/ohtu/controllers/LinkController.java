@@ -1,6 +1,7 @@
 package ohtu.controllers;
 
 import java.util.List;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import ohtu.database.entities.recommendations.LinkRecommendation;
 import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.LinkRepository;
 import ohtu.database.repositories.RecommendationRepository;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //Roni
 @Controller
@@ -39,24 +42,29 @@ public class LinkController {
     }
 
     @PostMapping("/links")
-    public String create(@RequestParam String title,
-            @RequestParam String url,
+    public String create(Model model, @Valid LinkRecommendation link, BindingResult result, RedirectAttributes redirectAttributes,
             @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
-        LinkRecommendation link = new LinkRecommendation();
-        link.setTitle(title);
-
-        if (!url.contains("//")) {
-            url = "https://" + url;
+        
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("error", "Nettilähteen lisäys epäonnistui!");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.link", result);
+            redirectAttributes.addFlashAttribute("link", link);
+            return "redirect:/";
         }
-
-        link.setUrl(url);
-
+        
+        if (!link.getUrl().contains("//")) {
+            link.setUrl("https://" + link.getUrl());
+        }
+        
         if (courseRepository.existsById(selectedCourseId)) {
             Course course = courseRepository.getOne(selectedCourseId);
             link.addCourse(course);
         }
+        
         recommendationRepository.save(link);
         
+        redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
+
         return "redirect:/";
     }
 }

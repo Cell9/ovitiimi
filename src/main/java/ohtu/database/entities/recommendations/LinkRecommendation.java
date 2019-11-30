@@ -8,9 +8,11 @@ import javax.persistence.ForeignKey;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import lombok.Getter;
+import lombok.Setter;
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.data.Link;
 
@@ -21,6 +23,9 @@ public class LinkRecommendation extends Recommendation {
 
     @Id
     private Long id;
+    @NotEmpty
+    @Setter
+    @Getter
     private String url;
 
     public LinkRecommendation() {
@@ -33,7 +38,7 @@ public class LinkRecommendation extends Recommendation {
 
     @Override
     public RecommendationType getType() {
-        return RecommendationType.VIDEO;
+        return RecommendationType.LINKKI;
     }
 
     @Override

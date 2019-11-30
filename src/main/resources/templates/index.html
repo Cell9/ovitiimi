@@ -10,12 +10,9 @@
                         <nav class="navbar navbar-inverse">
                             <div class="container-fluid">
                                 <div class="navbar-header">
-                                    <a class="navbar-brand" th:href="@{/index}">Lukuvinkkisovellus</a>
+                                    <a class="navbar-brand" th:href="@{/}">Lukuvinkkisovellus</a>
                                 </div>
                                 <ul class="nav navbar-nav">
-                                    <li><a th:href="@{/books}">Kirjat</a></li>
-                                    <li><a th:href="@{/links}">Nettilähteet</a></li>
-                                    <li><a th:href="@{/podcasts}">Podcastit</a></li>
                                     <li><a th:href="@{/courses}">Kurssit</a></li>
                                 </ul>
                             </div>
@@ -23,6 +20,9 @@
 
                         <div class="container" th:if="${message}">
                             <div class="alert alert-success" role="alert" th:text="${message}"></div>
+                        </div>
+                        <div class="container" th:if="${error}">
+                            <div class="alert alert-danger" role="alert" th:text="${error}"></div>
                         </div>
                         <div class="container">
                             <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Etsi listasta" title="Etsi listasta">
@@ -53,27 +53,73 @@
                             </table>
                         </div>
                         <div id="buttons" class="container">
-                            <button onClick="changeView('postBook')"> Lisää kirja </button>
-                            <button onClick="changeView('postLink')"> Lisää linkki </button>
-                            <button onClick="changeView('postPod')"> Lisää podi </button>
+                            <button class="btn btn-dark" onClick="changeView('postBook')"> Lisää kirja </button>
+                            <button class="btn btn-dark" onClick="changeView('postLink')"> Lisää linkki </button>
+                            <button class="btn btn-dark" onClick="changeView('postPod')"> Lisää podcast </button>
                         </div>
                         <div id="postForms">
-                            <div id="postBook"  style="display: none;">
+                            <div id="postBook"  style="display: none;" th:style = "${showBook} ? 'display: block' : 'display: none'">
                                 <div class="container">
-                                    <h3> Lisää uusi kirja! </h3>
+                                    <h3>Lisää uusi kirja</h3>
+                                    <form th:object="${book}" th:action="@{/books}" method="POST">
+                                        <div class="form-group">
+                                            <label for="bookTitle">Kirjan nimi</label>
+                                            <input type="text" name="title" id="bookTitle" th:value="*{title}">
+                                                <div th:if="${#fields.hasErrors('title')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Kirjalle tulee syöttää nimi
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="bookAuthor">Kirjailija</label>
+                                            <input type="text" name="author" id="bookAuthor" th:value="*{author}">
+                                                <div th:if="${#fields.hasErrors('author')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Kirjalle tulee syöttää kirjailija
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="bookIsbn">ISBN-koodi</label>
+                                            <input type="text" name="isbn" id="bookIsbn" th:value="*{isbn}">
+                                                <div th:if="${#fields.hasErrors('isbn')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        ISBN-koodi ei ole syötetty oikeassa muodossa
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
+                                            <select class="form-control" id="courseSelect" name="selectedCourseId">
+                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi kirja!</button>
+                                    </form>
                                 </div>
                             </div>
-                            <div id="postLink" class="container" style="display: none;">
+                            <div id="postLink" class="container" style="display: none;" th:style = "${showLink} ? 'display: block' : 'display: none'">
                                 <div class="container">
                                     <h3>Lisää uusi nettilähde</h3>
                                     <form th:object="${link}" th:action="@{/links}" method="POST">
                                         <div class="form-group">
                                             <label for="linkTitle">Otsikko</label>
-                                            <input type="text" name="title" id="linkTitle">
+                                            <input type="text" name="title" id="linkTitle" th:value="*{title}">
+                                                <div th:if="${#fields.hasErrors('title')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Nettilähteelle tulee antaa otsikko.
+                                                    </div>
+                                                </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="linkUrl">Url</label>
-                                            <input type="text" name="url" id="linkUrl">
+                                            <input type="text" name="url" id="linkUrl" th:value="*{url}">
+                                                <div th:if="${#fields.hasErrors('url')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Nettilähteelle tulee antaa url-osoite.
+                                                    </div>
+                                                </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
@@ -85,9 +131,54 @@
                                     </form>
                                 </div>
                             </div>
-                            <div id="postPod"  style="display: none;">
+                            <div id="postPod"  style="display: none;"  th:style = "${showPodcast} ? 'display: block' : 'display: none'">
                                 <div class="container">
-                                    <h3> Lisää uusi kirja! </h3>
+                                    <h3> Lisää uusi podcasti </h3>
+                                    <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
+                                        <div class="form-group">
+                                            <label for="podcastTitle">Otsikko</label>
+                                            <input type="text" name="title" id="podcastTitle" th:value="*{title}"> 
+                                                <div th:if="${#fields.hasErrors('title')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Podcastille tulee syöttää nimi
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="podcastAuthor">Tekijä</label>
+                                            <input type="text" name="author" id="podcastAuthor" th:value="*{author}">
+                                                <div th:if="${#fields.hasErrors('author')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Podcastille tulee syöttää tekijä
+                                                    </div>
+                                                </div>                        
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="podcastUrl">Url</label>
+                                            <input type="text" name="url" id="podcastUrl" th:value="*{url}">
+                                                <div th:if="${#fields.hasErrors('url')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Podcastille tulee antaa url-osoite.
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="podcastDescription">Kuvaus</label>
+                                            <input type="text" name="description" id="podcastDescription" th:value="*{description}">
+                                                <div th:if="${#fields.hasErrors('description')}">
+                                                    <div class="alert alert-danger" role="alert">
+                                                        Podcastille tulee antaa lyhyt kuvaus.
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="courseSelect">Aiheeseen liittyvät kurssit</label>
+                                            <select class="form-control" id="courseSelect" name="selectedCourseId">
+                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi podcast!</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -140,8 +231,7 @@
                             document.getElementById("postBook").style.display = "none";
                             document.getElementById("postLink").style.display = "none";
                             document.getElementById("postPod").style.display = "none";
-                            var x = document.getElementById(id);
-                            x.style.display = "block";
+                            document.getElementById(id).style.display = "block";
                         }
 
                         function filterTable() {

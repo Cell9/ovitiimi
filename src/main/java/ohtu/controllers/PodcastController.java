@@ -47,7 +47,7 @@ public class PodcastController {
 
         List<Podcast> podcasts = podcastRepository.findAll();
         model.addAttribute("podcasts", podcasts);
-        
+
         model.addAttribute("podcast", new Podcast());
 
         return "podcasts";
@@ -56,27 +56,23 @@ public class PodcastController {
     @PostMapping("/podcasts")
     public String create(Model model, @Valid PodcastRecommendation podcast, BindingResult result, RedirectAttributes redirectAttributes,
             @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
-        
+
         if (result.hasErrors()) {
-            List<Course> courses = courseRepository.findAll();
-            List<Podcast> podcasts = podcastRepository.findAll();
-
-            model.addAttribute("courses", courses);
-            model.addAttribute("podcasts", podcasts);
-            model.addAttribute("podcast", podcast);
-
-            return "podcasts";
+            redirectAttributes.addFlashAttribute("error", "Podcastin lisäys epäonnistui!");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.podcast", result);
+            redirectAttributes.addFlashAttribute("podcast", podcast);
+            return "redirect:/";
         }
 
         if (courseRepository.existsById(selectedCourseId)) {
             Course course = courseRepository.getOne(selectedCourseId);
             podcast.addCourse(course);
         }
-        
+
         recommendationRepository.save(podcast);
-        
+
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
-                
-        return "redirect:/podcasts";
+
+        return "redirect:/";
     }
 }

@@ -19,6 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.recommendations.BookRecommendation;
+import ohtu.database.entities.recommendations.PodcastRecommendation;
+import ohtu.database.entities.recommendations.Recommendation;
+import ohtu.database.entities.recommendations.RecommendationType;
+import ohtu.database.entities.recommendations.StubRecommendation;
 import ohtu.database.repositories.BookRepository;
 import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.RecommendationRepository;
@@ -34,11 +38,11 @@ public class BookController {
 
     @Autowired
     private RecommendationRepository recommendationRepository;
-    
-	@InitBinder
-	public void allowEmptyDateBinding(WebDataBinder binder) {
-	    binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-	}
+
+    @InitBinder
+    public void allowEmptyDateBinding(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
 
     @GetMapping("/books")
     public String list(Model model) {
@@ -49,7 +53,7 @@ public class BookController {
         model.addAttribute("courses", courses);
         model.addAttribute("book", new Book());
 
-        return "books";
+        return "index";
     }
 
     @PostMapping("/books")
@@ -57,25 +61,21 @@ public class BookController {
             RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
 
         if (result.hasErrors()) {
-            List<Book> books = bookRepository.findAll();
-            List<Course> courses = courseRepository.findAll();
-
-            model.addAttribute("books", books);
-            model.addAttribute("courses", courses);
-            model.addAttribute("book", book);
-
-            return "books";
+            redirectAttributes.addFlashAttribute("error", "Kirjan lisäys epäonnistui!");
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.book", result);
+            redirectAttributes.addFlashAttribute("book", book);
+            return "redirect:/";
         }
 
         if (courseRepository.existsById(selectedCourseId)) {
             Course course = courseRepository.getOne(selectedCourseId);
             book.addCourse(course);
         }
-        
+
         recommendationRepository.save(book);
 
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
 
-        return "redirect:/books";
+        return "redirect:/";
     }
 }

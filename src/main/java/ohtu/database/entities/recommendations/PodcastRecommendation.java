@@ -22,7 +22,9 @@ public class PodcastRecommendation extends Recommendation {
     private Long id;
     @NotEmpty
     @Getter @Setter private String author;
-    
+    @NotEmpty
+    @Getter @Setter private String url;
+    @NotEmpty
     @Getter @Setter private String description;
     
     public PodcastRecommendation() {
