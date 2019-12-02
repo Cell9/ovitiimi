@@ -5,10 +5,6 @@ import javax.transaction.Transactional;
 import ohtu.database.entities.data.Course;
 import ohtu.database.repositories.CourseRepository;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
@@ -17,16 +13,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-//Roni
 @RunWith(SpringRunner.class)
 @SpringBootTest()
-@TestPropertySource(
-        locations = "classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-test.properties")
 @Transactional
 public class courseTests {
 
     @Autowired
-    private CourseRepository courserepo;
+    private CourseRepository courseRepository;
 
     @Test
     public void coursesCanBeCreatedEmptyConstructor() {
@@ -56,8 +50,8 @@ public class courseTests {
         Course course = new Course();
         course.setCode("code");
         course.setName("name");
-        Course savedCourse = courserepo.save(course);
-        savedCourse = courserepo.getOne(savedCourse.getId());
+        Course savedCourse = courseRepository.save(course);
+        savedCourse = courseRepository.getOne(savedCourse.getId());
         assertEquals(course.getCode(), savedCourse.getCode());
         assertEquals(course.getName(), savedCourse.getName());
     }
