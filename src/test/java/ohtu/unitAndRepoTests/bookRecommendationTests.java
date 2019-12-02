@@ -45,7 +45,7 @@ public class bookRecommendationTests {
     @Test
     public void booksCanBeCreatedNonEmptyConstructor() {
         BookRecommendation bookRecommendation = new BookRecommendation(
-                "title", new ArrayList<Course>(), new ArrayList<String>(), "author", "isbn");
+                "title", new ArrayList<>(), new ArrayList<>(), "author", "isbn");
         assertNotNull(bookRecommendation);
         assertEquals(bookRecommendation.getTitle(), "title");
     }
@@ -58,8 +58,8 @@ public class bookRecommendationTests {
         bookRecommendation.setTitle("title");
 
         ArrayList<Course> courses = new ArrayList<>();
-        Course onecourse = new Course("tkt101", "", new ArrayList<Recommendation>());
-        courses.add(onecourse);
+        Course oneCourse = new Course("tkt101", "", new ArrayList<Recommendation>());
+        courses.add(oneCourse);
         bookRecommendation.setCourses(courses);
 
         ArrayList<String> tags = new ArrayList<>();
@@ -67,7 +67,7 @@ public class bookRecommendationTests {
         bookRecommendation.setTags(tags);
 
         assertEquals(bookRecommendation.getAuthor(), "author");
-        assertTrue(bookRecommendation.getCourses().contains(onecourse));
+        assertTrue(bookRecommendation.getCourses().contains(oneCourse));
         assertTrue(bookRecommendation.getTags().contains("educational"));
         assertEquals(bookRecommendation.getTitle(), "title");
         assertEquals(bookRecommendation.getIsbn(), "isbn");

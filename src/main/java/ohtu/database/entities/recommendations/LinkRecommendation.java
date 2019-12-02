@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.*;
+import ohtu.database.entities.data.Course;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -14,6 +17,11 @@ public class LinkRecommendation extends Recommendation {
 
     @NotEmpty
     private String url;
+
+    public LinkRecommendation(String title, List<Course> courses, List<String> tags, String url) {
+        super(title, courses, tags);
+        this.url = url;
+    }
 
     @Override
     public RecommendationType getType() {
