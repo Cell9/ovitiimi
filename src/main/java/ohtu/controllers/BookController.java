@@ -64,7 +64,7 @@ public class BookController {
             redirectAttributes.addFlashAttribute("error", "Kirjan lisäys epäonnistui!");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.book", result);
             redirectAttributes.addFlashAttribute("book", book);
-            return "redirect:/";
+            return "redirect:/uusi";
         }
 
         if (courseRepository.existsById(selectedCourseId)) {

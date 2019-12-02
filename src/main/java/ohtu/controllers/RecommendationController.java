@@ -50,9 +50,18 @@ public class RecommendationController {
     @GetMapping(value = {"/", "index"})
     public String list(Model model) {
         List<Recommendation> recommendations = recommendationRepository.findAll();
-        List<Course> courses = courseRepository.findAll();
         model.addAttribute("recommendations", recommendations);
+        return "index";
+    }
+
+    @GetMapping("/uusi")
+    public String form(Model model) {
+        List<RecommendationType> types = RecommendationType.valuesAsList();
+        List<Course> courses = courseRepository.findAll();
+
+        model.addAttribute("types", types);
         model.addAttribute("courses", courses);
+
         if (!model.containsAttribute("podcast")) {
             model.addAttribute("showPodcast", false);
             model.addAttribute("podcast", new PodcastRecommendation());
@@ -71,10 +80,12 @@ public class RecommendationController {
         } else {
             model.addAttribute("showBook", true);
         }
-        return "index";
+
+
+        return "newRecommendation";
     }
 
-    @PostMapping("index")
+    @PostMapping("/uusi")
     public String create(Model model, @ModelAttribute("recommendation") @Valid StubRecommendation stub, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return createError(model, stub);
