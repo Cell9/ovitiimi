@@ -1,39 +1,25 @@
 package ohtu.database.entities.recommendations;
 
-import javax.persistence.ConstraintMode;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.Getter;
-import lombok.Setter;
-import ohtu.database.entities.data.Course;
-//import ohtu.database.entities.data.Podcast;
+import lombok.*;
 
 @Entity
+@NoArgsConstructor
+@Data
 @DiscriminatorValue("podcast")
 public class PodcastRecommendation extends Recommendation {
 
-    @Id
-    private Long id;
     @NotEmpty
-    @Getter @Setter private String author;
-    @NotEmpty
-    @Getter @Setter private String url;
-    @NotEmpty
-    @Getter @Setter private String description;
-    
-    public PodcastRecommendation() {
-    }
+    private String author;
 
-    @Override
-    public String getTitle() {
-        return this.title;
-    }
+    @NotEmpty
+    private String url;
+
+    @NotEmpty
+    private String description;
 
     @Override
     public RecommendationType getType() {
@@ -43,15 +29,5 @@ public class PodcastRecommendation extends Recommendation {
     @Override
     public String toString() {
         return String.format("%s, %s, %s", this.getTitle(), this.getAuthor(), this.getDescription());
-    }
-
-    @Override
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    @Override
-    public void addCourse(Course course) {
-        this.courses.add(course);
     }
 }

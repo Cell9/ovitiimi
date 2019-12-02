@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
@@ -21,9 +20,6 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Recommendation extends AbstractPersistable<Long> {
 
-    @Id
-    private Long id;
-
     @ManyToMany
     protected List<Course> courses = new ArrayList<Course>();
     @ElementCollection
@@ -31,14 +27,22 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
     @NotEmpty
     protected String title;
 
-    public abstract String getTitle();
-    public abstract void setTitle(String title);
-    public abstract void addCourse(Course course);
-
     public abstract RecommendationType getType();
 
     @Override
     public String toString() {
         return this.getTitle();
+    }
+
+    public void addCourse(Course course) {
+        this.courses.add(course);
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
