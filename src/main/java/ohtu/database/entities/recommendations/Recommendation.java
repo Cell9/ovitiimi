@@ -10,6 +10,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import ohtu.database.entities.data.Course;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -47,6 +48,10 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
 
     public void addCourse(Course course) {
         this.courses.add(course);
+    }
+
+    public void addTag(String tag) {
+        this.tags.add(tag);
     }
 
     public String getTitle() {

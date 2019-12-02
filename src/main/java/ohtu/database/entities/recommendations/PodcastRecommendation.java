@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.*;
+import ohtu.database.entities.data.Course;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -20,6 +23,13 @@ public class PodcastRecommendation extends Recommendation {
 
     @NotEmpty
     private String description;
+
+    public PodcastRecommendation(String title, List<Course> courses, List<String> tags, String author, String url, String description) {
+        super(title, courses, tags);
+        this.author = author;
+        this.url = url;
+        this.description = description;
+    }
 
     @Override
     public RecommendationType getType() {

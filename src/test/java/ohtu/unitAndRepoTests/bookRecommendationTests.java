@@ -106,4 +106,18 @@ public class bookRecommendationTests {
         bookRecommendation.addCourse(onecourse);
         assertTrue(bookRecommendation.getCourses().contains(onecourse));
     }
+
+    @Test
+    public void bookRecommendationAsStringIsOk() {
+        BookRecommendation bookRecommendation = new BookRecommendation();
+        bookRecommendation.setAuthor("kirjoittaja");
+        bookRecommendation.setIsbn("isbn");
+        bookRecommendation.setTitle("otsikko");
+
+        ArrayList<Course> courses = new ArrayList<>();
+        Course onecourse = new Course("tkt101", "", new ArrayList<Recommendation>());
+        courses.add(onecourse);
+        bookRecommendation.setCourses(courses);
+        assertTrue(bookRecommendation.toString().equals("\"otsikko\", kirjoittanut kirjoittaja"));
+    }
 }
