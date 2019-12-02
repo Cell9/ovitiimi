@@ -14,7 +14,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import ohtu.database.entities.data.Course;
-import ohtu.database.entities.data.Link;
+//import ohtu.database.entities.data.Link;
 
 @Entity
 @DiscriminatorValue("video")

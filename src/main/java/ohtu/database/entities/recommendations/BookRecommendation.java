@@ -13,7 +13,7 @@ import lombok.Data;
 
 import lombok.Getter;
 import lombok.Setter;
-import ohtu.database.entities.data.Book;
+//import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
 import org.hibernate.validator.constraints.ISBN;
 
@@ -24,7 +24,7 @@ public class BookRecommendation extends Recommendation {
 
     @Id
     private Long id;
-    
+
     @NotEmpty
     @Getter
     @Setter

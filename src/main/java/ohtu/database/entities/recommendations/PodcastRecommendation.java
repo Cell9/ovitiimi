@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import ohtu.database.entities.data.Course;
-import ohtu.database.entities.data.Podcast;
+//import ohtu.database.entities.data.Podcast;
 
 @Entity
 @DiscriminatorValue("podcast")

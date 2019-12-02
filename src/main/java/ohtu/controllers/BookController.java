@@ -16,22 +16,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ohtu.database.entities.data.Book;
+//import ohtu.database.entities.data.Book;
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.recommendations.BookRecommendation;
 import ohtu.database.entities.recommendations.PodcastRecommendation;
 import ohtu.database.entities.recommendations.Recommendation;
 import ohtu.database.entities.recommendations.RecommendationType;
 import ohtu.database.entities.recommendations.StubRecommendation;
-import ohtu.database.repositories.BookRepository;
+//import ohtu.database.repositories.BookRepository;
 import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.RecommendationRepository;
 
 @Controller
 public class BookController {
 
-    @Autowired
-    private BookRepository bookRepository;
+//    @Autowired
+//    private BookRepository bookRepository;
 
     @Autowired
     private CourseRepository courseRepository;
@@ -44,17 +44,17 @@ public class BookController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 
-    @GetMapping("/books")
-    public String list(Model model) {
-        List<Book> books = bookRepository.findAll();
-        List<Course> courses = courseRepository.findAll();
-
-        model.addAttribute("books", books);
-        model.addAttribute("courses", courses);
-        model.addAttribute("book", new Book());
-
-        return "index";
-    }
+//    @GetMapping("/books")
+//    public String list(Model model) {
+//        List<Book> books = bookRepository.findAll();
+//        List<Course> courses = courseRepository.findAll();
+//
+//        model.addAttribute("books", books);
+//        model.addAttribute("courses", courses);
+//        model.addAttribute("book", new Book());
+//
+//        return "index";
+//    }
 
     @PostMapping("/books")
     public String create(Model model, @Valid BookRecommendation book, BindingResult result,
