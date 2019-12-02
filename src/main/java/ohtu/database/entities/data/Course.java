@@ -25,19 +25,24 @@ import ohtu.database.entities.recommendations.Recommendation;
 @Data
 public class Course extends AbstractPersistable<Long> {
 
-    @Id
-    private Long id;
+//    @Id
+//    private Long id;
 
     @Column(name = "code", unique = true)
     @NotEmpty
-    @Getter
-    @Setter
+//    @Getter
+//    @Setter
     private String code;
 
     @NotEmpty
-    @Getter
-    @Setter
+//    @Getter
+//    @Setter
     private String name;
+
+    public Course(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
     @ManyToMany(targetEntity=Recommendation.class, mappedBy = "courses", fetch=FetchType.EAGER)
     private List<Recommendation> recommendations;

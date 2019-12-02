@@ -73,12 +73,15 @@ public class podcastTests {
     
     @Test
     public void podcastRecommendationAttributesCanBeGet() {
-        Podcast podcast = new Podcast("Sarasvuo", "Yle Puhe", "coaching");
-        PodcastRecommendation podcastRecommendation = new PodcastRecommendation(podcast);
+//        Podcast podcast = new Podcast("Sarasvuo", "Yle Puhe", "coaching");
+        PodcastRecommendation podcastRecommendation = new PodcastRecommendation();
+        podcastRecommendation.setTitle("Sarasvuo");
+        podcastRecommendation.setAuthor("Yle Puhe");
+        podcastRecommendation.setDescription("coaching");
         
         assertEquals(podcastRecommendation.getTitle(), "Sarasvuo");
         assertEquals(podcastRecommendation.getType(), RecommendationType.PODCAST);
-        assertEquals(podcastRecommendation.getPodcast().getTitle(), "Sarasvuo");
+        assertEquals(podcastRecommendation.getTitle(), "Sarasvuo");
         assertEquals(podcastRecommendation.toString(), "Sarasvuo, Yle Puhe, coaching");
     }
 
