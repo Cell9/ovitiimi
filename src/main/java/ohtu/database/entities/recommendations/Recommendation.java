@@ -20,12 +20,23 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Recommendation extends AbstractPersistable<Long> {
 
-    @ManyToMany
-    protected List<Course> courses = new ArrayList<Course>();
-    @ElementCollection
-    protected List<String> tags = new ArrayList<String>();
     @NotEmpty
     protected String title;
+
+    @ManyToMany
+    protected List<Course> courses = new ArrayList<Course>();
+
+    @ElementCollection
+    protected List<String> tags = new ArrayList<String>();
+
+    public Recommendation() {
+    }
+
+    public Recommendation(String title, List<Course> courses, List<String> tags) {
+        this.title = title;
+        this.courses = courses;
+        this.tags = tags;
+    }
 
     public abstract RecommendationType getType();
 

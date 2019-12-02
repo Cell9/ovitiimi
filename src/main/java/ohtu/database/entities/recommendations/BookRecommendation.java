@@ -7,7 +7,10 @@ import javax.validation.constraints.NotEmpty;
 
 import lombok.*;
 
+import ohtu.database.entities.data.Course;
 import org.hibernate.validator.constraints.ISBN;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -22,6 +25,12 @@ public class BookRecommendation extends Recommendation {
     //@ISBN
     @NotEmpty
     private String isbn;
+
+    public BookRecommendation(String title, List<Course> courses, List<String> tags, String author, String isbn) {
+        super(title, courses, tags);
+        this.author = author;
+        this.isbn = isbn;
+    }
 
     @Override
     public RecommendationType getType() {
