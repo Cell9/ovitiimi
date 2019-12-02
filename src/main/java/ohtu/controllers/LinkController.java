@@ -49,7 +49,7 @@ public class LinkController {
             redirectAttributes.addFlashAttribute("error", "Nettilähteen lisäys epäonnistui!");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.link", result);
             redirectAttributes.addFlashAttribute("link", link);
-            return "redirect:/";
+            return "redirect:/uusi";
         }
         
         if (!link.getUrl().contains("//")) {

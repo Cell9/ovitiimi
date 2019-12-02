@@ -61,7 +61,7 @@ public class PodcastController {
             redirectAttributes.addFlashAttribute("error", "Podcastin lisäys epäonnistui!");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.podcast", result);
             redirectAttributes.addFlashAttribute("podcast", podcast);
-            return "redirect:/";
+            return "redirect:/uusi";
         }
 
         if (courseRepository.existsById(selectedCourseId)) {
