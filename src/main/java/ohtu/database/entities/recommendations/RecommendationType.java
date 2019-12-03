@@ -11,7 +11,8 @@ public enum RecommendationType {
     BOOK("Kirja"),
     LINKKI("Nettilähde"),
     PODCAST("Podcast"),
-    VIDEO("Video");
+    VIDEO("Video"),
+    YOUTUBE("Youtube"),;
 
     private static final List<RecommendationType> VALUES = Collections.unmodifiableList(Arrays.asList(RecommendationType.values()));
 

@@ -13,6 +13,7 @@ import ohtu.database.entities.recommendations.LinkRecommendation;
 import ohtu.database.entities.recommendations.PodcastRecommendation;
 import ohtu.database.entities.recommendations.Recommendation;
 import ohtu.database.entities.recommendations.RecommendationType;
+import ohtu.database.entities.recommendations.YoutubeRecommendation;
 import ohtu.database.repositories.CourseRepository;
 import ohtu.database.repositories.RecommendationRepository;
 
@@ -54,9 +55,15 @@ public class RecommendationController {
         }
         if (!model.containsAttribute("book")) {
             model.addAttribute("showBook", false);
-            model.addAttribute("book", new BookRecommendation());
+            model.addAttribute("book", new BookRecommendation());            
         } else {
             model.addAttribute("showBook", true);
+        }
+        if (!model.containsAttribute("youtube")) {
+            model.addAttribute("showYoutube", false);
+            model.addAttribute("youtube", new YoutubeRecommendation());            
+        } else {
+            model.addAttribute("showYoutube", true);
         }
 
 
