@@ -1,5 +1,6 @@
 package ohtu.database.entities.recommendations;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,8 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
 
     @NotEmpty
     protected String title;
+    
+    private Timestamp readTime;
 
     @ManyToMany
     protected List<Course> courses = new ArrayList<Course>();
