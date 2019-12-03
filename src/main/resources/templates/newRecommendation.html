@@ -83,6 +83,7 @@
                             <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
                         </select>
                     </div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi kirja!</button>
                 </form>
             </div>
@@ -118,6 +119,7 @@
                             <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
                         </select>
                     </div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi nettilähde!</button>
                 </form>
             </div>
@@ -171,6 +173,7 @@
                             <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
                         </select>
                     </div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi podcast!</button>
                 </form>
             </div>
@@ -186,6 +189,5 @@
         document.getElementById("postPod").style.display = "none";
         document.getElementById(id).style.display = "block";
     }
-
 </script>
 </html>

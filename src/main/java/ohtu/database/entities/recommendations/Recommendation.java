@@ -2,6 +2,7 @@ package ohtu.database.entities.recommendations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.ElementCollection;
@@ -39,12 +40,11 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
         this.courses = courses;
         this.tags = tags;
     }
-
-    public abstract RecommendationType getType();
-
-    @Override
-    public String toString() {
-        return this.getTitle();
+    
+    public void setTags(List<String> tags) {
+    	//Filter out duplicates
+    	//Spring includes empty strings, so filter them out. Does Spring include this functionality somehow?
+    	this.tags = tags.stream().distinct().filter((s) -> s != null && !s.isEmpty()).collect(Collectors.toList());
     }
 
     public void addCourse(Course course) {
@@ -55,11 +55,10 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
         this.tags.add(tag);
     }
 
-    public String getTitle() {
-        return this.title;
-    }
+    public abstract RecommendationType getType();
 
-    public void setTitle(String title) {
-        this.title = title;
+    @Override
+    public String toString() {
+        return this.getTitle();
     }
 }

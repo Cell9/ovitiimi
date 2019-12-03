@@ -1,0 +1,12 @@
+<div class="control-group" id="tags" th:fragment="tags">
+	<label for="tags">Aiheeseen liittyvät tagit</label>
+	<div class="controls">
+	   <th:block th:each="tag : *{tags}">
+			<div th:replace="fragments/tags :: tag"></div>
+	   </th:block>
+	
+		<!-- Dublicate these in JS by pressing the add button -->
+		<div th:replace="fragments/tags :: tag"></div>
+		<div th:replace="fragments/tags :: tag"></div>
+	</div>
+</div>
