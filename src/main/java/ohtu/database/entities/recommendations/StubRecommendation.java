@@ -3,7 +3,8 @@ package ohtu.database.entities.recommendations;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data

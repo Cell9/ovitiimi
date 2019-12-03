@@ -3,9 +3,8 @@ package ohtu.systemTests;
 import org.junit.rules.ExternalResource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import ohtu.*;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+
+import ohtu.Main;
 
 class ServerRule extends ExternalResource{
 

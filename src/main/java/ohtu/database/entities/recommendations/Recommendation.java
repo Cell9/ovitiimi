@@ -2,6 +2,7 @@ package ohtu.database.entities.recommendations;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -9,11 +10,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import ohtu.database.entities.data.Course;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import lombok.Data;
+import ohtu.database.entities.data.Course;
 
 @Entity
 @Data

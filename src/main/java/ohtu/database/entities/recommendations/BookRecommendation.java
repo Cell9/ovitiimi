@@ -1,16 +1,14 @@
 package ohtu.database.entities.recommendations;
 
-import javax.persistence.Column;
+import java.util.List;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.*;
-
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ohtu.database.entities.data.Course;
-import org.hibernate.validator.constraints.ISBN;
-
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
