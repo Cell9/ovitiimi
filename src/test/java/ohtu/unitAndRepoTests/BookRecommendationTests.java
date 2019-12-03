@@ -1,4 +1,3 @@
-
 package ohtu.unitAndRepoTests;
 
 import java.util.ArrayList;
@@ -7,6 +6,7 @@ import javax.transaction.Transactional;
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.recommendations.BookRecommendation;
 import ohtu.database.entities.recommendations.Recommendation;
+import ohtu.database.entities.recommendations.RecommendationType;
 import ohtu.database.repositories.RecommendationRepository;
 
 import org.junit.After;
@@ -27,7 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource(
   locations = "classpath:application-test.properties")
 @Transactional
-public class bookRecommendationTests {
+public class BookRecommendationTests {
 
     @Autowired
     private RecommendationRepository recommendationRepository;
@@ -119,5 +119,88 @@ public class bookRecommendationTests {
         courses.add(onecourse);
         bookRecommendation.setCourses(courses);
         assertTrue(bookRecommendation.toString().equals("\"otsikko\", kirjoittanut kirjoittaja"));
+    }
+
+    @Test
+    public void getTypeBook() {
+        BookRecommendation bookRecommendation = new BookRecommendation();
+        bookRecommendation.setAuthor("kirjoittaja");
+        bookRecommendation.setIsbn("isbn");
+        bookRecommendation.setTitle("otsikko");
+
+        ArrayList<Course> courses = new ArrayList<>();
+        Course onecourse = new Course("tkt101", "", new ArrayList<Recommendation>());
+        courses.add(onecourse);
+        bookRecommendation.setCourses(courses);
+        assertTrue(bookRecommendation.getType() == RecommendationType.BOOK);
+    }
+
+    @Test
+    public void bookRecommendationsAreSame() {
+        BookRecommendation bookRecommendationA = new BookRecommendation();
+        assertTrue(bookRecommendationA.equals(bookRecommendationA));
+    }
+
+    @Test
+    public void bookRecommendationsAreEquals() {
+        BookRecommendation bookRecommendationA = new BookRecommendation();
+        bookRecommendationA.setAuthor("kirjoittaja");
+        bookRecommendationA.setIsbn("isbn");
+        bookRecommendationA.setTitle("otsikko");
+
+        BookRecommendation bookRecommendationB = new BookRecommendation();
+        bookRecommendationB.setAuthor("kirjoittaja");
+        bookRecommendationB.setIsbn("isbn");
+        bookRecommendationB.setTitle("otsikko");
+
+        assertTrue(bookRecommendationA.equals(bookRecommendationB));
+        assertTrue(bookRecommendationB.equals(bookRecommendationA));
+    }
+
+    @Test
+    public void bookRecommendationsAreNotEquals() {
+        BookRecommendation bookRecommendationA = new BookRecommendation();
+        bookRecommendationA.setAuthor("kirjoittajaa");
+        bookRecommendationA.setIsbn("isbn");
+        bookRecommendationA.setTitle("otsikko");
+
+        BookRecommendation bookRecommendationB = new BookRecommendation();
+        bookRecommendationB.setAuthor("kirjoittajab");
+        bookRecommendationB.setIsbn("isbn");
+        bookRecommendationB.setTitle("otsikko");
+
+        assertFalse(bookRecommendationA.equals(bookRecommendationB));
+        assertFalse(bookRecommendationB.equals(bookRecommendationA));
+    }
+
+    @Test
+    public void bookRecommendationHashCodesAreEquals() {
+        BookRecommendation bookRecommendationA = new BookRecommendation();
+        bookRecommendationA.setAuthor("kirjoittaja");
+        bookRecommendationA.setIsbn("isbn");
+        bookRecommendationA.setTitle("otsikko");
+
+        BookRecommendation bookRecommendationB = new BookRecommendation();
+        bookRecommendationB.setAuthor("kirjoittaja");
+        bookRecommendationB.setIsbn("isbn");
+        bookRecommendationB.setTitle("otsikko");
+
+        assertTrue(bookRecommendationA.hashCode() == bookRecommendationA.hashCode());
+        assertTrue(bookRecommendationA.hashCode() == bookRecommendationB.hashCode());
+    }
+
+    @Test
+    public void bookRecommendationHashCodesAreNotEquals() {
+        BookRecommendation bookRecommendationA = new BookRecommendation();
+        bookRecommendationA.setAuthor("kirjoittajaa");
+        bookRecommendationA.setIsbn("isbn");
+        bookRecommendationA.setTitle("otsikko");
+
+        BookRecommendation bookRecommendationB = new BookRecommendation();
+        bookRecommendationB.setAuthor("kirjoittajab");
+        bookRecommendationB.setIsbn("isbn");
+        bookRecommendationB.setTitle("otsikko");
+
+        assertFalse(bookRecommendationA.hashCode() == bookRecommendationB.hashCode());
     }
 }

@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.recommendations.LinkRecommendation;
 import ohtu.database.entities.recommendations.Recommendation;
+import ohtu.database.entities.recommendations.RecommendationType;
 import ohtu.database.repositories.RecommendationRepository;
 
 import org.junit.After;
@@ -21,13 +22,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-//Roni
 @RunWith(SpringRunner.class)
 @SpringBootTest()
 @TestPropertySource(
   locations = "classpath:application-test.properties")
 @Transactional
-public class linkRecommendationTests {
+public class LinkRecommendationTests {
 
     @Autowired
     private RecommendationRepository recommendationRepository;
@@ -93,5 +93,89 @@ public class linkRecommendationTests {
         assertEquals(linkRecommendation.getTitle(), savedLink.getTitle());
         assertEquals(linkRecommendation.getCourses(), savedLink.getCourses());
         assertEquals(linkRecommendation.getTags(), savedLink.getTags());
+    }
+
+    @Test
+    public void linkRecommendationAsStringIsOk() {
+        LinkRecommendation linkRecommendation = new LinkRecommendation();
+        linkRecommendation.setUrl("url");
+        linkRecommendation.setTitle("title");
+
+        ArrayList<Course> courses = new ArrayList<>();
+        Course oneCourse = new Course("tkt101", "", new ArrayList<Recommendation>());
+        courses.add(oneCourse);
+        linkRecommendation.setCourses(courses);
+
+        assertTrue(linkRecommendation.toString().equals("title: url"));
+    }
+
+    @Test
+    public void getTypeLink() {
+        LinkRecommendation linkRecommendation = new LinkRecommendation();
+        linkRecommendation.setUrl("url");
+        linkRecommendation.setTitle("title");
+
+        assertTrue(linkRecommendation.getType() == RecommendationType.LINKKI);
+    }
+
+    @Test
+    public void linkRecommendationsAreSame() {
+        LinkRecommendation linkRecommendationA = new LinkRecommendation();
+        assertTrue(linkRecommendationA.equals(linkRecommendationA));
+    }
+
+    @Test
+    public void linkRecommendationsAreEquals() {
+        LinkRecommendation linkRecommendationA = new LinkRecommendation();
+        linkRecommendationA.setUrl("url");
+        linkRecommendationA.setTitle("title");
+
+        LinkRecommendation linkRecommendationB = new LinkRecommendation();
+        linkRecommendationB.setUrl("url");
+        linkRecommendationB.setTitle("title");
+
+        assertTrue(linkRecommendationA.equals(linkRecommendationB));
+        assertTrue(linkRecommendationB.equals(linkRecommendationA));
+    }
+
+    @Test
+    public void linkRecommendationsAreNotEquals() {
+        LinkRecommendation linkRecommendationA = new LinkRecommendation();
+        linkRecommendationA.setUrl("url");
+        linkRecommendationA.setTitle("title");
+
+        LinkRecommendation linkRecommendationB = new LinkRecommendation();
+        linkRecommendationB.setUrl("urt");
+        linkRecommendationB.setTitle("title");
+
+        assertFalse(linkRecommendationA.equals(linkRecommendationB));
+        assertFalse(linkRecommendationB.equals(linkRecommendationA));
+    }
+
+    @Test
+    public void linkRecommendationHashCodesAreEquals() {
+        LinkRecommendation linkRecommendationA = new LinkRecommendation();
+        linkRecommendationA.setUrl("url");
+        linkRecommendationA.setTitle("title");
+
+        LinkRecommendation linkRecommendationB = new LinkRecommendation();
+        linkRecommendationB.setUrl("url");
+        linkRecommendationB.setTitle("title");
+
+        assertTrue(linkRecommendationA.hashCode() == linkRecommendationA.hashCode());
+        assertTrue(linkRecommendationA.hashCode() == linkRecommendationB.hashCode());
+    }
+
+    @Test
+    public void linkRecommendationHashCodesAreNotEquals() {
+        LinkRecommendation linkRecommendationA = new LinkRecommendation();
+        linkRecommendationA.setUrl("url");
+        linkRecommendationA.setTitle("title");
+
+        LinkRecommendation linkRecommendationB = new LinkRecommendation();
+        linkRecommendationB.setUrl("urt");
+        linkRecommendationB.setTitle("title");
+
+        assertFalse(linkRecommendationA.hashCode() == linkRecommendationB.hashCode());
     }
 }

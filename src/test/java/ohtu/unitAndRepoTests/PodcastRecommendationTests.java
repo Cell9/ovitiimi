@@ -24,13 +24,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-//Roni
 @RunWith(SpringRunner.class)
 @SpringBootTest()
 @TestPropertySource(
   locations = "classpath:application-test.properties")
 @Transactional
-public class podcastTests {
+public class PodcastRecommendationTests {
 
     @Autowired
     private RecommendationRepository recommendationRepository;
@@ -84,10 +83,12 @@ public class podcastTests {
         podcastRecommendation.setTitle("Sarasvuo");
         podcastRecommendation.setAuthor("Yle Puhe");
         podcastRecommendation.setDescription("coaching");
+        podcastRecommendation.setUrl("url");
 
         assertEquals(podcastRecommendation.getTitle(), "Sarasvuo");
         assertEquals(podcastRecommendation.getType(), RecommendationType.PODCAST);
         assertEquals(podcastRecommendation.getTitle(), "Sarasvuo");
+        assertEquals(podcastRecommendation.getUrl(), "url");
         assertEquals(podcastRecommendation.toString(), "Sarasvuo, Yle Puhe, coaching");
     }
 
@@ -147,5 +148,94 @@ public class podcastTests {
         assertEquals(podcast.getDescription(), savedpodcast.getDescription());
         assertEquals(podcast.getCourses(), savedpodcast.getCourses());
         assertEquals(podcast.getTags(), savedpodcast.getTags());
+    }
+
+    @Test
+    public void podcastRecommendationAsStringIsOk() {
+        PodcastRecommendation podcast = new PodcastRecommendation();
+        podcast.setAuthor("author");
+        podcast.setDescription("description");
+        podcast.setTitle("title");
+
+        assertTrue(podcast.toString().equals("title, author, description"));
+    }
+
+    @Test
+    public void getTypePodcast() {
+        PodcastRecommendation podcast = new PodcastRecommendation();
+        podcast.setAuthor("author");
+        podcast.setDescription("description");
+        podcast.setTitle("title");
+
+        assertTrue(podcast.getType() == RecommendationType.PODCAST);
+    }
+
+    @Test
+    public void podcastRecommendationsAreSame() {
+        PodcastRecommendation podcast = new PodcastRecommendation();
+        assertTrue(podcast.equals(podcast));
+    }
+
+    @Test
+    public void podcastRecommendationsAreEquals() {
+        PodcastRecommendation podcastA = new PodcastRecommendation();
+        podcastA.setAuthor("author");
+        podcastA.setDescription("description");
+        podcastA.setTitle("title");
+
+        PodcastRecommendation podcastB = new PodcastRecommendation();
+        podcastB.setAuthor("author");
+        podcastB.setDescription("description");
+        podcastB.setTitle("title");
+
+        assertTrue(podcastA.equals(podcastB));
+        assertTrue(podcastB.equals(podcastA));
+    }
+
+    @Test
+    public void podcastRecommendationsAreNotEquals() {
+        PodcastRecommendation podcastA = new PodcastRecommendation();
+        podcastA.setAuthor("authorA");
+        podcastA.setDescription("description");
+        podcastA.setTitle("title");
+
+        PodcastRecommendation podcastB = new PodcastRecommendation();
+        podcastB.setAuthor("authorB");
+        podcastB.setDescription("description");
+        podcastB.setTitle("title");
+
+        assertFalse(podcastA.equals(podcastB));
+        assertFalse(podcastB.equals(podcastA));
+    }
+
+    @Test
+    public void podcastRecommendationHashCodesAreEquals() {
+        PodcastRecommendation podcastA = new PodcastRecommendation();
+        podcastA.setAuthor("authorA");
+        podcastA.setDescription("description");
+        podcastA.setTitle("title");
+
+        PodcastRecommendation podcastB = new PodcastRecommendation();
+        podcastB.setAuthor("authorA");
+        podcastB.setDescription("description");
+        podcastB.setTitle("title");
+
+        assertTrue(podcastA.hashCode() == podcastA.hashCode());
+        assertTrue(podcastA.hashCode() == podcastB.hashCode());
+    }
+
+    @Test
+    public void podcastRecommendationHashCodesAreNotEquals() {
+        PodcastRecommendation podcastA = new PodcastRecommendation();
+        podcastA.setAuthor("authorA");
+        podcastA.setDescription("description");
+        podcastA.setTitle("title");
+
+        PodcastRecommendation podcastB = new PodcastRecommendation();
+        podcastB.setAuthor("authorB");
+        podcastB.setDescription("description");
+        podcastB.setTitle("title");
+
+        assertFalse(podcastA.hashCode() == podcastB.hashCode());
     }
 }
