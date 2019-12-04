@@ -311,9 +311,9 @@ public class Stepdefs {
         element = driver.findElement(By.id("youtubeAuthor"));
         element.sendKeys("");
         element = driver.findElement(By.id("youtubeUrl"));
-        element.sendKeys("you.tu.be");
+        element.sendKeys("");
         element = driver.findElement(By.id("youtubeDescription"));
-        element.sendKeys("näyttävä");
+        element.sendKeys("");
 
         Thread.sleep(500);
         
@@ -338,6 +338,21 @@ public class Stepdefs {
         assertTrue(msg.contains("Youtube-videolle tulee syöttää tekijä"));
         Thread.sleep(500);
     }
+    
+    @Then("an error notification for missing youtube url is shown")
+    public void an_error_notification_for_missing_youtube_url_is_shown() throws Throwable {
+        WebElement element = driver.findElement(By.tagName("body"));
+        String msg = element.getText();
+        assertTrue(msg.contains("Youtube-videolle tulee antaa url-osoite."));
+        Thread.sleep(500);
+    }
+    @Then("an error notification for missing youtube description is shown")
+    public void an_error_notification_for_missing_youtube_description_is_shown() throws Throwable {
+        WebElement element = driver.findElement(By.tagName("body"));
+        String msg = element.getText();
+        assertTrue(msg.contains("Youtube-videolle tulee antaa lyhyt kuvaus."));
+        Thread.sleep(500);
+    }        
 
     @When("new book is filtered out")
     public void new_book_is_filtered_out() throws Throwable {

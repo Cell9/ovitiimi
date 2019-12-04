@@ -16,4 +16,11 @@ Feature: Youtube videos can be browsed and posted
     Given user is at the main page
     When a faulty youtube is created
     Then an error notification for missing youtube author is shown
-
+  Scenario: user can't add a youtube without an url
+    Given user is at the main page
+    When a faulty youtube is created
+    Then an error notification for missing youtube url is shown    
+  Scenario: user can't add a youtube without a description
+    Given user is at the main page
+    When a faulty youtube is created
+    Then an error notification for missing youtube description is shown
