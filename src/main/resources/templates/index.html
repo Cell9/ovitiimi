@@ -55,7 +55,7 @@
             <tbody>
                 <div th:each="recommendation : ${recommendations}">
                     <tr>
-                        <td><p th:text="${recommendation}"/></td>
+                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" th:text="${recommendation}"/></td>
                         <td><p th:if="${recommendation.courses != null and !recommendation.courses.isEmpty()}" th:text="${recommendation.courses}"/></td>
                         <td><p th:if="${recommendation.tags != null and !recommendation.tags.isEmpty()}" th:text="${recommendation.tags}"/></td>
                         <td><p th:text="${recommendation.type}"/></td>

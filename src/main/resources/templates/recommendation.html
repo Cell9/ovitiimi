@@ -33,35 +33,67 @@
     </div>
 
     <div class="container">
-        <p>Tyyppi: <a th:text="${recommendation.type}"/></p>
-        <p>Otsikko: <a th:text="${recommendation.title}"/></p>
-        <p>Aiheeseen liittyvät kurssit: <a th:text="${recommendation.courses}"/></p>
-        <p>Tagit: <a th:text="${recommendation.tags}"/></p>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Tyyppi</th>
+                    <td><a th:text="${recommendation.title}"/></td>
+                </tr>
+                <tr>
+                    <th>Otsikko</th>
+                    <td><a th:text="${recommendation.title}"/></td>
+                </tr>
 
+                <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).PODCAST}">
+                    <tr>
+                        <th>Tekijä</th>
+                        <td><a th:text="${recommendation.author}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Url</th>
+                        <td><a th:text="${recommendation.url}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Kuvaus</th>
+                        <td><a th:text="${recommendation.description}"/></td>
+                    </tr>
+                </div>
+                <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).BOOK}">
+                    <tr>
+                        <th>Kirjoittaja</th>
+                        <td><a th:text="${recommendation.author}"/></td>
+                    </tr>
+                    <tr>
+                        <th>ISBN-koodi</th>
+                        <td><a th:text="${recommendation.isbn}"/></td>
+                    </tr>
+                </div>
+                <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).YOUTUBE}">
+                    <tr>
+                        <th>Tekijä</th>
+                        <td><a th:text="${recommendation.author}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Url</th>
+                        <td><a th:text="${recommendation.url}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Kuvaus</th>
+                        <td><a th:text="${recommendation.description}"/></td>
+                    </tr>
+                </div>
 
+                <tr>
+                    <th>Aiheeseen liittyvät kurssit</th>
+                    <td><a th:text="${recommendation.courses}"/></td>
+                </tr>
+                <tr>
+                    <th>Tagit</th>
+                    <td><a th:text="${recommendation.tags}"/></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-    <div class="container" th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).PODCAST}">
-        <p>Tekijä: <a th:text="${recommendation.author}"/></p>
-        <p>Url: <a th:text="${recommendation.url}"/></p>
-        <p>Kuvaus: <a th:text="${recommendation.description}"/></p>
-    </div>
-
-    <div class="container" th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).BOOK}">
-        <p>Kirjoittaja: <a th:text="${recommendation.author}"/></p>
-        <p>ISBN: <a th:text="${recommendation.isbn}"/></p>
-    </div>
-
-    <div class="container" th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).LINKKI}">
-        <p>Url: <a th:text="${recommendation.url}"/></p>
-    </div>
-
-    <div class="container" th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).YOUTUBE}">
-        <p>Tekijä: <a th:text="${recommendation.author}"/></p>
-        <p>Url: <a th:text="${recommendation.url}"/></p>
-        <p>Kuvaus: <a th:text="${recommendation.description}"/></p>
-    </div>
-
 
 </body>
 </html>
