@@ -35,6 +35,11 @@ repositories {
     	url "https://repo.spring.io/snapshot"
     }
 }
+
+task( browse, dependsOn: jar, type: JavaExec ) {
+    main = 'ohtu.Tester'
+    classpath = sourceSets.main.runtimeClasspath
+}
     
 mainClassName = "ohtu.Main"
 

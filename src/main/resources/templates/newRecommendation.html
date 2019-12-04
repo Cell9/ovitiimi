@@ -46,10 +46,10 @@
         <h2>Lisää uusi lukuvinkki</h2>
         <br>
         <div id="buttons">
-            <button class="btn btn-dark" onClick="changeView('postBook')"> Lisää kirja </button>
-            <button class="btn btn-dark" onClick="changeView('postLink')"> Lisää linkki </button>
-            <button class="btn btn-dark" onClick="changeView('postPod')"> Lisää podcast </button>
-            <button class="btn btn-dark" onClick="changeView('postTube')"> Lisää Youtube </button>
+            <button class="btn btn-dark" name="addBook" onClick="changeView('postBook')"> Lisää kirja </button>
+            <button class="btn btn-dark" name="addLink" onClick="changeView('postLink')"> Lisää linkki </button>
+            <button class="btn btn-dark" name="addPod" onClick="changeView('postPod')"> Lisää podcast </button>
+            <button class="btn btn-dark" name="addTube" onClick="changeView('postTube')"> Lisää Youtube </button>
         </div>
         <br>
 
@@ -58,7 +58,7 @@
             <div class="container">
                 <h4>Uusi kirja</h4>
                 <form th:object="${book}" th:action="@{/books}" method="POST">
-                    <div class="form-group">
+                    <div class="form-group" name="fmBookTitle">
                         <label for="bookTitle">Kirjan nimi</label>
                         <input type="text" name="title" id="bookTitle" th:value="*{title}">
                         <div th:if="${#fields.hasErrors('title')}">
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" name="submit" class="btn btn-dark">Lisää uusi kirja!</button>
+                    <button type="submit" name="submitBook" class="btn btn-dark">Lisää uusi kirja!</button>
                 </form>
             </div>
         </div>
@@ -327,6 +327,9 @@
         ((btn.parentNode).parentNode).removeChild(btn.parentNode);
     }
 
-    $('select').selectpicker();
+    $(function () {
+        $('select').selectpicker();
+    })
+//    $('select').selectpicker();
 </script>
 </html>
