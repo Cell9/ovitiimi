@@ -1,6 +1,7 @@
 package ohtu.database.entities.recommendations;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -19,7 +20,7 @@ public class LinkRecommendation extends Recommendation {
     @NotEmpty
     private String url;
 
-    public LinkRecommendation(String title, List<Course> courses, List<String> tags, String url) {
+    public LinkRecommendation(String title, Map<Long, Course> courses, List<String> tags, String url) {
         super(title, courses, tags);
         this.url = url;
     }

@@ -1,5 +1,7 @@
 package ohtu.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ohtu.database.entities.data.Course;
 //import ohtu.database.entities.data.Link;
 import ohtu.database.entities.recommendations.LinkRecommendation;
 import ohtu.database.repositories.CourseRepository;
@@ -29,7 +30,9 @@ public class LinkController {
 
     @PostMapping("/links")
     public String create(Model model, @Valid LinkRecommendation link, BindingResult result, RedirectAttributes redirectAttributes,
-            @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
+            @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") List<Long> selectedCourseIds) {
+
+        link.setCourses(this.courseRepository.findAllById(selectedCourseIds));
         
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", "Nettilähteen lisäys epäonnistui!");
@@ -40,11 +43,6 @@ public class LinkController {
         
         if (!link.getUrl().contains("//")) {
             link.setUrl("https://" + link.getUrl());
-        }
-        
-        if (courseRepository.existsById(selectedCourseId)) {
-            Course course = courseRepository.getOne(selectedCourseId);
-            link.addCourse(course);
         }
         
         recommendationRepository.save(link);

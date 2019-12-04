@@ -1,6 +1,7 @@
 package ohtu.database.entities.recommendations;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -24,7 +25,7 @@ public class BookRecommendation extends Recommendation {
     @NotEmpty
     private String isbn;
 
-    public BookRecommendation(String title, List<Course> courses, List<String> tags, String author, String isbn) {
+    public BookRecommendation(String title, Map<Long, Course> courses, List<String> tags, String author, String isbn) {
         super(title, courses, tags);
         this.author = author;
         this.isbn = isbn;

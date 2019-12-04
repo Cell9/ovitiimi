@@ -1,5 +1,7 @@
 package ohtu.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +36,15 @@ public class BookController {
 
     @PostMapping("/books")
     public String create(Model model, @Valid BookRecommendation book, BindingResult result,
-            RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") Long selectedCourseId) {
+            RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") List<Long> selectedCourseIds) {
 
+        book.setCourses(this.courseRepository.findAllById(selectedCourseIds));
+        
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("error", "Kirjan lisäys epäonnistui!");
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.book", result);
             redirectAttributes.addFlashAttribute("book", book);
             return "redirect:/uusi";
-        }
-
-        if (courseRepository.existsById(selectedCourseId)) {
-            Course course = courseRepository.getOne(selectedCourseId);
-            book.addCourse(course);
         }
 
         recommendationRepository.save(book);

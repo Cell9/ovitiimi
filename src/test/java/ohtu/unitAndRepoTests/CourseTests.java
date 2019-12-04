@@ -62,20 +62,12 @@ public class CourseTests {
     }
     
     @Test
-    public void coursesCanBePrintedProperly() {
-        Course course = new Course();
-        course.setCode("code");
-        course.setName("name");
-        assertEquals(course.toString(), "code name");
-    }
-
-    @Test
     public void courseAsStringIsOk() {
         Course course = new Course();
         course.setCode("001kurssi");
         course.setName("kurssin nimi");
 
-        assertTrue(course.toString().equals("001kurssi kurssin nimi"));
+        assertTrue(course.toString().equals("kurssin nimi (001kurssi)"));
     }
 
     @Test
@@ -96,7 +88,7 @@ public class CourseTests {
     @Test
     public void coursesAreSame() {
         Course course = new Course();
-        assertTrue(course.equals(course));
+        assertTrue(course.areSimilar(course));
     }
 
     @Test
@@ -109,8 +101,8 @@ public class CourseTests {
         courseB.setCode("001kurssi");
         courseB.setName("kurssin nimi");
 
-        assertTrue(courseA.equals(courseB));
-        assertTrue(courseB.equals(courseA));
+        assertTrue(courseA.areSimilar(courseB));
+        assertTrue(courseB.areSimilar(courseA));
     }
 
     @Test
@@ -123,34 +115,7 @@ public class CourseTests {
         courseB.setCode("002kurssi");
         courseB.setName("kurssin nimi");
 
-        assertFalse(courseA.equals(courseB));
-        assertFalse(courseB.equals(courseA));
-    }
-
-    @Test
-    public void courseHashCodesAreEquals() {
-        Course courseA = new Course();
-        courseA.setCode("001kurssi");
-        courseA.setName("kurssin nimi");
-
-        Course courseB = new Course();
-        courseB.setCode("001kurssi");
-        courseB.setName("kurssin nimi");
-
-        assertTrue(courseA.hashCode() == courseA.hashCode());
-        assertTrue(courseA.hashCode() == courseB.hashCode());
-    }
-
-    @Test
-    public void courseHashCodesAreNotEquals() {
-        Course courseA = new Course();
-        courseA.setCode("001kurssi");
-        courseA.setName("kurssin nimi");
-
-        Course courseB = new Course();
-        courseB.setCode("002kurssi");
-        courseB.setName("kurssin nimi");
-
-        assertFalse(courseA.hashCode() == courseB.hashCode());
+        assertFalse(courseA.areSimilar(courseB));
+        assertFalse(courseB.areSimilar(courseA));
     }
 }

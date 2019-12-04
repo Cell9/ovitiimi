@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.transaction.Transactional;
 
@@ -46,7 +47,7 @@ public class BookRecommendationTests {
     @Test
     public void booksCanBeCreatedNonEmptyConstructor() {
         BookRecommendation bookRecommendation = new BookRecommendation(
-                "title", new ArrayList<>(), new ArrayList<>(), "author", "isbn");
+                "title", new HashMap<>(), new ArrayList<>(), "author", "isbn");
         assertNotNull(bookRecommendation);
         assertEquals(bookRecommendation.getTitle(), "title");
     }
@@ -68,7 +69,7 @@ public class BookRecommendationTests {
         bookRecommendation.setTags(tags);
 
         assertEquals(bookRecommendation.getAuthor(), "author");
-        assertTrue(bookRecommendation.getCourses().contains(oneCourse));
+        assertTrue(bookRecommendation.hasCourse(oneCourse));
         assertTrue(bookRecommendation.getTags().contains("educational"));
         assertEquals(bookRecommendation.getTitle(), "title");
         assertEquals(bookRecommendation.getIsbn(), "isbn");
@@ -96,7 +97,7 @@ public class BookRecommendationTests {
         assertEquals(bookRecommendation.getAuthor(), savedBook.getAuthor());
         assertEquals(bookRecommendation.getTitle(), savedBook.getTitle());
         assertEquals(bookRecommendation.getIsbn(), savedBook.getIsbn());
-        assertEquals(bookRecommendation.getCourses(), savedBook.getCourses());
+        assertTrue(Helpers.areSimilar(bookRecommendation.getCourses(), savedBook.getCourses()));
         assertEquals(bookRecommendation.getTags(), savedBook.getTags());
     }
 
@@ -105,7 +106,7 @@ public class BookRecommendationTests {
         BookRecommendation bookRecommendation = new BookRecommendation();
         Course onecourse = new Course("tkt101", "", new ArrayList<Recommendation>());
         bookRecommendation.addCourse(onecourse);
-        assertTrue(bookRecommendation.getCourses().contains(onecourse));
+        assertTrue(bookRecommendation.hasCourse(onecourse));
     }
 
     @Test

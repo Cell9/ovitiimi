@@ -1,6 +1,7 @@
 package ohtu.database.entities.recommendations;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class PodcastRecommendation extends Recommendation {
     @NotEmpty
     private String description;
 
-    public PodcastRecommendation(String title, List<Course> courses, List<String> tags, String author, String url, String description) {
+    public PodcastRecommendation(String title, Map<Long, Course> courses, List<String> tags, String author, String url, String description) {
         super(title, courses, tags);
         this.author = author;
         this.url = url;
