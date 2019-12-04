@@ -3,14 +3,12 @@ package ohtu.controllers;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import ohtu.database.entities.data.Course;
 import ohtu.database.entities.recommendations.BookRecommendation;
@@ -75,6 +73,20 @@ public class RecommendationController {
 
 
         return "newRecommendation";
+    }
+
+    @GetMapping("/lukuvinkki/")
+    public String oneRecommendaton(Model model, @RequestParam Long id) {
+        Recommendation recommendation = recommendationRepository.findById(id).orElse(null);
+        // jos ei löydy, ohjataan listaukseen
+        if (recommendation == null) {
+            return "redirect:/index";
+        }
+
+        model.addAttribute("recommendation", recommendation);
+
+        return "recommendation";
+
     }
     
     @PostMapping("recommendation/read")
