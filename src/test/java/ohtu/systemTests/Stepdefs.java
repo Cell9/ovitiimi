@@ -130,6 +130,58 @@ public class Stepdefs {
         assertTrue(msg.contains("Kirjalle tulee syöttää kirjailija"));
         Thread.sleep(500);
     }
+
+    @When("a new nettilähde is created")
+    public void a_new_link_is_created() throws Throwable {
+        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
+        element.click();
+        
+        element = driver.findElement(By.name("addLink"));
+        element.click();
+        Thread.sleep(500);
+        
+        element = driver.findElement(By.id("linkTitle"));
+        element.sendKeys("Test Link");
+        element = driver.findElement(By.id("linkUrl"));
+        element.sendKeys("http://testi.com");
+        Thread.sleep(500);
+        
+        element = driver.findElement(By.name("submitLink"));        
+        element.submit();
+        
+        Thread.sleep(500);
+    }
+
+    @When("a new nettilähde without html-scheme is created")
+    public void a_new_link_without_html_is_created() throws Throwable {
+        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
+        element.click();
+        
+        element = driver.findElement(By.name("addLink"));
+        element.click();
+        Thread.sleep(500);
+        
+        element = driver.findElement(By.id("linkTitle"));
+        element.sendKeys("Test Link");
+        element = driver.findElement(By.id("linkUrl"));
+        element.sendKeys("testi.com");
+        Thread.sleep(500);
+        
+        element = driver.findElement(By.name("submitLink"));        
+        element.submit();
+        
+        Thread.sleep(500);
+    }
+    
+    @Then("the new nettilähde is shown")
+    public void the_new_link_is_shown() throws Throwable {
+        Thread.sleep(500);
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("Test Link"));
+        assertTrue(driver.findElement(By.tagName("body"))
+                .getText().contains("http://testi.com"));
+        Thread.sleep(500);
+    }
     
 //    @Given("user is at the nettilähteet page")
 //    public void user_is_at_the_nettilahteet_page() throws Throwable {
