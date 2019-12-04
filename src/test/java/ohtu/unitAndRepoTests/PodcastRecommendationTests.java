@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -39,7 +41,7 @@ public class PodcastRecommendationTests {
     @Before
     public void setUp() {
         this.podcastRecommendation = new PodcastRecommendation(
-                "Sarasvuo", new ArrayList<>(), new ArrayList<>(),
+                "Sarasvuo", new HashMap<>(), new ArrayList<>(),
                 "Yle Puhe", "https://www.yle.fi/jotain", "coaching");
     }
 
@@ -68,13 +70,13 @@ public class PodcastRecommendationTests {
     public void podcastCourseCanBeSetAndGet() {
         PodcastRecommendation podcast = new PodcastRecommendation();
 
-        List<Course> courses = new ArrayList<>();
+        Collection<Course> courses = new ArrayList<>();
         Course oneCourse = new Course("tkt101", "", new ArrayList<Recommendation>());
         courses.add(oneCourse);
         podcast.setCourses(courses);
 
         courses = podcast.getCourses();
-        assertEquals(courses.get(0).getCode(), "tkt101");
+        assertTrue(podcast.hasCourse(oneCourse));
     }
 
     @Test
@@ -95,7 +97,7 @@ public class PodcastRecommendationTests {
     @Test
     public void podcastsCanBeCreatedNonEmptyConstructor() {
         PodcastRecommendation podcast = new PodcastRecommendation(
-                "Sarasvuo", new ArrayList<>(), new ArrayList<>(),
+                "Sarasvuo", new HashMap<>(), new ArrayList<>(),
                 "Yle Puhe", "https://www.yle.fi/jotain", "coaching");
         assertNotNull(podcast);
         assertEquals(podcast.getTitle(), "Sarasvuo");
@@ -118,7 +120,7 @@ public class PodcastRecommendationTests {
         podcast.setTags(tags);
 
         assertEquals(podcast.getAuthor(), "author");
-        assertTrue(podcast.getCourses().contains(oneCourse));
+        assertTrue(podcast.hasCourse(oneCourse));
         assertTrue(podcast.getTags().contains("educational"));
         assertEquals(podcast.getTitle(), "title");
         assertEquals(podcast.getDescription(), "description");
@@ -146,7 +148,7 @@ public class PodcastRecommendationTests {
         assertEquals(podcast.getAuthor(), savedpodcast.getAuthor());
         assertEquals(podcast.getTitle(), savedpodcast.getTitle());
         assertEquals(podcast.getDescription(), savedpodcast.getDescription());
-        assertEquals(podcast.getCourses(), savedpodcast.getCourses());
+        assertTrue(Helpers.areSimilar(podcast.getCourses(), savedpodcast.getCourses()));
         assertEquals(podcast.getTags(), savedpodcast.getTags());
     }
 

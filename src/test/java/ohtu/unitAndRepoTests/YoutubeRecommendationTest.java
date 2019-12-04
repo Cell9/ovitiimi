@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -19,15 +21,10 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ohtu.database.entities.data.Course;
-import ohtu.database.entities.recommendations.BookRecommendation;
-import ohtu.database.entities.recommendations.YoutubeRecommendation;
 import ohtu.database.entities.recommendations.Recommendation;
 import ohtu.database.entities.recommendations.RecommendationType;
+import ohtu.database.entities.recommendations.YoutubeRecommendation;
 import ohtu.database.repositories.RecommendationRepository;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest()
@@ -44,7 +41,7 @@ public class YoutubeRecommendationTest {
     @Before
     public void setUp() {
         this.youtubeRecommendation = new YoutubeRecommendation(
-                "Sarasvuo", new ArrayList<>(), new ArrayList<>(),
+                "Sarasvuo", new HashMap<>(), new ArrayList<>(),
                 "Yle Puhe", "https://www.yle.fi/jotain", "coaching");
     }
 
@@ -73,13 +70,13 @@ public class YoutubeRecommendationTest {
     public void youtubeCourseCanBeSetAndGet() {
         YoutubeRecommendation youtube = new YoutubeRecommendation();
 
-        List<Course> courses = new ArrayList<>();
+        Collection<Course> courses = new ArrayList<>();
         Course oneCourse = new Course("tkt101", "", new ArrayList<Recommendation>());
         courses.add(oneCourse);
         youtube.setCourses(courses);
 
         courses = youtube.getCourses();
-        assertEquals(courses.get(0).getCode(), "tkt101");
+        assertTrue(youtube.hasCourse(oneCourse));
     }
 
     @Test
@@ -100,7 +97,7 @@ public class YoutubeRecommendationTest {
     @Test
     public void youtubesCanBeCreatedNonEmptyConstructor() {
         YoutubeRecommendation youtube = new YoutubeRecommendation(
-                "Sarasvuo", new ArrayList<>(), new ArrayList<>(),
+                "Sarasvuo", new HashMap<>(), new ArrayList<>(),
                 "Yle Puhe", "https://www.yle.fi/jotain", "coaching");
         assertNotNull(youtube);
         assertEquals(youtube.getTitle(), "Sarasvuo");
@@ -123,7 +120,7 @@ public class YoutubeRecommendationTest {
         youtube.setTags(tags);
 
         assertEquals(youtube.getAuthor(), "author");
-        assertTrue(youtube.getCourses().contains(oneCourse));
+        assertTrue(youtube.hasCourse(oneCourse));
         assertTrue(youtube.getTags().contains("educational"));
         assertEquals(youtube.getTitle(), "title");
         assertEquals(youtube.getDescription(), "description");
@@ -151,7 +148,7 @@ public class YoutubeRecommendationTest {
         assertEquals(youtube.getAuthor(), savedyoutube.getAuthor());
         assertEquals(youtube.getTitle(), savedyoutube.getTitle());
         assertEquals(youtube.getDescription(), savedyoutube.getDescription());
-        assertEquals(youtube.getCourses(), savedyoutube.getCourses());
+        assertTrue(Helpers.areSimilar(youtube.getCourses(), savedyoutube.getCourses()));
         assertEquals(youtube.getTags(), savedyoutube.getTags());
     }
 

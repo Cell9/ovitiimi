@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.transaction.Transactional;
 
@@ -46,7 +47,7 @@ public class LinkRecommendationTests {
     @Test
     public void linksCanBeCreatedNonEmptyConstructor() {
         LinkRecommendation linkRecommendation = new LinkRecommendation(
-                "title", new ArrayList<>(), new ArrayList<>(), "http://www.urlijokaeitoimi.fi");
+                "title", new HashMap<>(), new ArrayList<>(), "http://www.urlijokaeitoimi.fi");
         assertNotNull(linkRecommendation);
         assertEquals(linkRecommendation.getUrl(), "http://www.urlijokaeitoimi.fi");
     }
@@ -67,7 +68,7 @@ public class LinkRecommendationTests {
         linkRecommendation.setTags(tags);
 
         assertEquals(linkRecommendation.getUrl(), "url");
-        assertTrue(linkRecommendation.getCourses().contains(oneCourse));
+        assertTrue(linkRecommendation.hasCourse(oneCourse));
         assertTrue(linkRecommendation.getTags().contains("educational"));
         assertEquals(linkRecommendation.getTitle(), "title");
     }
@@ -92,7 +93,7 @@ public class LinkRecommendationTests {
         savedLink = (LinkRecommendation) recommendationRepository.getOne(id);
         assertEquals(linkRecommendation.getUrl(), savedLink.getUrl());
         assertEquals(linkRecommendation.getTitle(), savedLink.getTitle());
-        assertEquals(linkRecommendation.getCourses(), savedLink.getCourses());
+        assertTrue(Helpers.areSimilar(savedLink.getCourses(), savedLink.getCourses()));
         assertEquals(linkRecommendation.getTags(), savedLink.getTags());
     }
 

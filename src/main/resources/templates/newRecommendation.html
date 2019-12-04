@@ -85,36 +85,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="courseSelect1">Aiheeseen liittyvät kurssit</label>
-                        <!--
-                        <select id="courseSelect1" class="selectpicker" multiple>
-                            <option>eka</option>
-                            <option>toka</option>
-                        </select>-->
-                        <select class="selectpicker" multiple id="courseSelect1" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-
-                    </div>
-                    <div>
-                        <label for="tags">Aiheeseen liittyvät tagit</label>
-                        <div id="linkTags" class="controls">
-                            <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                            <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                <span class="fa fa-plus"></span>
-                            </button>
-                            <div th:each="tag : *{tags}">
-                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                    <span class="fa fa-plus"></span>
-                                </button>
-                                <button class="btn btn-danger" onclick="removeDiv(this);">
-                                    <span class="fa fa-minus"/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+					
+					<div th:replace="fragments/recommendation_new :: courses"></div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
+					
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi kirja!</button>
                 </form>
             </div>
@@ -142,30 +116,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="courseSelect2">Aiheeseen liittyvät kurssit</label>
-                        <select class="selectpicker" multiple id="courseSelect2" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="tags">Aiheeseen liittyvät tagit</label>
-                        <div id="linkTags" class="controls">
-                            <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                            <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                <span class="fa fa-plus"></span>
-                            </button>
-                            <div th:each="tag : *{tags}">
-                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                    <span class="fa fa-plus"></span>
-                                </button>
-                                <button class="btn btn-danger" onclick="removeDiv(this);">
-                                    <span class="fa fa-minus"/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+					
+					<div th:replace="fragments/recommendation_new :: courses"></div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
+					
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi nettilähde!</button>
                 </form>
             </div>
@@ -211,30 +165,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="courseSelect3">Aiheeseen liittyvät kurssit</label>
-                        <select class="selectpicker" multiple id="courseSelect3" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="tags">Aiheeseen liittyvät tagit</label>
-                        <div id="podcastTags" class="controls">
-                            <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                            <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                <span class="fa fa-plus"></span>
-                            </button>
-                            <div th:each="tag : *{tags}">
-                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                    <span class="fa fa-plus"></span>
-                                </button>
-                                <button class="btn btn-danger" onclick="removeDiv(this);">
-                                    <span class="fa fa-minus"/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+					
+					<div th:replace="fragments/recommendation_new :: courses"></div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
+					
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi podcast!</button>
                 </form>
             </div>
@@ -280,30 +214,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="courseSelect4">Aiheeseen liittyvät kurssit</label>
-                        <select class="selectpicker" multiple id="courseSelect4" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="tags">Aiheeseen liittyvät tagit</label>
-                        <div id="youtubeTags" class="controls">
-                            <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                            <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                <span class="fa fa-plus"></span>
-                            </button>
-                            <div th:each="tag : *{tags}">
-                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
-                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
-                                    <span class="fa fa-plus"></span>
-                                </button>
-                                <button class="btn btn-danger" onclick="removeDiv(this);">
-                                    <span class="fa fa-minus"/>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+					
+					<div th:replace="fragments/recommendation_new :: courses"></div>
+					<div th:replace="fragments/recommendation_new :: tags"></div>
+					
                     <button type="submit" name="submit" class="btn btn-dark">Lisää uusi Youtube!</button>
                 </form>
             </div>
