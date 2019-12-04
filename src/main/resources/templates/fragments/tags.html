@@ -1,7 +1,7 @@
 <div class="entry input-group col-xs-3" th:fragment="tag">
 	<input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
 	<span class="input-group-btn">
-		<button class="btn btn-success btn-add" type="button">
+		<button onClick="addTags()" class="btn btn-success btn-add" type="button">
 			<span class="fa fa-plus"></span>
 		</button>
 	</span>

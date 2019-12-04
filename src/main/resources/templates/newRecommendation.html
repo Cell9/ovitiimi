@@ -1,251 +1,327 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Lisää uusi lukuvinkki</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" th:href="@{/}">Lukuvinkkisovellus</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <head>
+        <title>Lisää uusi lukuvinkki</title>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
+                    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+                        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                        </head>
+                        <body>
+                            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                                <a class="navbar-brand" th:href="@{/}">Lukuvinkkisovellus</a>
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
 
-        <div class=" collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/}">Lukuvinkit</a>
-                <a class="nav-item nav-link" th:href="@{/uusi}">Lisää lukuvinkki</a>
-                <a class="nav-item nav-link" th:href="@{/courses}">Kurssit</a>
-            </div>
-        </div>
-    </nav>
+                                <div class=" collapse navbar-collapse" id="navbarNav">
+                                    <div class="navbar-nav">
+                                        <a class="nav-item nav-link" th:href="@{/}">Lukuvinkit</a>
+                                        <a class="nav-item nav-link" th:href="@{/uusi}">Lisää lukuvinkki</a>
+                                        <a class="nav-item nav-link" th:href="@{/courses}">Kurssit</a>
+                                    </div>
+                                </div>
+                            </nav>
 
-    <div class="container" th:if="${error}">
-        <div class="alert alert-danger" role="alert" th:text="${error}">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </div>
+                            <div class="container" th:if="${error}">
+                                <div class="alert alert-danger" role="alert" th:text="${error}">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
 
 
-    <div class="container" id="postForms">
-        <br>
-        <h2>Lisää uusi lukuvinkki</h2>
-        <br>
-        <div id="buttons">
-            <button class="btn btn-dark" onClick="changeView('postBook')"> Lisää kirja </button>
-            <button class="btn btn-dark" onClick="changeView('postLink')"> Lisää linkki </button>
-            <button class="btn btn-dark" onClick="changeView('postPod')"> Lisää podcast </button>
-            <button class="btn btn-dark" onClick="changeView('postTube')"> Lisää Youtube </button>
-        </div>
-        <br>
+                            <div class="container" id="postForms">
+                                <br>
+                                    <h2>Lisää uusi lukuvinkki</h2>
+                                    <br>
+                                        <div id="buttons">
+                                            <button class="btn btn-dark" onClick="changeView('postBook')"> Lisää kirja </button>
+                                            <button class="btn btn-dark" onClick="changeView('postLink')"> Lisää linkki </button>
+                                            <button class="btn btn-dark" onClick="changeView('postPod')"> Lisää podcast </button>
+                                            <button class="btn btn-dark" onClick="changeView('postTube')"> Lisää Youtube </button>
+                                        </div>
+                                        <br>
 
-        <!-- KIRJAN LISÄÄMINEN -->
+                                            <!-- KIRJAN LISÄÄMINEN -->
 
-        <div id="postBook"  style="display: none;" th:style = "${showBook} ? 'display: block' : 'display: none'">
-            <div class="container">
-                <h4>Uusi kirja</h4>
-                <form th:object="${book}" th:action="@{/books}" method="POST">
-                    <div class="form-group">
-                        <label for="bookTitle">Kirjan nimi</label>
-                        <input type="text" name="title" id="bookTitle" th:value="*{title}">
-                        <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Kirjalle tulee syöttää nimi
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="bookAuthor">Kirjailija</label>
-                        <input type="text" name="author" id="bookAuthor" th:value="*{author}">
-                        <div th:if="${#fields.hasErrors('author')}">
-                            <div class="alert alert-danger" role="alert">
-                                Kirjalle tulee syöttää kirjailija
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="bookIsbn">ISBN-koodi</label>
-                        <input type="text" name="isbn" id="bookIsbn" th:value="*{isbn}">
-                        <div th:if="${#fields.hasErrors('isbn')}">
-                            <div class="alert alert-danger" role="alert">
-                                ISBN-koodi ei ole syötetty oikeassa muodossa
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseSelect1">Aiheeseen liittyvät kurssit</label>
-                        <select class="form-control" id="courseSelect1" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-					<div th:replace="fragments/recommendation_new :: tags"></div>
-                    <button type="submit" name="submit" class="btn btn-dark">Lisää uusi kirja!</button>
-                </form>
-            </div>
-        </div>
+                                            <div id="postBook"  style="display: none;" th:style = "${showBook} ? 'display: block' : 'display: none'">
+                                                <div class="container">
+                                                    <h4>Uusi kirja</h4>
+                                                    <form th:object="${book}" th:action="@{/books}" method="POST">
+                                                        <div class="form-group">
+                                                            <label for="bookTitle">Kirjan nimi</label>
+                                                            <input type="text" name="title" id="bookTitle" th:value="*{title}">
+                                                                <div th:if="${#fields.hasErrors('title')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Kirjalle tulee syöttää nimi
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="bookAuthor">Kirjailija</label>
+                                                            <input type="text" name="author" id="bookAuthor" th:value="*{author}">
+                                                                <div th:if="${#fields.hasErrors('author')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Kirjalle tulee syöttää kirjailija
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="bookIsbn">ISBN-koodi</label>
+                                                            <input type="text" name="isbn" id="bookIsbn" th:value="*{isbn}">
+                                                                <div th:if="${#fields.hasErrors('isbn')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        ISBN-koodi ei ole syötetty oikeassa muodossa
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="courseSelect1">Aiheeseen liittyvät kurssit</label>
+                                                            <select class="form-control" id="courseSelect1" name="selectedCourseId">
+                                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="tags">Aiheeseen liittyvät tagit</label>
+                                                            <div id="linkTags" class="controls">
+                                                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                    <span class="fa fa-plus"></span>
+                                                                </button>
+                                                                <div th:each="tag : *{tags}">
+                                                                    <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                    <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                        <span class="fa fa-plus"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-danger" onclick="removeDiv(this);">
+                                                                        <span class="fa fa-minus"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi kirja!</button>
+                                                    </form>
+                                                </div>
+                                            </div>
 
-        <!-- NETTILÄHTEEN LISÄÄMINEN -->
+                                            <!-- NETTILÄHTEEN LISÄÄMINEN -->
 
-        <div id="postLink" style="display: none;" th:style = "${showLink} ? 'display: block' : 'display: none'">
-            <div class="container">
-                <h4>Uusi linkki</h4>
-                <form th:object="${link}" th:action="@{/links}" method="POST">
-                    <div class="form-group">
-                        <label for="linkTitle">Otsikko</label>
-                        <input type="text" name="title" id="linkTitle" th:value="*{title}">
-                        <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Nettilähteelle tulee antaa otsikko.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="linkUrl">Url</label>
-                        <input type="text" name="url" id="linkUrl" th:value="*{url}">
-                        <div th:if="${#fields.hasErrors('url')}">
-                            <div class="alert alert-danger" role="alert">
-                                Nettilähteelle tulee antaa url-osoite.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseSelect2">Aiheeseen liittyvät kurssit</label>
-                        <select class="form-control" id="courseSelect2" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-					<div th:replace="fragments/recommendation_new :: tags"></div>
-                    <button type="submit" name="submit" class="btn btn-dark">Lisää uusi nettilähde!</button>
-                </form>
-            </div>
-        </div>
+                                            <div id="postLink" style="display: none;" th:style = "${showLink} ? 'display: block' : 'display: none'">
+                                                <div class="container">
+                                                    <h4>Uusi linkki</h4>
+                                                    <form th:object="${link}" th:action="@{/links}" method="POST">
+                                                        <div class="form-group">
+                                                            <label for="linkTitle">Otsikko</label>
+                                                            <input type="text" name="title" id="linkTitle" th:value="*{title}">
+                                                                <div th:if="${#fields.hasErrors('title')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Nettilähteelle tulee antaa otsikko.
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="linkUrl">Url</label>
+                                                            <input type="text" name="url" id="linkUrl" th:value="*{url}">
+                                                                <div th:if="${#fields.hasErrors('url')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Nettilähteelle tulee antaa url-osoite.
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="courseSelect2">Aiheeseen liittyvät kurssit</label>
+                                                            <select class="form-control" id="courseSelect2" name="selectedCourseId">
+                                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="tags">Aiheeseen liittyvät tagit</label>
+                                                            <div id="linkTags" class="controls">
+                                                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                    <span class="fa fa-plus"></span>
+                                                                </button>
+                                                                <div th:each="tag : *{tags}">
+                                                                    <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                    <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                        <span class="fa fa-plus"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-danger" onclick="removeDiv(this);">
+                                                                        <span class="fa fa-minus"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi nettilähde!</button>
+                                                    </form>
+                                                </div>
+                                            </div>
 
-        <!-- PODCASTIN LISÄÄMINEN -->
+                                            <!-- PODCASTIN LISÄÄMINEN -->
 
-        <div id="postPod"  style="display: none;"  th:style = "${showPodcast} ? 'display: block' : 'display: none'">
-            <div class="container">
-                <h4>Uusi podcast</h4>
-                <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
-                    <div class="form-group">
-                        <label for="podcastTitle">Otsikko</label>
-                        <input type="text" name="title" id="podcastTitle" th:value="*{title}">
-                        <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Podcastille tulee syöttää nimi
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="podcastAuthor">Tekijä</label>
-                        <input type="text" name="author" id="podcastAuthor" th:value="*{author}">
-                        <div th:if="${#fields.hasErrors('author')}">
-                            <div class="alert alert-danger" role="alert">
-                                Podcastille tulee syöttää tekijä
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="podcastUrl">Url</label>
-                        <input type="text" name="url" id="podcastUrl" th:value="*{url}">
-                        <div th:if="${#fields.hasErrors('url')}">
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                Podcastille tulee antaa url-osoite.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="podcastDescription">Kuvaus</label>
-                        <input type="text" name="description" id="podcastDescription" th:value="*{description}">
-                        <div th:if="${#fields.hasErrors('description')}">
-                            <div class="alert alert-danger" role="alert">
-                                Podcastille tulee antaa lyhyt kuvaus.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseSelect3">Aiheeseen liittyvät kurssit</label>
-                        <select class="form-control" id="courseSelect3" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-					<div th:replace="fragments/recommendation_new :: tags"></div>
-                    <button type="submit" name="submit" class="btn btn-dark">Lisää uusi podcast!</button>
-                </form>
-            </div>
-        </div>
+                                            <div id="postPod"  style="display: none;"  th:style = "${showPodcast} ? 'display: block' : 'display: none'">
+                                                <div class="container">
+                                                    <h4>Uusi podcast</h4>
+                                                    <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
+                                                        <div class="form-group">
+                                                            <label for="podcastTitle">Otsikko</label>
+                                                            <input type="text" name="title" id="podcastTitle" th:value="*{title}">
+                                                                <div th:if="${#fields.hasErrors('title')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Podcastille tulee syöttää nimi
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="podcastAuthor">Tekijä</label>
+                                                            <input type="text" name="author" id="podcastAuthor" th:value="*{author}">
+                                                                <div th:if="${#fields.hasErrors('author')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Podcastille tulee syöttää tekijä
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="podcastUrl">Url</label>
+                                                            <input type="text" name="url" id="podcastUrl" th:value="*{url}">
+                                                                <div th:if="${#fields.hasErrors('url')}">
+                                                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                                                        Podcastille tulee antaa url-osoite.
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="podcastDescription">Kuvaus</label>
+                                                            <input type="text" name="description" id="podcastDescription" th:value="*{description}">
+                                                                <div th:if="${#fields.hasErrors('description')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Podcastille tulee antaa lyhyt kuvaus.
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="courseSelect3">Aiheeseen liittyvät kurssit</label>
+                                                            <select class="form-control" id="courseSelect3" name="selectedCourseId">
+                                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="tags">Aiheeseen liittyvät tagit</label>
+                                                            <div id="podcastTags" class="controls">
+                                                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                    <span class="fa fa-plus"></span>
+                                                                </button>
+                                                                <div th:each="tag : *{tags}">
+                                                                    <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                    <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                        <span class="fa fa-plus"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-danger" onclick="removeDiv(this);">
+                                                                        <span class="fa fa-minus"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi podcast!</button>
+                                                    </form>
+                                                </div>
+                                            </div>
 
-        <!-- YOUTUBEN LISÄÄMINEN -->
+                                            <!-- YOUTUBEN LISÄÄMINEN -->
 
-        <div id="postTube"  style="display: none;"  th:style = "${showYoutube} ? 'display: block' : 'display: none'">
-            <div class="container">
-                <h4>Uusi youtube</h4>
-                <form th:object="${youtube}" th:action="@{/youtubes}" method="POST">
-                    <div class="form-group">
-                        <label for="youtubeTitle">Otsikko</label>
-                        <input type="text" name="title" id="youtubeTitle" th:value="*{title}">
-                        <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Youtube-videolle tulee syöttää nimi
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="youtubeAuthor">Tekijä</label>
-                        <input type="text" name="author" id="youtubeAuthor" th:value="*{author}">
-                        <div th:if="${#fields.hasErrors('author')}">
-                            <div class="alert alert-danger" role="alert">
-                                Youtube-videolle tulee syöttää tekijä
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="youtubeUrl">Url</label>
-                        <input type="text" name="url" id="youtubeUrl" th:value="*{url}">
-                        <div th:if="${#fields.hasErrors('url')}">
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                Youtube-videolle tulee antaa url-osoite.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="youtubeDescription">Kuvaus</label>
-                        <input type="text" name="description" id="youtubeDescription" th:value="*{description}">
-                        <div th:if="${#fields.hasErrors('description')}">
-                            <div class="alert alert-danger" role="alert">
-                                Youtube-videolle tulee antaa lyhyt kuvaus.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="courseSelect4">Aiheeseen liittyvät kurssit</label>
-                        <select class="form-control" id="courseSelect4" name="selectedCourseId">
-                            <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
-                        </select>
-                    </div>
-					<div th:replace="fragments/recommendation_new :: tags"></div>
-                    <button type="submit" name="submit" class="btn btn-dark">Lisää uusi Youtube!</button>
-                </form>
-            </div>
-        </div>
-        
-    </div>
-</body>
+                                            <div id="postTube"  style="display: none;"  th:style = "${showYoutube} ? 'display: block' : 'display: none'">
+                                                <div class="container">
+                                                    <h4>Uusi youtube</h4>
+                                                    <form th:object="${youtube}" th:action="@{/youtubes}" method="POST">
+                                                        <div class="form-group">
+                                                            <label for="youtubeTitle">Otsikko</label>
+                                                            <input type="text" name="title" id="youtubeTitle" th:value="*{title}">
+                                                                <div th:if="${#fields.hasErrors('title')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Youtube-videolle tulee syöttää nimi
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="youtubeAuthor">Tekijä</label>
+                                                            <input type="text" name="author" id="youtubeAuthor" th:value="*{author}">
+                                                                <div th:if="${#fields.hasErrors('author')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Youtube-videolle tulee syöttää tekijä
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="youtubeUrl">Url</label>
+                                                            <input type="text" name="url" id="youtubeUrl" th:value="*{url}">
+                                                                <div th:if="${#fields.hasErrors('url')}">
+                                                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                                                        Youtube-videolle tulee antaa url-osoite.
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="youtubeDescription">Kuvaus</label>
+                                                            <input type="text" name="description" id="youtubeDescription" th:value="*{description}">
+                                                                <div th:if="${#fields.hasErrors('description')}">
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Youtube-videolle tulee antaa lyhyt kuvaus.
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="courseSelect4">Aiheeseen liittyvät kurssit</label>
+                                                            <select class="form-control" id="courseSelect4" name="selectedCourseId">
+                                                                <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label for="tags">Aiheeseen liittyvät tagit</label>
+                                                            <div id="youtubeTags" class="controls">
+                                                                <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                    <span class="fa fa-plus"></span>
+                                                                </button>
+                                                                <div th:each="tag : *{tags}">
+                                                                    <input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
+                                                                    <button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
+                                                                        <span class="fa fa-plus"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-danger" onclick="removeDiv(this);">
+                                                                        <span class="fa fa-minus"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" name="submit" class="btn btn-dark">Lisää uusi Youtube!</button>
+                                                    </form>
+                                                </div>
+                                            </div>
 
-<script>
-    function changeView(id) {
-        document.getElementById("postBook").style.display = "none";
-        document.getElementById("postLink").style.display = "none";
-        document.getElementById("postPod").style.display = "none";
-        document.getElementById("postTube").style.display = "none";
-        document.getElementById(id).style.display = "block";
-    }
-</script>
-</html>
+                                            </div>
+                                            </body>
+
+                                            <script>
+                                                function changeView(id) {
+                                                    document.getElementById("postBook").style.display = "none";
+                                                    document.getElementById("postLink").style.display = "none";
+                                                    document.getElementById("postPod").style.display = "none";
+                                                    document.getElementById("postTube").style.display = "none";
+                                                    document.getElementById(id).style.display = "block";
+                                                }
+                                                function addTags(btn) {
+                                                    let str = '<div><input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/><button onClick="addTags(this)" class="btn btn-success btn-add" type="button"><span class="fa fa-plus"></span></button><button class="btn btn-danger" onclick="removeDiv(this);"><span class="fa fa-minus"/></button></div>';
+                                                    let div = (btn.parentNode).parentNode;
+                                                    div.insertAdjacentHTML("beforeend", str);
+                                                }
+                                                function removeDiv(btn) {
+                                                    ((btn.parentNode).parentNode).removeChild(btn.parentNode);
+                                                }
+                                            </script>
+                                            </html>
