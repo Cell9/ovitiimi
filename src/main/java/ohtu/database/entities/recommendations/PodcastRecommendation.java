@@ -39,6 +39,6 @@ public class PodcastRecommendation extends Recommendation {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s", this.getTitle(), this.getAuthor(), this.getDescription());
+        return String.format("%s, %s, %s, %s", this.getTitle(), this.getAuthor(), this.getUrl(), this.getDescription());
     }
 }

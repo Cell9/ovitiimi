@@ -89,7 +89,7 @@ public class PodcastRecommendationTests {
         assertEquals(podcastRecommendation.getType(), RecommendationType.PODCAST);
         assertEquals(podcastRecommendation.getTitle(), "Sarasvuo");
         assertEquals(podcastRecommendation.getUrl(), "url");
-        assertEquals(podcastRecommendation.toString(), "Sarasvuo, Yle Puhe, coaching");
+        assertEquals(podcastRecommendation.toString(), "Sarasvuo, Yle Puhe, url, coaching");
     }
 
     @Test
@@ -156,8 +156,9 @@ public class PodcastRecommendationTests {
         podcast.setAuthor("author");
         podcast.setDescription("description");
         podcast.setTitle("title");
+        podcast.setUrl("url");
 
-        assertTrue(podcast.toString().equals("title, author, description"));
+        assertTrue(podcast.toString().equals("title, author, url, description"));
     }
 
     @Test
