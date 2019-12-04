@@ -57,7 +57,7 @@
                     <tr>
                         <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" th:text="${recommendation}"/></td>
                         <td><p th:text="${recommendation.coursesAsString()}"/></td>
-                        <td><p th:if="${recommendation.tags != null and !recommendation.tags.isEmpty()}" th:text="${recommendation.tags}"/></td>
+                        <td><p th:text="${recommendation.tagsAsString()}"/></td>
                         <td><p th:text="${recommendation.type}"/></td>
                         <td><span th:title="${recommendation.readTime}" th:id="${recommendation.id}" class="btn-read fa fa-check" th:classappend="${recommendation.readTime == null} ? white : green"></span></td>
                     </tr>

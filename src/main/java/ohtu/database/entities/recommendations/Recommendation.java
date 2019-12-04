@@ -104,6 +104,10 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
     	
     	return sb.toString();
     }
+    
+    public String tagsAsString() {
+    	return String.join(", ", this.tags);
+    }
 
     @Override
     public String toString() {

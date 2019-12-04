@@ -37,7 +37,7 @@
             <tbody>
                 <tr>
                     <th>Tyyppi</th>
-                    <td><a th:text="${recommendation.title}"/></td>
+                    <td><a th:text="${recommendation.type}"/></td>
                 </tr>
                 <tr>
                     <th>Otsikko</th>
@@ -58,6 +58,7 @@
                         <td><a th:text="${recommendation.description}"/></td>
                     </tr>
                 </div>
+				
                 <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).BOOK}">
                     <tr>
                         <th>Kirjoittaja</th>
@@ -68,6 +69,7 @@
                         <td><a th:text="${recommendation.isbn}"/></td>
                     </tr>
                 </div>
+				
                 <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).YOUTUBE}">
                     <tr>
                         <th>Tekijä</th>
@@ -85,11 +87,11 @@
 
                 <tr>
                     <th>Aiheeseen liittyvät kurssit</th>
-                    <td><a th:text="${recommendation.courses}"/></td>
+                    <td><a th:text="${recommendation.coursesAsString()}"/></td>
                 </tr>
                 <tr>
                     <th>Tagit</th>
-                    <td><a th:text="${recommendation.tags}"/></td>
+                    <td><a th:text="${recommendation.tagsAsString()}"/></td>
                 </tr>
             </tbody>
         </table>
