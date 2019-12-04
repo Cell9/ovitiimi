@@ -21,7 +21,7 @@ import ohtu.database.entities.data.Course;
 @Entity
 @Data
 @DiscriminatorColumn(name = "type")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Recommendation extends AbstractPersistable<Long> {
 
     @NotEmpty
