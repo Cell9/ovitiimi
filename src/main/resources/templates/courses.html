@@ -26,6 +26,14 @@
             </div>
         </nav>
 
+        <br>
+        <div class="container" th:if="${message}">
+            <div class="alert alert-success alert-dismissible" role="alert" th:text="${message}"></div>
+        </div>
+        <div class="container" th:if="${error}">
+            <div class="alert alert-danger alert-dismissible" role="alert" th:text="${error}"></div>
+        </div>
+
         <div class="container">
             <br>
             <h2>Kurssit</h2>

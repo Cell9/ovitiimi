@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import ohtu.database.entities.data.Course;
 import ohtu.database.repositories.CourseRepository;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CourseController {
@@ -30,14 +31,16 @@ public class CourseController {
     }
 
     @PostMapping("/courses")
-    public String create(Model model, @Valid Course course, BindingResult result) {
+    public String create(Model model, @Valid Course course, BindingResult result, RedirectAttributes redirectAttributes) {
     	if (result.hasErrors()) {
     		model.addAttribute("course", course);
+            redirectAttributes.addFlashAttribute("error", "Kurssin lisäys epäonnistui!");
     		
-    		return "courses";
+    		return "redirect:/courses";
     	}
 
         this.courseRepository.save(course);
+        redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
         
         return "redirect:/courses";
     }
