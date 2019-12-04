@@ -45,6 +45,7 @@ public class RecommendationController {
 
         model.addAttribute("types", types);
         model.addAttribute("courses", courses);
+        model.addAttribute("tags", this.recommendationRepository.getAllTags());
 
         if (!model.containsAttribute("podcast")) {
             model.addAttribute("showPodcast", false);

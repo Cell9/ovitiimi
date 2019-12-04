@@ -1,10 +1,15 @@
 <div class="form-group" id="tags" th:fragment="tags">
 	<label for="tags">Aiheeseen liittyvät tagit</label>
-	<div class="controls">
-	   <th:block th:each="tag : *{tags}">
-			<div th:replace="fragments/tags :: tag_removable"></div>
-	   </th:block>
 	
+	<select class="selectpicker" multiple id="tags" name="tags">
+		<option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag}"></option>
+	</select>
+	
+	<th:block th:each="tag : *{tags}">
+		<div th:replace="fragments/tags :: tag_removable"></div>
+	</th:block>
+	
+	<div class="controls">
 		<div th:replace="fragments/tags :: tag"></div>
 	</div>
 </div>
