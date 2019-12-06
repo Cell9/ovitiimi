@@ -120,7 +120,7 @@ public class BookRecommendationTests {
         Course onecourse = new Course("tkt101", "", new ArrayList<Recommendation>());
         courses.add(onecourse);
         bookRecommendation.setCourses(courses);
-        assertTrue(bookRecommendation.toString().equals("\"otsikko\", kirjoittanut kirjoittaja"));
+        assertTrue(bookRecommendation.toString().equals("otsikko, kirjoittanut kirjoittaja"));
     }
 
     @Test

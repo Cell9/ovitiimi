@@ -38,6 +38,6 @@ public class BookRecommendation extends Recommendation {
 
     @Override
     public String toString() {
-        return String.format("%s, kirjoittanut %s", '\"' + this.getTitle() + '\"', this.getAuthor());
+        return String.format("%s, kirjoittanut %s", this.getTitle(), this.getAuthor());
     }
 }
