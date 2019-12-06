@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Lukuvinkit</title>
     <meta charset="UTF-8">
@@ -11,11 +12,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </head>
-    
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" th:href="@{/}">Lukuvinkkisovellus</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -40,7 +42,7 @@
         <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Etsi listasta" title="Etsi listasta">
     </div>
     <br>
-    <div class="container" id="vinkkilista"th:if="${recommendations}">
+    <div class="container" id="vinkkilista" th:if="${recommendations}">
         <h2>Lukuvinkit</h2>
         <table class="table">
             <thead class="thead-dark">
@@ -55,11 +57,19 @@
             <tbody>
                 <div th:each="recommendation : ${recommendations}">
                     <tr>
-                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" th:text="${recommendation}"/></td>
-                        <td><p th:text="${recommendation.coursesAsString()}"/></td>
-                        <td><p th:text="${recommendation.tagsAsString()}"/></td>
-                        <td><p th:text="${recommendation.type}"/></td>
-                        <td><span th:title="${recommendation.readTime}" th:id="${recommendation.id}" class="btn-read fa fa-check" th:classappend="${recommendation.readTime == null} ? white : green"></span></td>
+                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" th:text="${recommendation}" /></td>
+                        <td>
+                            <p th:text="${recommendation.coursesAsString()}" />
+                        </td>
+                        <td>
+                            <p th:text="${recommendation.tagsAsString()}" />
+                        </td>
+                        <td>
+                            <p th:text="${recommendation.type}" />
+                        </td>
+                        <td><span th:title="${recommendation.readTime}" th:id="${recommendation.id}" class="btn-read fa"
+                                th:classappend="${recommendation.readTime == null} ? fa-square : fa-check-square"></span>
+                        </td>
                     </tr>
                 </div>
                 <tr>
@@ -69,89 +79,86 @@
     </div>
 </body>
 <script>
-        function filterTable() {
-            // Declare variables
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("filterInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("vinkkilista");
-            tr = table.getElementsByTagName("tr");
-            // Loop through all table rows except the first, and hide those who don't match the search query
-            for (i = 1; i < tr.length; i++) {
-                var tds = tr[i].getElementsByTagName("td");
-                var display = "none";
-                for (j = 0; j < tds.length; j++) {
-                    td = tds[j];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        txtValue = txtValue.toUpperCase();
-                        if (txtValue.includes(filter)) {
-                            display = "";
-                            break;
-                        }
+    function filterTable() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("filterInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("vinkkilista");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows except the first, and hide those who don't match the search query
+        for (i = 1; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var display = "none";
+            for (j = 0; j < tds.length; j++) {
+                td = tds[j];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    txtValue = txtValue.toUpperCase();
+                    if (txtValue.includes(filter)) {
+                        display = "";
+                        break;
                     }
                 }
-                tr[i].style.display = display;
             }
+            tr[i].style.display = display;
         }
-		
-		$(".btn-read").click(function()
-		{
-			var clicked = $(this);
-			
-			var read = clicked.hasClass("green");
-			
-			setReadStatus(clicked, !read);
-			
-			fetch("recommendation/read",
-			{
-				method: "POST",
-				headers: {
-				  'Accept': 'application/json',
-				  'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(
-				{
-					id: clicked.attr('id'),
-					read: !read
-				})
-			}).then((response) => response.json())
-			.then((json) =>
-			{
-				if (!json.success)
-				{
-					setReadStatus(clicked, read);
-					
-					alert(json.error);
-				}
-				else
-				{
-					setReadStatus(clicked, !read);
-				}
-			})
-			.catch((error) => setReadStatus(clicked, read));
-		});
-		
-		function setReadStatus(target, read)
-		{
-			if (read)
-			{
-				target.addClass("green");
-			}
-			else
-			{
-				target.removeClass("green");
-			}
-		}
+    }
+
+    $(".btn-read").click(function () {
+        var clicked = $(this);
+
+        var read = clicked.hasClass("fa-check-square");
+
+        setReadStatus(clicked, !read);
+
+        fetch("recommendation/read",
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        id: clicked.attr('id'),
+                        read: !read
+                    })
+            }).then((response) => response.json())
+            .then((json) => {
+                if (!json.success) {
+                    setReadStatus(clicked, read);
+
+                    alert(json.error);
+                }
+                else {
+                    setReadStatus(clicked, !read);
+                }
+            })
+            .catch((error) => setReadStatus(clicked, read));
+    });
+
+    function setReadStatus(target, read) {
+        console.log(read)
+        if (read) {
+            target.removeClass("fa-square");
+            target.addClass("fa-check-square");
+        }
+        else {
+            target.removeClass("fa-check-square");
+            target.addClass("fa-square");
+        }
+    }
 </script>
-	
+
 <style>
-	.btn-read {
-		cursor: pointer;
-	}
-	
-	.green {
-		color: green;
-	}
+    .btn-read {
+        cursor: pointer;
+    }
+
+    .green {
+        color: green;
+    }
 </style>
+
 </html>
