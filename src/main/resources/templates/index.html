@@ -39,7 +39,36 @@
     </div>
     <br>
     <div class="container">
-        <input type="text" id="filterInput" onkeyup="filterTable()" placeholder="Etsi listasta" title="Etsi listasta">
+        <div class="container">
+            <span>
+                <input type="text" id="filterInput1" onkeyup="filterTable()" placeholder="Etsi listasta"
+                    title="Etsi listasta">
+                <select id="picker1" class="selectpicker" onChange="filterTable()">
+                    <option value="table-class">Kaikki</option>
+                    <option value="type-class">Tyyppi</option>
+                    <option value="tags-class">Tagi</option>
+                    <option value="courses-class">Kurssi</option>
+                </select>
+            </span>
+
+        </div>
+        <div class="container">
+            <select id="andor" class="selectpicker" onChange="filterTable()">
+                <option value="and">And</option>
+                <option value="or">Or</option>
+            </select>
+        </div>
+        <div class="container">
+            <span> <input type="text" id="filterInput2" onkeyup="filterTable()" placeholder="Etsi listasta"
+                    title="Etsi listasta">
+                <select id="picker2" class="selectpicker" onChange="filterTable()">
+                    <option value="table-class">Kaikki</option>
+                    <option value="type-class">Tyyppi</option>
+                    <option value="tags-class">Tagi</option>
+                    <option value="courses-class">Kurssi</option>
+                </select>
+            </span>
+        </div>
     </div>
     <br>
     <div class="container" id="vinkkilista" th:if="${recommendations}">
@@ -57,15 +86,16 @@
             <tbody>
                 <div th:each="recommendation : ${recommendations}">
                     <tr>
-                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" th:text="${recommendation}" /></td>
+                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" class="table-class"
+                                th:text="${recommendation}" /></td>
                         <td>
-                            <p th:text="${recommendation.coursesAsString()}" />
+                            <p class="table-class courses-class" th:text="${recommendation.coursesAsString()}" />
                         </td>
                         <td>
-                            <p th:text="${recommendation.tagsAsString()}" />
+                            <p class="table-class tags-class" th:text="${recommendation.tagsAsString()}" />
                         </td>
                         <td>
-                            <p th:text="${recommendation.type}" />
+                            <p class="table-class type-class" th:text="${recommendation.type}" />
                         </td>
                         <td><span th:title="${recommendation.readTime}" th:id="${recommendation.id}" class="btn-read fa"
                                 th:classappend="${recommendation.readTime == null} ? fa-square : fa-check-square"></span>
@@ -79,30 +109,65 @@
     </div>
 </body>
 <script>
+
     function filterTable() {
-        // Declare variables
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("filterInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("vinkkilista");
-        tr = table.getElementsByTagName("tr");
-        // Loop through all table rows except the first, and hide those who don't match the search query
-        for (i = 1; i < tr.length; i++) {
-            var tds = tr[i].getElementsByTagName("td");
-            var display = "none";
-            for (j = 0; j < tds.length; j++) {
-                td = tds[j];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    txtValue = txtValue.toUpperCase();
-                    if (txtValue.includes(filter)) {
-                        display = "";
-                        break;
-                    }
-                }
-            }
-            tr[i].style.display = display;
+        let filter1 = document.getElementById("filterInput1").value.toUpperCase();
+        let filter2 = document.getElementById("filterInput2").value.toUpperCase();
+        let rajaus1 = document.getElementById("picker1").value;
+        let rajaus2 = document.getElementById("picker2").value;
+        let andor = document.getElementById("andor").value;
+        switch (andor) {
+            case "or":
+                orFilter(filter1, filter2, rajaus1, rajaus2);
+                break;
+            case "and":
+                andFilter(filter1, filter2, rajaus1, rajaus2);
+                break;
+            default:
         }
+    }
+
+    function orFilter(filter1, filter2, rajaus1, rajaus2) {
+        let table = document.getElementById("vinkkilista");
+        let rows = table.getElementsByTagName("tr");
+        for (i = 1; i < rows.length; i++) {
+            tr = rows[i];
+            filter1Pass = rowFilter(tr, filter1, rajaus1);
+            filter2Pass = rowFilter(tr, filter2, rajaus2);
+            if (filter1Pass || filter2Pass) {
+                tr.style.display = "";
+            } else {
+                tr.style.display = "none";
+            }
+        }
+    }
+
+    function andFilter(filter1, filter2, rajaus1, rajaus2) {
+        table = document.getElementById("vinkkilista");
+        rows = table.getElementsByTagName("tr");
+        for (i = 1; i < rows.length; i++) {
+            tr = rows[i];
+            filter1Pass = rowFilter(tr, filter1, rajaus1);
+            filter2Pass = rowFilter(tr, filter2, rajaus2);
+            if (filter1Pass && filter2Pass) {
+                tr.style.display = "";
+            } else {
+                tr.style.display = "none";
+            }
+        }
+    }
+
+    function rowFilter(row, filter, rajaus) {
+        let tds = row.getElementsByClassName(rajaus);
+        for (j = 0; j < tds.length; j++) {
+            let td = tds[j];
+            let txtValue = td.textContent || td.innerText;
+            txtValue = txtValue.toUpperCase();
+            if (txtValue.includes(filter)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     $(".btn-read").click(function () {

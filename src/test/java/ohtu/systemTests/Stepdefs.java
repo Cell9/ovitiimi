@@ -464,7 +464,7 @@ public class Stepdefs {
 
     @When("new book is filtered out")
     public void new_book_is_filtered_out() throws Throwable {
-        WebElement element = driver.findElement(By.id("filterInput"));
+        WebElement element = driver.findElement(By.id("filterInput1"));
         element.sendKeys("And");
 
         Thread.sleep(500);
