@@ -36,10 +36,10 @@ repositories {
     }
 }
 
-task( browse, dependsOn: jar, type: JavaExec ) {
-    main = 'ohtu.Tester'
-    classpath = sourceSets.main.runtimeClasspath
-}
+//task( browse, dependsOn: jar, type: JavaExec ) {
+//    main = 'ohtu.Tester'
+//    classpath = sourceSets.main.runtimeClasspath
+//}
     
 mainClassName = "ohtu.Main"
 

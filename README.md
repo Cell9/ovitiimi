@@ -16,8 +16,12 @@
 
 ## Hyväksymäkriteerit
 
+[Lukuvinkit yleisesti](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/recommendation.feature)
+
 [Kirjat](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/book.feature)
 
 [Linkit](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/link.feature)
 
 [Podcastit](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/podcast.feature)
+
+[Youtube](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/youtube.feature)
