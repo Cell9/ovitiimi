@@ -26,4 +26,3 @@
 
 [Youtube](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/youtube.feature)
 
-
