@@ -32,12 +32,12 @@ public class CourseController {
 
     @PostMapping("/courses")
     public String create(Model model, @Valid Course course, BindingResult result, RedirectAttributes redirectAttributes) {
-    	if (result.hasErrors()) {
-    		model.addAttribute("course", course);
+        if (result.hasErrors()) {
+            model.addAttribute("course", course);
             redirectAttributes.addFlashAttribute("error", "Kurssin lisäys epäonnistui!");
-    		
-    		return "redirect:/courses";
-    	}
+
+            return "redirect:/courses";
+        }
 
         this.courseRepository.save(course);
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
