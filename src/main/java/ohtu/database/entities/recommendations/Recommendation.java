@@ -72,10 +72,6 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
     	return this.courses.containsKey(id);
     }
 
-    public boolean hasTag(String tag) {
-        return this.tags.contains(tag);
-    }
-
     public void addTag(String tag) {
         this.tags.add(tag);
     }
