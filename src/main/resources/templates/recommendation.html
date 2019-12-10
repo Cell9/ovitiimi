@@ -107,12 +107,17 @@
                 </tr>
             </tbody>
         </table>
-    </div>
+    <!-- </div>
     <div class="container"
         th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).YOUTUBE && recommendation.url.contains('youtube.com/embed')}">
         <iframe picture-in-picture frameborder="0" allowfullscreen width="560" height="315"
             th:src="${recommendation.url}" />
-    </div>
-</body>
+	</div> -->
+			<div class="container" th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).YOUTUBE && recommendation.getVideoCode() != null}">
+			<h3>Embed</h3>
+		
+			<iframe picture-in-picture frameborder="0" allowfullscreen width="560" height="315" th:src="${'https://www.youtube.com/embed/' + recommendation.getVideoCode()}"/>
+		</div>
+	</body>
 
 </html>
