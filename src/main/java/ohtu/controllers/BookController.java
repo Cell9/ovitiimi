@@ -53,4 +53,13 @@ public class BookController {
 
         return "redirect:/";
     }
+
+    @PostMapping("books/edit")
+    public String edit(Model model, @Valid BookRecommendation book, BindingResult result,
+                       RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") List<Long> selectedCourseIds) {
+
+        // kesken
+
+        return "redirect:/";
+    }
 }

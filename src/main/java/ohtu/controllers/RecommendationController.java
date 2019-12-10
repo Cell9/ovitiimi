@@ -87,8 +87,22 @@ public class RecommendationController {
         model.addAttribute("recommendation", recommendation);
 
         return "recommendation";
+    }
+
+    @GetMapping("/lukuvinkki/muokkaa/")
+    public String editRecommendation(Model model, @RequestParam Long id) {
+        Recommendation recommendation = recommendationRepository.findById(id).orElse(null);
+        if (recommendation == null) {
+            return "redirect:/index";
+        }
+        List<Course> courses = courseRepository.findAll();
+        model.addAttribute("courses", courses);
+        model.addAttribute("recommendation", recommendation);
+        model.addAttribute("tags", this.recommendationRepository.getAllTags());
+        return "editRecommendation";
 
     }
+
     
     @PostMapping("recommendation/read")
     @ResponseBody

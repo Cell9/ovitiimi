@@ -1,0 +1,21 @@
+<div class="form-group" id="tags" th:fragment="tags">
+    <label for="tags">Aiheeseen liittyvät tagit</label>
+
+    <select class="selectpicker" multiple id="tags" name="tags">
+        <option th:each="tag : ${tags}" th:value="${tag}" th:text="${tag}"
+                th:attr="selected=*{hasTag('__(${tag})__') ? 'selected' : null}"></option>
+    </select>
+
+    <div class="controls">
+        <div th:replace="fragments/tags :: tag"></div>
+    </div>
+</div>
+
+<div class="form-group" th:fragment="courses">
+    <label for="courseSelect1">Aiheeseen liittyvät kurssit</label>
+    <select class="selectpicker" multiple id="courseSelect1" name="selectedCourseId">
+        <option th:each="course : ${courses}" th:value="${course.id}" th:text="${course.name}"
+                th:attr="selected=*{hasCourseById(__(${course.id})__) ? 'selected' : null}"></option>
+    </select>
+
+</div>
