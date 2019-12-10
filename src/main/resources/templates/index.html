@@ -14,21 +14,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" th:href="@{/}">Lukuvinkkisovellus</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class=" collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/}">Lukuvinkit</a>
-                <a class="nav-item nav-link" th:href="@{/uusi}">Lisää lukuvinkki</a>
-                <a class="nav-item nav-link" th:href="@{/courses}">Kurssit</a>
-            </div>
-        </div>
-    </nav>
+    <div th:replace="/fragments/navbar"></div>
     <br>
 
     <div class="container" th:if="${message}">
