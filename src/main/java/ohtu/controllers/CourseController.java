@@ -1,7 +1,5 @@
 package ohtu.controllers;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ohtu.database.entities.data.Course;
 import ohtu.database.repositories.CourseRepository;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CourseController {
@@ -22,9 +20,7 @@ public class CourseController {
 
     @GetMapping("/courses")
     public String list(Model model) {
-        List<Course> courses = courseRepository.findAll();
-        
-        model.addAttribute("courses", courses);
+        model.addAttribute("courses", this.courseRepository.findAll());
         model.addAttribute("course", new Course());
         
         return "courses";
@@ -32,15 +28,17 @@ public class CourseController {
 
     @PostMapping("/courses")
     public String create(Model model, @Valid Course course, BindingResult result, RedirectAttributes redirectAttributes) {
+    	
         if (result.hasErrors()) {
 
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.course", result);
-            //redirectAttributes.addFlashAttribute("error", "Kurssin lisäys epäonnistui!");
-            redirectAttributes.addFlashAttribute("course", course);
-            return "redirect:/courses";
+            model.addAttribute("courses", this.courseRepository.findAll());
+            model.addAttribute("course", course);
+            
+            return "courses";
         }
 
         this.courseRepository.save(course);
+        
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
         
         return "redirect:/courses";
