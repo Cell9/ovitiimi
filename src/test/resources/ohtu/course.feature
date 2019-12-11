@@ -8,7 +8,7 @@ Feature: courses can be browsed and posted
     Given user is at the main page
     When a new course is created
     Then the new course is shown
-  Scenario: user can't add a course without a name
-    Given user is at the main page
-    When a new course is created without a name
-    Then an error notification for missing course name is shown
+  # Scenario: user can't add a course without a name
+  #   Given user is at the main page
+  #   When a new course is created without a name
+  #   Then an error notification for missing course name is shown
