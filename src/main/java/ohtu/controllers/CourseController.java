@@ -33,9 +33,10 @@ public class CourseController {
     @PostMapping("/courses")
     public String create(Model model, @Valid Course course, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            model.addAttribute("course", course);
-            redirectAttributes.addFlashAttribute("error", "Kurssin lisäys epäonnistui!");
 
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.course", result);
+            //redirectAttributes.addFlashAttribute("error", "Kurssin lisäys epäonnistui!");
+            redirectAttributes.addFlashAttribute("course", course);
             return "redirect:/courses";
         }
 
