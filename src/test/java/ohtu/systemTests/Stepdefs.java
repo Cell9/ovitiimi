@@ -2,16 +2,21 @@ package ohtu.systemTests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.time.Duration;
 import java.util.Random;
+import java.util.function.Function;
 
-import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.gargoylesoftware.css.parser.CSSErrorHandler;
 import com.gargoylesoftware.css.parser.CSSException;
@@ -24,8 +29,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest()
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(
   locations = "classpath:application-test.properties")
 public class Stepdefs {
@@ -34,6 +38,11 @@ public class Stepdefs {
 
     String courseName1;
     String courseName2;
+    
+    private Wait<WebDriver> waiter;
+
+    @LocalServerPort
+    private int springPort;
 
     public Stepdefs() {
         this.driver = new HtmlUnitDriver(true) {
@@ -56,11 +65,20 @@ public class Stepdefs {
         		return client;
     		}
         };
+        
+        this.waiter = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoring(NoSuchElementException.class);
     }
 
     @After
     public void tearDown() {
         driver.quit();
+    }
+    
+    private String getMainUrl() {
+    	return "http://localhost:" + this.springPort + "/";
     }
 
     @Before
@@ -72,71 +90,56 @@ public class Stepdefs {
 
     @Given("^user is at the main page$")
     public void user_is_at_the_main_page() throws Throwable {
-        driver.get("http://localhost:" + 8080 + "/");
-        Thread.sleep(500);
+        driver.get(this.getMainUrl());
     }
 
     @When("Kurssit is clicked")
     public void kurssit_is_clicked() throws Throwable {
-        Thread.sleep(500);
-        clickLinkWithText("Kurssit");
-        Thread.sleep(500);
+        this.findAndClick(By.linkText("Kurssit"));
     }
 
     @Then("Lisää uusi kurssi is shown")
     public void lisaa_uusi_kurssi_is_shown() throws Throwable {
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains("Lisää uusi kurssi"));
-        Thread.sleep(500);
+        assertTrue(this.find(By.tagName("body")).getText().contains("Lisää uusi kurssi"));
     }
 
     @When("a new course is created")
     public void a_new_course_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Kurssit"));
-        element.click();
+        this.findAndClick(By.linkText("Kurssit"));
 
-        element = driver.findElement(By.id("courseCode"));
+        WebElement element = this.find(By.id("courseCode"));
         element.sendKeys(courseName1);
-        element = driver.findElement(By.id("courseName"));
+        
+        element = this.find(By.id("courseName"));
         element.sendKeys("Kiva kurssi");
-        Thread.sleep(500);
 
-        element = driver.findElement(By.name("submitCourse"));
+        element = this.find(By.name("submitCourse"));
         element.submit();
-
-        Thread.sleep(500);
     }
 
     @When("a new course is created without a name")
     public void a_new_course_is_created_without_a_name() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Kurssit"));
-        element.click();
+        this.findAndClick(By.linkText("Kurssit"));
 
-        element = driver.findElement(By.id("courseCode"));
+        WebElement element = this.find(By.id("courseCode"));
         element.sendKeys(courseName2);
-        element = driver.findElement(By.id("courseName"));
+        
+        element = this.find(By.id("courseName"));
         element.sendKeys("");
-        Thread.sleep(500);
 
-        element = driver.findElement(By.name("submitCourse"));
+        element = this.find(By.name("submitCourse"));
         element.submit();
-
-        Thread.sleep(500);
     }
 
     @Then("the new course is shown")
     public void the_new_course_is_shown() throws Throwable {
-        Thread.sleep(500);
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains(courseName1));
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains("Kiva kurssi"));
-        Thread.sleep(500);
+        assertTrue(this.find(By.tagName("body")).getText().contains(courseName1));
+        assertTrue(this.find(By.tagName("body")).getText().contains("Kiva kurssi"));
     }
 
     // @Then("an error notification for missing course name is shown")
     // public void an_error_notification_for_missing_course_name_is_shown() throws Throwable {
-    //     WebElement element = driver.findElement(By.tagName("body"));
+    //     WebElement element = this.find(By.tagName("body"));
     //     String msg = element.getText();
     //     assertTrue(msg.contains("Kurssin lisäys epäonnistui!"));
     //     Thread.sleep(500);
@@ -144,241 +147,190 @@ public class Stepdefs {
 
     @When("Lisää lukuvinkki is clicked")
     public void lisaa_lukuvinkki_clicked() throws Throwable {
-        Thread.sleep(500);
-        clickLinkWithText("Lisää lukuvinkki");
-        Thread.sleep(500);
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
     }
 
     @Then("Lisää lukuvinkki is shown")
     public void lisaa_lukuvinkki_shown() throws Throwable {
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains("Lisää uusi lukuvinkki"));
-        Thread.sleep(500);
+        assertTrue(this.find(By.tagName("body")).getText().contains("Lisää uusi lukuvinkki"));
     }
     
     @Given("user is at the new recommendation page")
     public void user_is_at_the_new_recommendation_page() throws Throwable {
-        driver.get("http://localhost:8080");
-        Thread.sleep(500);
+        driver.get(this.getMainUrl());
     }
     
     @When("a new kirja is created")
     public void a_new_kirja_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
         
-        element = driver.findElement(By.name("addBook"));
-        element.click();
-        Thread.sleep(500);
+        this.findAndClick(By.name("addBook"));
         
-        element = driver.findElement(By.id("bookTitle"));
+        WebElement element = this.find(By.id("bookTitle"));
         element.sendKeys("Test Book");
-        element = driver.findElement(By.id("bookAuthor"));
+        
+        element = this.find(By.id("bookAuthor"));
         element.sendKeys("Nimekas Kirjailija");
-        element = driver.findElement(By.id("bookIsbn"));
+        
+        element = this.find(By.id("bookIsbn"));
         element.sendKeys("1234");
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitBook"));        
+        element = this.find(By.name("submitBook"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
 
     @Then("the new kirja is shown")
     public void the_new_kirja_is_shown() throws Throwable {
-        Thread.sleep(500);
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains("Test Book"));
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains("Nimekas Kirjailija"));
-        Thread.sleep(500);
+
+        assertTrue(this.find(By.tagName("body")).getText().contains("Test Book"));
+        assertTrue(this.find(By.tagName("body")).getText().contains("Nimekas Kirjailija"));
     }
 
     @Then("a success notification is shown")
     public void a_success_notification_is_shown() throws Throwable {
-        assertTrue(driver.findElement(By.tagName("body"))
-                .getText().contains("Lisäys onnistui!"));
-        Thread.sleep(500);
+        assertTrue(this.find(By.tagName("body")).getText().contains("Lisäys onnistui!"));
     }
     
     @When("a faulty kirja is created")
     public void a_faulty_kirja_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addBook"));
         
-        element = driver.findElement(By.name("addBook"));
-        element.click();
-        Thread.sleep(500);
+        WebElement element = this.find(By.id("bookTitle"));
+        element.sendKeys("");
         
-        element = driver.findElement(By.id("bookTitle"));
+        element = this.find(By.id("bookAuthor"));
         element.sendKeys("");
-        element = driver.findElement(By.id("bookAuthor"));
-        element.sendKeys("");
-        element = driver.findElement(By.id("bookIsbn"));
+        
+        element = this.find(By.id("bookIsbn"));
         element.sendKeys("1234");
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitBook"));        
+        element = this.find(By.name("submitBook"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
     
     @Then("an error notification for missing title is shown")
     public void an_error_notification_for_missing_title_is_shown() throws Throwable {
-        WebElement element = driver.findElement(By.tagName("body"));
-        String msg = element.getText();
-        assertTrue(msg.contains("Kirjalle tulee syöttää nimi"));
-        Thread.sleep(500);
+        WebElement element = this.find(By.tagName("body"));
+
+        assertTrue(element.getText().contains("Kirjalle tulee syöttää nimi"));
     }
     
     @Then("an error notification for missing author is shown")
     public void an_error_notification_for_missing_author_is_shown() throws Throwable {
-        WebElement element = driver.findElement(By.tagName("body"));
-        String msg = element.getText();
-        assertTrue(msg.contains("Kirjalle tulee syöttää kirjailija"));
-        Thread.sleep(500);
+        WebElement element = this.find(By.tagName("body"));
+
+        assertTrue(element.getText().contains("Kirjalle tulee syöttää kirjailija"));
     }
 
     @When("a new nettilähde is created")
     public void a_new_link_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+    	
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addLink"));
         
-        element = driver.findElement(By.name("addLink"));
-        element.click();
-        Thread.sleep(500);
-        
-        element = driver.findElement(By.id("linkTitle"));
+        WebElement element = this.find(By.id("linkTitle"));
         element.sendKeys("Test Link");
-        element = driver.findElement(By.id("linkUrl"));
+        
+        element = this.find(By.id("linkUrl"));
         element.sendKeys("http://testi.com");
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitLink"));        
+        element = this.find(By.name("submitLink"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
 
     @When("a new nettilähde is created without url")
     public void a_new_link_is_created_without_url() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
 
-        element = driver.findElement(By.name("addLink"));
-        element.click();
-        Thread.sleep(500);
+        this.findAndClick(By.name("addLink"));
 
-        element = driver.findElement(By.id("linkTitle"));
+        WebElement element = this.find(By.id("linkTitle"));
         element.sendKeys("Test Link");
-        element = driver.findElement(By.id("linkUrl"));
+        
+        element = this.find(By.id("linkUrl"));
         element.sendKeys("");
-        Thread.sleep(500);
 
-        element = driver.findElement(By.name("submitLink"));
+        element = this.find(By.name("submitLink"));
         element.submit();
-
-        Thread.sleep(500);
     }
 
     @When("a new nettilähde without html-scheme is created")
     public void a_new_link_without_html_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addLink"));
         
-        element = driver.findElement(By.name("addLink"));
-        element.click();
-        Thread.sleep(500);
-        
-        element = driver.findElement(By.id("linkTitle"));
+        WebElement element = this.find(By.id("linkTitle"));
         element.sendKeys("Test Link");
-        element = driver.findElement(By.id("linkUrl"));
+        
+        element = this.find(By.id("linkUrl"));
         element.sendKeys("testi.com");
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitLink"));        
+        element = this.find(By.name("submitLink"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
     
     @Then("the new nettilähde is shown")
     public void the_new_link_is_shown() throws Throwable {
-        Thread.sleep(500);
-        assertTrue(driver.findElement(By.tagName("body"))
+        assertTrue(this.find(By.tagName("body"))
                 .getText().contains("Test Link"));
-        assertTrue(driver.findElement(By.tagName("body"))
+        assertTrue(this.find(By.tagName("body"))
                 .getText().contains("http://testi.com"));
-        Thread.sleep(500);
     }
 
     @When("a new podcast is created")
     public void a_new_podcast_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addPod"));
         
-        element = driver.findElement(By.name("addPod"));
-        element.click();
-        Thread.sleep(500);
-        
-        element = driver.findElement(By.id("podcastTitle"));
+        WebElement element = this.find(By.id("podcastTitle"));
         element.sendKeys("Test Podcast");
-        element = driver.findElement(By.id("podcastAuthor"));
+        
+        element = this.find(By.id("podcastAuthor"));
         element.sendKeys("Kuuluva Ääni");
-        element = driver.findElement(By.id("podcastUrl"));
+        
+        element = this.find(By.id("podcastUrl"));
         element.sendKeys("bbc.areena.be");
-        element = driver.findElement(By.id("podcastDescription"));
+        
+        element = this.find(By.id("podcastDescription"));
         element.sendKeys("äänekäs");
-
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitPod"));        
+        element = this.find(By.name("submitPod"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
 
     @Then("the new podcast is shown")
     public void the_new_podcast_is_shown() throws Throwable {
-        Thread.sleep(500);
-        assertTrue(driver.findElement(By.tagName("body"))
+        assertTrue(this.find(By.tagName("body"))
                 .getText().contains("Test Podcast"));
-        assertTrue(driver.findElement(By.tagName("body"))
+        assertTrue(this.find(By.tagName("body"))
                 .getText().contains("Kuuluva Ääni"));
-        Thread.sleep(500);
     }
 
     @When("a faulty podcast is created")
     public void a_faulty_podcast_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addPod"));
         
-        element = driver.findElement(By.name("addPod"));
-        element.click();
-        Thread.sleep(500);
+        WebElement element = this.find(By.id("podcastTitle"));
+        element.sendKeys("");
         
-        element = driver.findElement(By.id("podcastTitle"));
+        element = this.find(By.id("podcastAuthor"));
         element.sendKeys("");
-        element = driver.findElement(By.id("podcastAuthor"));
-        element.sendKeys("");
-        element = driver.findElement(By.id("podcastUrl"));
+        
+        element = this.find(By.id("podcastUrl"));
         element.sendKeys("bbc.areena.be");
-        element = driver.findElement(By.id("podcastDescription"));
+        
+        element = this.find(By.id("podcastDescription"));
         element.sendKeys("äänekäs");
-
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitPod"));        
+        element = this.find(By.name("submitPod"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
 
     // @Then("an error notification for missing link url is shown")
     // public void an_error_notification_for_missing_link_url_is_shown() throws Throwable {
-    //     WebElement element = driver.findElement(By.tagName("body"));
+    //     WebElement element = this.find(By.tagName("body"));
     //     String msg = element.getText();
     //     assertTrue(msg.contains("Nettilähteelle tulee antaa url-osoite."));
     //     Thread.sleep(500);
@@ -386,7 +338,7 @@ public class Stepdefs {
 
     // @Then("an error notification for missing podcast title is shown")
     // public void an_error_notification_for_missing_podcast_title_is_shown() throws Throwable {
-    //     WebElement element = driver.findElement(By.tagName("body"));
+    //     WebElement element = this.find(By.tagName("body"));
     //     String msg = element.getText();
     //     assertTrue(msg.contains("Podcastille tulee syöttää nimi"));
     //     Thread.sleep(500);
@@ -394,77 +346,64 @@ public class Stepdefs {
 
     @Then("an error notification for missing podcast author is shown")
     public void an_error_notification_for_missing_podcast_author_is_shown() throws Throwable {
-        WebElement element = driver.findElement(By.tagName("body"));
+        WebElement element = this.find(By.tagName("body"));
         String msg = element.getText();
         assertTrue(msg.contains("Podcastille tulee syöttää tekijä"));
-        Thread.sleep(500);
     }
 
     @When("a new youtube is created")
     public void a_new_youtube_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addTube"));
         
-        element = driver.findElement(By.name("addTube"));
-        element.click();
-        Thread.sleep(500);
-        
-        element = driver.findElement(By.id("youtubeTitle"));
+        WebElement element = this.find(By.id("youtubeTitle"));
         element.sendKeys("Test Youtube");
-        element = driver.findElement(By.id("youtubeAuthor"));
+        
+        element = this.find(By.id("youtubeAuthor"));
         element.sendKeys("Kaunis Kasvo");
-        element = driver.findElement(By.id("youtubeUrl"));
+        
+        element = this.find(By.id("youtubeUrl"));
         element.sendKeys("you.tu.be");
-        element = driver.findElement(By.id("youtubeDescription"));
+        
+        element = this.find(By.id("youtubeDescription"));
         element.sendKeys("näyttävä");
-
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitYoutube"));        
+        element = this.find(By.name("submitYoutube"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
 
     @Then("a new youtube is shown")
     public void a_new_youtube_is_shown() throws Throwable {
-        Thread.sleep(500);
-        assertTrue(driver.findElement(By.tagName("body"))
+        assertTrue(this.find(By.tagName("body"))
                 .getText().contains("Test Youtube"));
-        assertTrue(driver.findElement(By.tagName("body"))
+        assertTrue(this.find(By.tagName("body"))
                 .getText().contains("Kaunis Kasvo"));
-        Thread.sleep(500);
     }
 
     @When("a faulty youtube is created")
     public void a_faulty_youtube_is_created() throws Throwable {
-        WebElement element = driver.findElement(By.linkText("Lisää lukuvinkki"));
-        element.click();
+        this.findAndClick(By.linkText("Lisää lukuvinkki"));
+        this.findAndClick(By.name("addTube"));
         
-        element = driver.findElement(By.name("addTube"));
-        element.click();
-        Thread.sleep(500);
+        WebElement element = this.find(By.id("youtubeTitle"));
+        element.sendKeys("");
         
-        element = driver.findElement(By.id("youtubeTitle"));
+        element = this.find(By.id("youtubeAuthor"));
         element.sendKeys("");
-        element = driver.findElement(By.id("youtubeAuthor"));
-        element.sendKeys("");
-        element = driver.findElement(By.id("youtubeUrl"));
-        element.sendKeys("");
-        element = driver.findElement(By.id("youtubeDescription"));
-        element.sendKeys("");
-
-        Thread.sleep(500);
         
-        element = driver.findElement(By.name("submitYoutube"));        
+        element = this.find(By.id("youtubeUrl"));
+        element.sendKeys("");
+        
+        element = this.find(By.id("youtubeDescription"));
+        element.sendKeys("");
+        
+        element = this.find(By.name("submitYoutube"));        
         element.submit();
-        
-        Thread.sleep(500);
     }
 
     // @Then("an error notification for missing youtube title is shown")
     // public void an_error_notification_for_missing_youtube_title_is_shown() throws Throwable {
-    //     WebElement element = driver.findElement(By.tagName("body"));
+    //     WebElement element = this.find(By.tagName("body"));
     //     String msg = element.getText();
     //     assertTrue(msg.contains("Youtube-videolle tulee syöttää nimi"));
     //     Thread.sleep(500);
@@ -472,22 +411,21 @@ public class Stepdefs {
 
     @Then("an error notification for missing youtube author is shown")
     public void an_error_notification_for_missing_youtube_author_is_shown() throws Throwable {
-        WebElement element = driver.findElement(By.tagName("body"));
+        WebElement element = this.find(By.tagName("body"));
         String msg = element.getText();
         assertTrue(msg.contains("Youtube-videolle tulee syöttää tekijä"));
-        Thread.sleep(500);
     }
     
     // @Then("an error notification for missing youtube url is shown")
     // public void an_error_notification_for_missing_youtube_url_is_shown() throws Throwable {
-    //     WebElement element = driver.findElement(By.tagName("body"));
+    //     WebElement element = this.find(By.tagName("body"));
     //     String msg = element.getText();
     //     assertTrue(msg.contains("Youtube-videolle tulee antaa url-osoite."));
     //     Thread.sleep(500);
     // }
     // @Then("an error notification for missing youtube description is shown")
     // public void an_error_notification_for_missing_youtube_description_is_shown() throws Throwable {
-    //     WebElement element = driver.findElement(By.tagName("body"));
+    //     WebElement element = this.find(By.tagName("body"));
     //     String msg = element.getText();
     //     assertTrue(msg.contains("Youtube-videolle tulee antaa lyhyt kuvaus."));
     //     Thread.sleep(500);
@@ -495,32 +433,26 @@ public class Stepdefs {
 
     @When("new book is filtered out")
     public void new_book_is_filtered_out() throws Throwable {
-        WebElement element = driver.findElement(By.id("filterInput1"));
+        WebElement element = this.find(By.id("filterInput1"));
         element.sendKeys("And");
-
-        Thread.sleep(500);
     }
     
     @Then("new book is not shown")
     public void new_book_is_not_shown() throws Throwable {
-        WebElement element = driver.findElement(By.tagName("body"));
+        WebElement element = this.find(By.tagName("body"));
         String filteredList = element.getText();
         assertTrue(!filteredList.contains("Test Book"));
-        Thread.sleep(500);
     }
     
     
-    private void clickLinkWithText(String text) {
-        int trials = 0;
-        while (trials++ < 5) {
-            try {
-                WebElement element = driver.findElement(By.linkText(text));
-                element.click();
-                break;
-            } catch (Exception e) {
-                System.out.println(e.getStackTrace());
-            }
-        }
+    private void findAndClick(By by) {
+    	this.find(by).click();
     }
-
+    private WebElement find(By by) {
+    	return this.waiter.until(new Function<WebDriver, WebElement>() {
+    	    public WebElement apply(WebDriver driver) {
+    	        return driver.findElement(by);
+    	    }
+    	});
+    }
 }
