@@ -1,6 +1,5 @@
 package ohtu.systemTests;
 
-import org.junit.ClassRule;
 import org.junit.runner.RunWith;
 
 import io.cucumber.junit.Cucumber;
@@ -14,7 +13,4 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
         snippets = SnippetType.CAMELCASE
 )
 public class RunCukesTest {
-
-    @ClassRule
-    public static ServerRule server = new ServerRule(8080);
 }

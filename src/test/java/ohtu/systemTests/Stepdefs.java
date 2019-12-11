@@ -2,11 +2,21 @@ package ohtu.systemTests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Random;
+
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.gargoylesoftware.css.parser.CSSErrorHandler;
+import com.gargoylesoftware.css.parser.CSSException;
+import com.gargoylesoftware.css.parser.CSSParseException;
+import com.gargoylesoftware.htmlunit.WebClient;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -14,8 +24,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-import java.util.Random;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest()
+@TestPropertySource(
+  locations = "classpath:application-test.properties")
 public class Stepdefs {
 
     WebDriver driver;
@@ -24,7 +36,26 @@ public class Stepdefs {
     String courseName2;
 
     public Stepdefs() {
-        this.driver = new HtmlUnitDriver(true);        
+        this.driver = new HtmlUnitDriver(true) {
+        	@Override
+        	protected WebClient modifyWebClient(WebClient client) {
+        		client.setCssErrorHandler(new CSSErrorHandler() {
+					@Override
+					public void warning(CSSParseException exception) throws CSSException {
+					}
+
+					@Override
+					public void error(CSSParseException exception) throws CSSException {
+					}
+
+					@Override
+					public void fatalError(CSSParseException exception) throws CSSException {
+					}
+        		});
+        		
+        		return client;
+    		}
+        };
     }
 
     @After
