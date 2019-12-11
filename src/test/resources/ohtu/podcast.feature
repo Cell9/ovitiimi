@@ -8,10 +8,10 @@ Feature: podcasts can be browsed and posted
     Given user is at the main page
     When a new podcast is created
     Then a success notification is shown
-  Scenario: user can't add a podcast without a title
-    Given user is at the main page
-    When a faulty podcast is created
-    Then an error notification for missing podcast title is shown
+  # Scenario: user can't add a podcast without a title
+  #   Given user is at the main page
+  #   When a faulty podcast is created
+  #   Then an error notification for missing podcast title is shown
   Scenario: user can't add a podcast without an author
     Given user is at the main page
     When a faulty podcast is created

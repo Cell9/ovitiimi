@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<div th:replace="/fragments/navbar"></div>
+<div th:replace="fragments/navbar"></div>
 
 <div class="container" th:if="${error}">
     <div class="alert alert-danger" role="alert" th:text="${error}">
