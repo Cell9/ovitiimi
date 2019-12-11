@@ -18,23 +18,15 @@
 <body>
 
     <div th:replace="/fragments/navbar"></div>
-    <div class="container" th:if="${error}">
-        <div class="alert alert-danger" role="alert" th:text="${error}">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    </div>
     <br>
-
     <div class="container" id="postForms">
         <h2>Lisää uusi lukuvinkki</h2>
-        <br>
+        <p>Valitse lisättävän lukuvinkin tyyppi</p>
         <div id="buttons">
             <button class="btn btn-dark" name="addBook" onClick="changeView('postBook')"> Lisää kirja </button>
             <button class="btn btn-dark" name="addLink" onClick="changeView('postLink')"> Lisää linkki </button>
             <button class="btn btn-dark" name="addPod" onClick="changeView('postPod')"> Lisää podcast </button>
-            <button class="btn btn-dark" name="addTube" onClick="changeView('postTube')"> Lisää Youtube </button>
+            <button class="btn btn-dark" name="addTube" onClick="changeView('postTube')"> Lisää Youtube-video </button>
         </div>
         <br>
 
@@ -45,28 +37,40 @@
                 <form th:object="${book}" th:action="@{/books}" method="POST">
                     <div class="form-group" name="fmBookTitle">
                         <label for="bookTitle">Kirjan nimi</label>
-                        <input type="text" name="title" id="bookTitle" th:value="*{title}">
+                        <input type="text" class="form-control"
+                               name="title" id="bookTitle" th:value="*{title}">
                         <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Kirjalle tulee syöttää nimi
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Kirjalle tulee syöttää nimi.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="bookAuthor">Kirjailija</label>
-                        <input type="text" name="author" id="bookAuthor" th:value="*{author}">
+                        <input type="text" class="form-control"
+                               name="author" id="bookAuthor" th:value="*{author}">
                         <div th:if="${#fields.hasErrors('author')}">
-                            <div class="alert alert-danger" role="alert">
-                                Kirjalle tulee syöttää kirjailija
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Kirjalle tulee syöttää kirjailija.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="bookIsbn">ISBN-koodi</label>
-                        <input type="text" name="isbn" id="bookIsbn" th:value="*{isbn}">
+                        <input type="text" class="form-control"
+                               name="isbn" id="bookIsbn" th:value="*{isbn}">
                         <div th:if="${#fields.hasErrors('isbn')}">
-                            <div class="alert alert-danger" role="alert">
-                                ISBN-koodi ei ole syötetty oikeassa muodossa
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                ISBN-koodi ei ole syötetty oikeassa muodossa.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -86,19 +90,27 @@
                 <form th:object="${link}" th:action="@{/links}" method="POST">
                     <div class="form-group">
                         <label for="linkTitle">Otsikko</label>
-                        <input type="text" name="title" id="linkTitle" th:value="*{title}">
+                        <input type="text" class="form-control"
+                               name="title" id="linkTitle" th:value="*{title}">
                         <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Nettilähteelle tulee antaa otsikko.
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Linkille tulee syöttää otsikko.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="linkUrl">Url</label>
-                        <input type="text" name="url" id="linkUrl" th:value="*{url}">
+                        <input type="text" class="form-control"
+                               name="url" id="linkUrl" th:value="*{url}">
                         <div th:if="${#fields.hasErrors('url')}">
-                            <div class="alert alert-danger" role="alert">
-                                Nettilähteelle tulee antaa url-osoite.
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Linkille tulee syöttää url-osoite.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -117,37 +129,53 @@
                 <form th:object="${podcast}" th:action="@{/podcasts}" method="POST">
                     <div class="form-group">
                         <label for="podcastTitle">Otsikko</label>
-                        <input type="text" name="title" id="podcastTitle" th:value="*{title}">
+                        <input type="text" class="form-control"
+                               name="title" id="podcastTitle" th:value="*{title}">
                         <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Podcastille tulee syöttää nimi
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Podcastille tulee syöttää otsikko.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="podcastAuthor">Tekijä</label>
-                        <input type="text" name="author" id="podcastAuthor" th:value="*{author}">
+                        <input type="text" class="form-control"
+                               name="author" id="podcastAuthor" th:value="*{author}">
                         <div th:if="${#fields.hasErrors('author')}">
-                            <div class="alert alert-danger" role="alert">
-                                Podcastille tulee syöttää tekijä
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Podcastille tulee syöttää tekijä.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="podcastUrl">Url</label>
-                        <input type="text" name="url" id="podcastUrl" th:value="*{url}">
+                        <input type="text" class="form-control"
+                               name="url" id="podcastUrl" th:value="*{url}">
                         <div th:if="${#fields.hasErrors('url')}">
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                Podcastille tulee antaa url-osoite.
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Podcastille tulee syöttää url-osoite.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="podcastDescription">Kuvaus</label>
-                        <input type="text" name="description" id="podcastDescription" th:value="*{description}">
+                        <input type="text" class="form-control"
+                               name="description" id="podcastDescription" th:value="*{description}">
                         <div th:if="${#fields.hasErrors('description')}">
-                            <div class="alert alert-danger" role="alert">
-                                Podcastille tulee antaa lyhyt kuvaus.
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Podcastille tulee syöttää lyhyt kuvaus.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -162,41 +190,57 @@
         <!-- YOUTUBEN LISÄÄMINEN -->
         <div id="postTube"  style="display: none;"  th:style = "${showYoutube} ? 'display: block' : 'display: none'">
             <div class="container">
-                <h4>Uusi youtube</h4>
+                <h4>Uusi Youtube-video</h4>
                 <form th:object="${youtube}" th:action="@{/youtubes}" method="POST">
                     <div class="form-group">
                         <label for="youtubeTitle">Otsikko</label>
-                        <input type="text" name="title" id="youtubeTitle" th:value="*{title}">
+                        <input type="text" class="form-control"
+                               name="title" id="youtubeTitle" th:value="*{title}">
                         <div th:if="${#fields.hasErrors('title')}">
-                            <div class="alert alert-danger" role="alert">
-                                Youtube-videolle tulee syöttää nimi
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Youtube-videolle tulee syöttää otsikko.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="youtubeAuthor">Tekijä</label>
-                        <input type="text" name="author" id="youtubeAuthor" th:value="*{author}">
+                        <input type="text" class="form-control"
+                               name="author" id="youtubeAuthor" th:value="*{author}">
                         <div th:if="${#fields.hasErrors('author')}">
-                            <div class="alert alert-danger" role="alert">
-                                Youtube-videolle tulee syöttää tekijä
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Youtube-videolle tulee syöttää tekijä.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="youtubeUrl">Url</label>
-                        <input type="text" name="url" id="youtubeUrl" th:value="*{url}">
+                        <input type="text" class="form-control"
+                               name="url" id="youtubeUrl" th:value="*{url}">
                         <div th:if="${#fields.hasErrors('url')}">
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                Youtube-videolle tulee antaa url-osoite.
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Youtube-videolle tulee syöttää url-osoite.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="youtubeDescription">Kuvaus</label>
-                        <input type="text" name="description" id="youtubeDescription" th:value="*{description}">
+                        <input type="text" class="form-control"
+                               name="description" id="youtubeDescription" th:value="*{description}">
                         <div th:if="${#fields.hasErrors('description')}">
-                            <div class="alert alert-danger" role="alert">
-                                Youtube-videolle tulee antaa lyhyt kuvaus.
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                Youtube-videolle tulee syöttää lyhyt kuvaus.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -204,7 +248,7 @@
 					<div th:replace="fragments/recommendation_new :: courses"></div>
 					<div th:replace="fragments/recommendation_new :: tags"></div>
 					
-                    <button type="submit" name="submitYoutube" class="btn btn-dark">Lisää uusi Youtube!</button>
+                    <button type="submit" name="submitYoutube" class="btn btn-dark">Lisää uusi Youtube-video!</button>
                 </form>
             </div>
         </div>
@@ -219,7 +263,7 @@
         document.getElementById(id).style.display = "block";
     }
     function addTags(btn) {
-        let str = '<div><input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/><button onClick="addTags(this)" class="btn btn-success btn-add" type="button"><span class="fa fa-plus"></span></button><button class="btn btn-danger" onclick="removeDiv(this);"><span class="fa fa-minus"/></button></div>';
+        let str = '<div class="entry input-group"><input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/><button class="btn btn-danger" onclick="removeDiv(this);"><span class="fa fa-minus"/></button></div>';
         let div = (btn.parentNode).parentNode;
         div.insertAdjacentHTML("beforeend", str);
     }
@@ -230,6 +274,5 @@
     $(function () {
         $('select').selectpicker();
     })
-//    $('select').selectpicker();
 </script>
 </html>

@@ -1,16 +1,15 @@
-<div class="entry input-group col-xs-3" th:fragment="tag">
+<div class="entry input-group" th:fragment="tag">
 	<input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
 	<button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
 		<span class="fa fa-plus"></span>
 	</button>
 </div>
 
-<div class="entry input-group col-xs-3" th:fragment="tag_removable">
+<div class="entry input-group" th:fragment="tag_removable">
 	<input class="form-control" name="tags" type="text" placeholder="Tagi" th:value="${tag}"/>
 	<button onClick="addTags(this)" class="btn btn-success btn-add" type="button">
 		<span class="fa fa-plus"></span>
 	</button>
-	
 	<button class="btn btn-danger" onclick="removeDiv(this);">
 		<span class="fa fa-minus"/>
 	</button>
