@@ -4,29 +4,20 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //import ohtu.database.entities.data.Link;
 import ohtu.database.entities.recommendations.LinkRecommendation;
-import ohtu.database.repositories.CourseRepository;
-//import ohtu.database.repositories.LinkRepository;
-import ohtu.database.repositories.RecommendationRepository;
 
 //Roni
 @Controller
-public class LinkController {
-
-    @Autowired
-    private CourseRepository courseRepository;
-
-    @Autowired
-    private RecommendationRepository recommendationRepository;
+public class LinkController extends AbstractRecommendationItemController {
 
     @PostMapping("/links")
     public String create(Model model, @Valid LinkRecommendation link, BindingResult result, RedirectAttributes redirectAttributes,
@@ -50,5 +41,12 @@ public class LinkController {
         redirectAttributes.addFlashAttribute("message", "Lisäys onnistui!");
 
         return "redirect:/";
+    }
+
+    @PostMapping("link/edit")
+    public String edit(Model model,  @ModelAttribute("recommendation") @Valid LinkRecommendation recommendation, BindingResult result, @RequestParam(value = "id", required = true) Long id,
+                       RedirectAttributes redirectAttributes, @RequestParam(value = "selectedCourseId", required = false, defaultValue = "0") List<Long> selectedCourseIds) {
+
+    	return this.editMapping(model, id, recommendation, result, selectedCourseIds, redirectAttributes);
     }
 }

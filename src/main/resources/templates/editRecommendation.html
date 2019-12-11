@@ -35,6 +35,7 @@
     <!-- KIRJAN TIETOJEN MUOKKAAMINEN -->
     <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).BOOK}">
         <form th:object="${recommendation}" th:action="@{/books/edit}" method="POST">
+			<input type="hidden" name="id" th:value="${recommendation.id}">
             <div class="form-group">
                 <label for="bookTitle">Kirjan nimi</label>
                 <input type="text" class="form-control"
@@ -74,6 +75,7 @@
     <!-- NETTILÄHTEEN TIETOJEN MUOKAAMINEN -->
     <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).LINKKI}">
         <form th:object="${recommendation}" th:action="@{/link/edit}" method="POST">
+			<input type="hidden" name="id" th:value="${recommendation.id}">
             <div class="form-group">
                 <label for="linkTitle">Otsikko</label>
                 <input type="text" class="form-control"
@@ -103,6 +105,7 @@
     <!-- PODCASTIN TIETOJEN MUOKKAAMINEN -->
     <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).PODCAST}">
         <form th:object="${recommendation}" th:action="@{/podcast/edit}" method="POST">
+			<input type="hidden" name="id" th:value="${recommendation.id}">
             <div class="form-group">
                 <label for="podcastTitle">Otsikko</label>
                 <input type="text" class="form-control"
@@ -151,6 +154,7 @@
 
     <div th:if="${recommendation.type == T(ohtu.database.entities.recommendations.RecommendationType).YOUTUBE}">
         <form th:object="${recommendation}" th:action="@{/youtube/edit}" method="POST">
+			<input type="hidden" name="id" th:value="${recommendation.id}">
             <div class="form-group">
                 <label for="youtubeTitle">Otsikko</label>
                 <input type="text" class="form-control"

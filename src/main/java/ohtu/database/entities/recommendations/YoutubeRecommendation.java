@@ -56,4 +56,10 @@ public class YoutubeRecommendation extends Recommendation {
     public String toString() {
         return String.format("%s, %s, %s", this.getTitle(), this.getAuthor(), this.getDescription());
     }
+    
+    public void copyTo(YoutubeRecommendation to) {
+    	to.author = this.author;
+    	to.url = this.url;
+    	to.description = this.description;
+    }
 }

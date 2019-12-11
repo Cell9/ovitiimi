@@ -34,4 +34,10 @@ public class LinkRecommendation extends Recommendation {
     public String toString() {
         return String.format("%s: %s", this.getTitle(), this.getUrl());
     }
+    
+	public void copyTo(LinkRecommendation to) {
+		super.copyTo(to);
+		
+		to.url = this.url;
+	}
 }

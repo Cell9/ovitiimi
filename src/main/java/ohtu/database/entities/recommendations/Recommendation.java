@@ -50,6 +50,10 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
         this.tags = tags;
     }
     
+    public void setIdDangerous(Long id) {
+    	this.setId(id);
+    }
+    
     public void setCourses(Collection<Course> courses) {
     	this.courses = courses.stream().collect(Collectors.toMap((o) -> o.getId(), (o) -> o));
     }
@@ -117,4 +121,11 @@ public abstract class Recommendation extends AbstractPersistable<Long> {
     public String toString() {
         return this.getTitle();
     }
+    
+	public void copyTo(Recommendation to) {
+		to.title = this.title;
+		
+		to.tags = this.tags;
+		to.courses = this.courses;
+	}
 }

@@ -42,4 +42,12 @@ public class PodcastRecommendation extends Recommendation {
     public String toString() {
         return String.format("%s, %s, %s, %s", this.getTitle(), this.getAuthor(), this.getUrl(), this.getDescription());
     }
+    
+    public void copyTo(PodcastRecommendation to) {
+    	super.copyTo(to);
+    	
+    	to.author = this.author;
+    	to.url = this.url;
+    	to.description = this.description;
+    }
 }

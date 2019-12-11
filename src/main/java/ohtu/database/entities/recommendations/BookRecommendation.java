@@ -40,4 +40,11 @@ public class BookRecommendation extends Recommendation {
     public String toString() {
         return String.format("%s, kirjoittanut %s", this.getTitle(), this.getAuthor());
     }
+
+	public void copyTo(BookRecommendation to) {
+		super.copyTo(to);
+		
+		to.author = this.author;
+		to.isbn = to.isbn;
+	}
 }
