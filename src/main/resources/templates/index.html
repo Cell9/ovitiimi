@@ -42,9 +42,9 @@
                         <input type="text" class="form-control" id="filterInput1"
                                onkeyup="filterTable()" placeholder="Hakusana"
                                title="Etsi listasta">
-                        <select id="picker1" class="selectpicker" onChange="filterTable()">
+                        <select id="picker1" name="ekaDropDown" class="selectpicker" onChange="filterTable()">
                             <option value="table-class">Kaikki</option>
-                            <option value="type-class">Tyyppi</option>
+                            <option id="dropDownType" value="type-class">Tyyppi</option>
                             <option value="tags-class">Tagi</option>
                             <option value="courses-class">Kurssi</option>
                         </select>
@@ -216,6 +216,10 @@
             target.addClass("fa-square");
         }
     }
+    
+//    $(function () {
+//        $('select').selectpicker();
+//    })
 
 </script>
 

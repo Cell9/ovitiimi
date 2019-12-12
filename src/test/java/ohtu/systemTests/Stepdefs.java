@@ -28,6 +28,12 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.util.List;
+import java.util.logging.Logger;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(
@@ -65,7 +71,7 @@ public class Stepdefs {
         		return client;
     		}
         };
-        
+                
         this.waiter = new FluentWait<WebDriver>(driver)
                 .withTimeout(Duration.ofSeconds(10))
                 .pollingEvery(Duration.ofMillis(100))
@@ -442,6 +448,54 @@ public class Stepdefs {
         WebElement element = this.find(By.tagName("body"));
         String filteredList = element.getText();
         assertTrue(!filteredList.contains("Test Book"));
+    }
+    
+    @When("youtube type is filtered")
+    public void youtube_type_is_filtered() throws Throwable {
+        user_is_at_the_main_page();
+        driver.get(this.getMainUrl());
+        
+        WebElement element = driver.findElement(By.id("dropDownType"));
+        
+//        WebDriverWait wait = new WebDriverWait(driver, 5);
+//        element = wait.until(ExpectedConditions.elementToBeClickable(By.id("picker1")));
+//        element.click();
+//        Select select = new Select(element);
+//        select.selectByVisibleText("Tyyppi");
+        
+//        try {
+//            element = driver.findElement(By.xpath("//select[@id='picker1']/option[@value='type-class']")); // this.find(By.id("picker1")); 
+//        } catch (Throwable e) {
+//            System.out.println("" + e);
+//        }
+//        
+        if (element.isDisplayed()) {
+            System.out.println("!!! NÄKYY !!!");
+        } else {
+            System.out.println("!!!EI NÄY!!!");
+        }
+//      element.click();  
+//        try {
+//            element.click();
+//        } catch (Throwable e) {
+//            System.out.println("" + e);
+//        }
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().perform();
+        
+//        element = this.find(By.xpath("//select[@id='picker1']/option[@value='tags-class']"));
+//        element.click();
+        List<WebElement> elements = driver.findElements(By.xpath("//select[@id='picker1']/option"));
+        
+        for (WebElement elem : elements) {
+            if (elem.getAttribute("innerHTML").contains("Tyyppi")) {
+                elem.click();
+                break;
+            }
+        }
+        
+        element = driver.findElement(By.id("filterInput1"));
+        element.sendKeys("Y");        
     }
     
     
