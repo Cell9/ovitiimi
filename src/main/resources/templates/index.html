@@ -10,7 +10,8 @@
     <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
@@ -22,7 +23,7 @@
     <div th:replace="fragments/navbar"></div>
     <br>
     <div class="container" th:if="${message}">
-        <div class="alert alert-success alert-dismissible fade show" role="alert" >
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <a th:text="${message}"></a>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -33,17 +34,18 @@
     <div class="container">
         <h2>Lukuvinkkien filtteröinti</h2>
         <p>Lukuvinkkejä voi filtteröidä minka tahansa hakusanan perusteella,
-            mutta myös lukuvinkin tyypin, tagien tai kurssien perusteella. AND-filtteröinti hakee lukuvinkit, jotka toteuttavat molemmat syötetyistä ehdoista, ja
+            mutta myös lukuvinkin tyypin, tagien tai kurssien perusteella. AND-filtteröinti hakee lukuvinkit, jotka
+            toteuttavat molemmat syötetyistä ehdoista, ja
             OR-filtteröinti ne lukuvinkit, jotka toteuttavat ainakin toisen ehdoista.</p>
         <div class="container">
             <div class="row">
                 <div class="col-sm">
                     <span>
-                        <input type="text" class="form-control" id="filterInput1"
-                               onkeyup="filterTable()" placeholder="Hakusana"
-                               title="Etsi listasta">
+                        <input type="text" class="form-control" id="filterInput1" onkeyup="filterTable()"
+                            placeholder="Hakusana" title="Etsi listasta">
                         <select id="picker1" name="ekaDropDown" class="selectpicker" onChange="filterTable()">
                             <option value="table-class">Kaikki</option>
+                            <option value="description-class">Kuvaus</option>
                             <option id="dropDownType" value="type-class">Tyyppi</option>
                             <option value="tags-class">Tagi</option>
                             <option value="courses-class">Kurssi</option>
@@ -59,11 +61,11 @@
                 </div>
                 <div class="col-sm">
                     <span>
-                        <input type="text" class="form-control" id="filterInput2"
-                               onkeyup="filterTable()" placeholder="Hakusana"
-                               title="Etsi listasta">
+                        <input type="text" class="form-control" id="filterInput2" onkeyup="filterTable()"
+                            placeholder="Hakusana" title="Etsi listasta">
                         <select id="picker2" class="selectpicker" onChange="filterTable()">
                             <option value="table-class">Kaikki</option>
+                            <option value="description-class">Kuvaus</option>
                             <option value="type-class">Tyyppi</option>
                             <option value="tags-class">Tagi</option>
                             <option value="courses-class">Kurssi</option>
@@ -89,7 +91,7 @@
             <tbody>
                 <div th:each="recommendation : ${recommendations}">
                     <tr>
-                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" class="table-class"
+                        <td><a th:href="@{/lukuvinkki/(id=${recommendation.id})}" class="table-class description-class"
                                 th:text="${recommendation}" /></td>
                         <td>
                             <p class="table-class courses-class" th:text="${recommendation.coursesAsString()}" />
@@ -119,54 +121,29 @@
         let rajaus1 = document.getElementById("picker1").value;
         let rajaus2 = document.getElementById("picker2").value;
         let andor = document.getElementById("andor").value;
-        switch (andor) {
-            case "or":
-                orFilter(filter1, filter2, rajaus1, rajaus2);
-                break;
-            case "and":
-                andFilter(filter1, filter2, rajaus1, rajaus2);
-                break;
-            default:
-        }
-    }
-
-    function orFilter(filter1, filter2, rajaus1, rajaus2) {
-        let table = document.getElementById("vinkkilista");
-        let rows = table.getElementsByTagName("tr");
+        let rows = document.getElementById("vinkkilista").getElementsByTagName("tr");
         for (i = 1; i < rows.length; i++) {
-            tr = rows[i];
-            filter1Pass = rowFilter(tr, filter1, rajaus1);
-            filter2Pass = rowFilter(tr, filter2, rajaus2);
-            if (filter1Pass || filter2Pass) {
-                tr.style.display = "";
-            } else {
-                tr.style.display = "none";
-            }
-        }
-    }
-
-    function andFilter(filter1, filter2, rajaus1, rajaus2) {
-        table = document.getElementById("vinkkilista");
-        rows = table.getElementsByTagName("tr");
-        for (i = 1; i < rows.length; i++) {
-            tr = rows[i];
-            filter1Pass = rowFilter(tr, filter1, rajaus1);
-            filter2Pass = rowFilter(tr, filter2, rajaus2);
-            if (filter1Pass && filter2Pass) {
-                tr.style.display = "";
-            } else {
-                tr.style.display = "none";
+            let row = rows[i];
+            filter1Pass = rowFilter(row, filter1, rajaus1);
+            filter2Pass = rowFilter(row, filter2, rajaus2);
+            switch (andor) {
+                case "or":
+                    (filter1Pass || filter2Pass) ? row.style.display = "" : row.style.display = "none";
+                    break;
+                case "and":
+                    (filter1Pass && filter2Pass) ? row.style.display = "" : row.style.display = "none";
+                    break;
+                default:
             }
         }
     }
 
     function rowFilter(row, filter, rajaus) {
-        let tds = row.getElementsByClassName(rajaus);
-        for (j = 0; j < tds.length; j++) {
-            let td = tds[j];
-            let txtValue = td.textContent || td.innerText;
-            txtValue = txtValue.toUpperCase();
-            if (txtValue.includes(filter)) {
+        let cells = row.getElementsByClassName(rajaus);
+        for (j = 0; j < cells.length; j++) {
+            let cell = cells[j];
+            let txtValue = cell.textContent || cell.innerText;
+            if (txtValue.toUpperCase().includes(filter)) {
                 return true;
             }
         }
@@ -216,7 +193,7 @@
             target.addClass("fa-square");
         }
     }
-    
+
 //    $(function () {
 //        $('select').selectpicker();
 //    })
