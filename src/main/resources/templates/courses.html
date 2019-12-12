@@ -56,11 +56,8 @@
                     <input type="text" class="form-control"
                            name="code" id="courseCode">
                     <div th:if="${#fields.hasErrors('code')}">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:errors="*{code}">
+                        <div class="alert alert-danger" role="alert">
                             Kurssille tulee syöttää kurssikoodi.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -69,11 +66,8 @@
                     <input type="text" class="form-control"
                            name="name" id="courseName">
                     <div th:if="${#fields.hasErrors('name')}">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" th:errors="*{name}">
+                        <div class="alert alert-danger" role="alert">
                             Kurssille tulee syöttää nimi.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                         </div>
                     </div>
                 </div>

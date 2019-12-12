@@ -143,13 +143,12 @@ public class Stepdefs {
         assertTrue(this.find(By.tagName("body")).getText().contains("Kiva kurssi"));
     }
 
-    // @Then("an error notification for missing course name is shown")
-    // public void an_error_notification_for_missing_course_name_is_shown() throws Throwable {
-    //     WebElement element = this.find(By.tagName("body"));
-    //     String msg = element.getText();
-    //     assertTrue(msg.contains("Kurssin lisäys epäonnistui!"));
-    //     Thread.sleep(500);
-    // }
+    @Then("an error notification for missing course name is shown")
+    public void an_error_notification_for_missing_course_name_is_shown() throws Throwable {
+    	WebElement element = this.find(By.tagName("body"));
+    	String msg = element.getText();
+    	assertTrue(msg.contains("Kurssille tulee syöttää nimi"));
+	}
 
     @When("Lisää lukuvinkki is clicked")
     public void lisaa_lukuvinkki_clicked() throws Throwable {
@@ -334,21 +333,19 @@ public class Stepdefs {
         element.submit();
     }
 
-    // @Then("an error notification for missing link url is shown")
-    // public void an_error_notification_for_missing_link_url_is_shown() throws Throwable {
-    //     WebElement element = this.find(By.tagName("body"));
-    //     String msg = element.getText();
-    //     assertTrue(msg.contains("Nettilähteelle tulee antaa url-osoite."));
-    //     Thread.sleep(500);
-    // }
+    @Then("an error notification for missing link url is shown")
+    public void an_error_notification_for_missing_link_url_is_shown() throws Throwable {
+    	WebElement element = this.find(By.tagName("body"));
+    	String msg = element.getText();
+    	assertTrue(msg.contains("Linkille tulee syöttää url-osoite"));
+	}
 
-    // @Then("an error notification for missing podcast title is shown")
-    // public void an_error_notification_for_missing_podcast_title_is_shown() throws Throwable {
-    //     WebElement element = this.find(By.tagName("body"));
-    //     String msg = element.getText();
-    //     assertTrue(msg.contains("Podcastille tulee syöttää nimi"));
-    //     Thread.sleep(500);
-    // }
+    @Then("an error notification for missing podcast title is shown")
+    public void an_error_notification_for_missing_podcast_title_is_shown() throws Throwable {
+    	WebElement element = this.find(By.tagName("body"));
+        String msg = element.getText();
+        assertTrue(msg.contains("Podcastille tulee syöttää otsikko"));
+    }
 
     @Then("an error notification for missing podcast author is shown")
     public void an_error_notification_for_missing_podcast_author_is_shown() throws Throwable {
@@ -407,13 +404,12 @@ public class Stepdefs {
         element.submit();
     }
 
-    // @Then("an error notification for missing youtube title is shown")
-    // public void an_error_notification_for_missing_youtube_title_is_shown() throws Throwable {
-    //     WebElement element = this.find(By.tagName("body"));
-    //     String msg = element.getText();
-    //     assertTrue(msg.contains("Youtube-videolle tulee syöttää nimi"));
-    //     Thread.sleep(500);
-    // }
+    @Then("an error notification for missing youtube title is shown")
+    public void an_error_notification_for_missing_youtube_title_is_shown() throws Throwable {
+        WebElement element = this.find(By.tagName("body"));
+        String msg = element.getText();
+        assertTrue(msg.contains("Youtube-videolle tulee syöttää otsikko"));
+   }
 
     @Then("an error notification for missing youtube author is shown")
     public void an_error_notification_for_missing_youtube_author_is_shown() throws Throwable {
@@ -422,20 +418,19 @@ public class Stepdefs {
         assertTrue(msg.contains("Youtube-videolle tulee syöttää tekijä"));
     }
     
-    // @Then("an error notification for missing youtube url is shown")
-    // public void an_error_notification_for_missing_youtube_url_is_shown() throws Throwable {
-    //     WebElement element = this.find(By.tagName("body"));
-    //     String msg = element.getText();
-    //     assertTrue(msg.contains("Youtube-videolle tulee antaa url-osoite."));
-    //     Thread.sleep(500);
-    // }
-    // @Then("an error notification for missing youtube description is shown")
-    // public void an_error_notification_for_missing_youtube_description_is_shown() throws Throwable {
-    //     WebElement element = this.find(By.tagName("body"));
-    //     String msg = element.getText();
-    //     assertTrue(msg.contains("Youtube-videolle tulee antaa lyhyt kuvaus."));
-    //     Thread.sleep(500);
-    // }        
+    @Then("an error notification for missing youtube url is shown")
+    public void an_error_notification_for_missing_youtube_url_is_shown() throws Throwable {
+        WebElement element = this.find(By.tagName("body"));
+        String msg = element.getText();
+        assertTrue(msg.contains("Youtube-videolle tulee syöttää url-osoite"));
+    }
+    
+    @Then("an error notification for missing youtube description is shown")
+    public void an_error_notification_for_missing_youtube_description_is_shown() throws Throwable {
+        WebElement element = this.find(By.tagName("body"));
+        String msg = element.getText();
+        assertTrue(msg.contains("Youtube-videolle tulee syöttää lyhyt kuvaus"));
+    }        
 
     @When("new book is filtered out")
     public void new_book_is_filtered_out() throws Throwable {
