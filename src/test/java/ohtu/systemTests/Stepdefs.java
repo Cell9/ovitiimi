@@ -490,12 +490,12 @@ public class Stepdefs {
                 break;
             }
         }
-
+                
         WebElement element = driver.findElement(By.id("filterInput1"));
         element.sendKeys("Y");        
     }
-
-
+    
+    
     private void findAndClick(By by) {
     	this.find(by).click();
     }
