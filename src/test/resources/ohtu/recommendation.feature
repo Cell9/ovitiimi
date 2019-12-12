@@ -19,6 +19,11 @@ Feature: Recommendations can be added listed and filtered
     And a new kirja is created
     When book type and tag are filtered
     Then new book is not shown
+  Scenario: user can filter recommendations by type or tag
+    Given user is at the main page
+    And a new kirja is created
+    When book type or tag are filtered
+    Then new book is not shown
   Scenario: user can edit recommendations
     Given user is at the main page
     When a new kirja is created

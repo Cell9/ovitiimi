@@ -546,6 +546,58 @@ public class Stepdefs {
         element.sendKeys("Jotain");        
         
     }
+
+    @When("book type or tag are filtered")
+    public void book_type_or_tag_filtered() throws Throwable {
+
+        // 1st filter type
+        List<WebElement> resultElementList = driver.findElements(By.xpath("//select[@id='picker1']/option"));
+
+        for(int i=0;i<resultElementList.size();i++)
+        {
+            WebElement resultElement = resultElementList.get(i);
+            String value = resultElement.getText();
+            if (value.contains("Tyyppi")) {
+                resultElement.click();
+                break;
+            }
+        }
+        
+        // 1st filter text
+        WebElement element = driver.findElement(By.id("filterInput1"));
+        element.sendKeys("N");        
+        
+        // OR condition
+        resultElementList = driver.findElements(By.xpath("//select[@id='andor']/option"));
+
+        for(int i=0;i<resultElementList.size();i++)
+        {
+            WebElement resultElement = resultElementList.get(i);
+            String value = resultElement.getText();
+            if (value.contains("OR")) {
+                resultElement.click();
+                break;
+            }
+        }
+        
+        // 2nd filter type
+        resultElementList = driver.findElements(By.xpath("//select[@id='picker2']/option"));
+
+        for(int i=0;i<resultElementList.size();i++)
+        {
+            WebElement resultElement = resultElementList.get(i);
+            String value = resultElement.getText();
+            if (value.contains("Tyyppi")) {
+                resultElement.click();
+                break;
+            }
+        }
+        
+        // 2nd filter text
+        element = driver.findElement(By.id("filterInput2"));
+        element.sendKeys("Y");        
+        
+    }
     
     private void findAndClick(By by) {
     	this.find(by).click();
