@@ -445,53 +445,24 @@ public class Stepdefs {
         assertTrue(!filteredList.contains("Test Book"));
     }
     
-//    @When("youtube type is filtered")
-//    public void youtube_type_is_filtered() throws Throwable {
-//        user_is_at_the_main_page();
-//        driver.get(this.getMainUrl());
-//        
-//        WebElement element = driver.findElement(By.id("dropDownType"));
-//        
-////        WebDriverWait wait = new WebDriverWait(driver, 5);
-////        element = wait.until(ExpectedConditions.elementToBeClickable(By.id("picker1")));
-////        element.click();
-////        Select select = new Select(element);
-////        select.selectByVisibleText("Tyyppi");
-//        
-////        try {
-////            element = driver.findElement(By.xpath("//select[@id='picker1']/option[@value='type-class']")); // this.find(By.id("picker1")); 
-////        } catch (Throwable e) {
-////            System.out.println("" + e);
-////        }
-////        
-//        if (element.isDisplayed()) {
-//            System.out.println("!!! NÄKYY !!!");
-//        } else {
-//            System.out.println("!!!EI NÄY!!!");
-//        }
-////      element.click();  
-////        try {
-////            element.click();
-////        } catch (Throwable e) {
-////            System.out.println("" + e);
-////        }
-//        Actions actions = new Actions(driver);
-//        actions.moveToElement(element).click().perform();
-//        
-////        element = this.find(By.xpath("//select[@id='picker1']/option[@value='tags-class']"));
-////        element.click();
-//        List<WebElement> elements = driver.findElements(By.xpath("//select[@id='picker1']/option"));
-//        
-//        for (WebElement elem : elements) {
-//            if (elem.getAttribute("innerHTML").contains("Tyyppi")) {
-//                elem.click();
-//                break;
-//            }
-//        }
-//        
-//        element = driver.findElement(By.id("filterInput1"));
-//        element.sendKeys("Y");        
-//    }
+    @When("youtube type is filtered")
+    public void youtube_type_is_filtered() throws Throwable {
+
+        List<WebElement> resultElementList = driver.findElements(By.xpath("//select[@id='picker1']/option"));
+
+        for(int i=0;i<resultElementList.size();i++)
+        {
+            WebElement resultElement = resultElementList.get(i);
+            String value = resultElement.getText();
+            if (value.contains("Tyyppi")) {
+                resultElement.click();
+                break;
+            }
+        }
+                
+        WebElement element = driver.findElement(By.id("filterInput1"));
+        element.sendKeys("Y");        
+    }
     
     
     private void findAndClick(By by) {
