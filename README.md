@@ -12,6 +12,8 @@
 
 [Sprint 2 backlog](https://docs.google.com/spreadsheets/d/1iyOaUwoDaijE3uMPPIeSPnU4EpCxYCItDZS4TlaIsyY/edit#gid=821550411)
 
+[Sprint 3 backlog](https://docs.google.com/spreadsheets/d/1iyOaUwoDaijE3uMPPIeSPnU4EpCxYCItDZS4TlaIsyY/edit#gid=256081817)
+
 [Definition of Done](https://github.com/Cell9/ovitiimi/blob/master/dokumentointi/definitionOfDone.md)
 
 ## Hyväksymäkriteerit
