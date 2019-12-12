@@ -19,5 +19,12 @@ Feature: Recommendations can be added listed and filtered
     And a new kirja is created
     When book type and tag are filtered
     Then new book is not shown
-
+  Scenario: user can edit recommendations
+    Given user is at the main page
+    When a new kirja is created
+    And a new course is created
+    And the book is clicked
+    And muokkaa tietoja is clicked
+    And tag is added
+    Then edits are shown
 

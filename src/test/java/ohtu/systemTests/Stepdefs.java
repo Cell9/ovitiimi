@@ -444,7 +444,38 @@ public class Stepdefs {
         String filteredList = element.getText();
         assertTrue(!filteredList.contains("Test Book"));
     }
+
+    @When("the book is clicked")
+    public void the_book_is_clicked() throws Throwable {
+        
+        this.findAndClick(By.linkText("Lukuvinkkisovellus"));
+        driver.findElement(By.linkText("Test Book, kirjoittanut Nimekas Kirjailija")).click();
+    }
     
+    @When("muokkaa tietoja is clicked")
+    public void muokkaa_tietoja_is_clicked() throws Throwable {
+
+        this.findAndClick(By.linkText("Muokkaa tietoja"));
+        Thread.sleep(500);
+    }
+
+    @When("tag is added")
+    public void tag_is_added() throws Throwable {
+       
+        WebElement element = this.find(By.xpath("//input[@placeholder='Tagi']"));
+        element.sendKeys("TestTag");
+
+        element = this.find(By.name("submitBook"));        
+        element.submit();
+    }
+
+    @Then("edits are shown")
+    public void edits_are_shown() throws Throwable {
+        WebElement element = this.find(By.tagName("body"));
+        String tags = element.getText();
+        assertTrue(tags.contains("TestTag"));
+    }
+
     @When("youtube type is filtered")
     public void youtube_type_is_filtered() throws Throwable {
 
