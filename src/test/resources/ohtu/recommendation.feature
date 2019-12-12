@@ -14,5 +14,10 @@ Feature: Recommendations can be added listed and filtered
     And a new kirja is created
     When youtube type is filtered
     Then new book is not shown
+  Scenario: user can filter recommendations by type and tag
+    Given user is at the main page
+    And a new kirja is created
+    When book type and tag are filtered
+    Then new book is not shown
 
 
