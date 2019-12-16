@@ -16,6 +16,8 @@
 
 [Definition of Done](https://github.com/Cell9/ovitiimi/blob/master/dokumentointi/definitionOfDone.md)
 
+[Loppuraportti](https://docs.google.com/document/d/1TC55_rDTOpeIpzd8PhjI8qhuGYr3qbetB-fTviY1RLg/edit?usp=sharing)
+
 ## Hyväksymäkriteerit
 
 [Lukuvinkit yleisesti](https://github.com/Cell9/ovitiimi/blob/master/src/test/resources/ohtu/recommendation.feature)
