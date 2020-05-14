@@ -44,15 +44,11 @@ public class Course extends AbstractPersistable<Long> implements ISimilar<Course
     public boolean equals(Object o) {
     	if (this == o) {
     		return true;
-    	}
-    	
-    	if (!(o instanceof Course)) {
+    	} else if (o instanceof Course) {
+    		return this.getId().equals(((Course)o).getId());
+    	} else {
     		return false;
     	}
-    	
-    	Course other = (Course)o;
-    	
-    	return this.getId().equals(other.getId());
     }
     
     public boolean areSimilar(Course other) {
